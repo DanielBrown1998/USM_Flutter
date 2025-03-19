@@ -10,6 +10,27 @@ class Header extends StatelessWidget {
     String disciplina = "Arquitetura de computadores";
     return Container(
       height: 150,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        border: Border.all(
+          color: Theme.of(context).dividerColor,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.elliptical(16, 16),
+        ),
+        image: DecorationImage(
+          image: AssetImage("lib/assets/images/back-720.png"),
+          fit: BoxFit.cover,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            blurRadius: 8.0,
+            offset: Offset(4, 4),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,9 +41,33 @@ class Header extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Nome: $aluno"),
-                Text("monitorias marcadas: $num"),
-                Text("disciplina: $disciplina"),
+                Text(
+                  "MONITOR: $aluno",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  "MONITORIAS HOJE: $num",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.clip,
+                ),
+                Text(
+                  "DISCIPLINA: $disciplina",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.clip,
+                ),
               ],
             ),
           ),

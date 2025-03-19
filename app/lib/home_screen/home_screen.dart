@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
 import 'package:app/components/drawer.dart';
+import 'package:app/components/body.dart' as custom_body;
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -12,36 +13,37 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _counter = 0;
-
-  List<String> nameButtons = <String>[
-    "buscar aluno",
-    "atualizar monitoria",
-    "add monitoria",
-    "cancelar monitoria",
-  ];
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).cardColor,
         actions: [
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.logout)),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.logout),
+              color: Theme.of(context).primaryColorDark,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.update)),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.update),
+              color: Theme.of(context).primaryColorDark,
+            ),
           ),
         ],
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Theme.of(context).primaryColorDark,
+            fontSize: 18,
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -49,40 +51,27 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Card(
-              borderOnForeground: true,
-              elevation: 10,
-              shadowColor: ThemeData().cardColor,
-              child: Header(
-                key: Key("home_screen"),
-              ),
+            child: Header(
+              key: Key("home_screen"),
             ),
           ),
-          Container(
+          SizedBox(
             height: 500,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: nameButtons.length,
-              itemBuilder: (context, int i) {
-                return Card(
-                    borderOnForeground: true,
-                    elevation: 10,
-                    shadowColor: ThemeData().cardColor,
-                    child: Container(
-                      height: 75,
-                      child: TextButton(
-                          onPressed: () {}, child: Text(nameButtons[i])),
-                    ));
-              },
-            ),
+            child: custom_body.ListBody.list(context),
           ),
         ],
       ),
-      drawer: ListDrawer.list(),
+      drawer: ListDrawer.list(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {},
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).cardColor,
+        shape: CircleBorder(),
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).primaryColorDark,
+          size: 40,
+        ),
       ),
     );
   }

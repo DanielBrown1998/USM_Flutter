@@ -1,67 +1,74 @@
 import 'package:flutter/material.dart';
 
 class ListDrawer {
-  static Widget list() {
+  static Widget list(BuildContext context) {
+    List<List<Widget>> listWidgets = [
+      [
+        Text("home",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.home,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+      [
+        Text("dias disponiveis",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.calendar_today,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+      [
+        Text("monitorias hoje",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.today,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+      [
+        Text("config",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.settings,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+      [
+        Text("matriculas",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.vpn_key,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+      [
+        Text("info",
+            style: TextStyle(color: Theme.of(context).primaryColorDark)),
+        Icon(
+          Icons.info,
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+    ];
+
     return Drawer(
       width: 200,
+      backgroundColor: Theme.of(context).cardColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                spacing: 10,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("home"),
-                  Icon(Icons.home),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("dias disponiveis"),
-                  Icon(Icons.calendar_today),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("monitorias hoje"),
-                  Icon(Icons.today),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("config"),
-                  Icon(Icons.settings),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("info"),
-                  Icon(Icons.info),
-                ],
-              ),
-            ),
-
-            // TODO more Rows;
-          ],
+        child: ListView.separated(
+          separatorBuilder: (BuildContext context, int i) => Divider(
+            color: Theme.of(context).primaryColorDark,
+          ),
+          itemCount: listWidgets.length,
+          itemBuilder: (BuildContext context, int i) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: listWidgets[i],
+            );
+          },
         ),
       ),
     );

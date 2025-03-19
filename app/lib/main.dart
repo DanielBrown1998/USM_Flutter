@@ -18,7 +18,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        cardColor: Color(0xFF403B25),
+        dividerColor: Colors.black26,
+        shadowColor: const Color(0xFFA69A60),
+        primaryColorDark: Color(0xFFF2E088),
+        primaryColor: Color(0xFF0D0D0D),
+        scaffoldBackgroundColor: const Color.fromARGB(199, 129, 125, 103),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFFF2E088),
+            primary: const Color(0xFF403B25),),
         useMaterial3: true,
       ),
       home: Home(
