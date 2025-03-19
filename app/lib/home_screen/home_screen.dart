@@ -65,14 +65,18 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
+        elevation: 10,
+        heroTag: "add_monitoria",
         backgroundColor: Theme.of(context).cardColor,
-        shape: CircleBorder(),
         child: Icon(
           Icons.add,
           color: Theme.of(context).primaryColorDark,
           size: 40,
         ),
       ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
   }
 }

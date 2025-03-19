@@ -9,24 +9,22 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.title});
-
   final String title;
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: title,
       theme: ThemeData(
-        cardColor: Color(0xFF403B25),
-        dividerColor: Colors.black26,
-        shadowColor: const Color(0xFFA69A60),
-        primaryColorDark: Color(0xFFF2E088),
-        primaryColor: Color(0xFF0D0D0D),
-        scaffoldBackgroundColor: const Color.fromARGB(199, 129, 125, 103),
+        cardColor: Color(0xFFBAF266),
+        dividerColor: Color(0xFF0D0D0D),
+        shadowColor: const Color(0xFFD6F272),
+        primaryColorDark: Color(0xFF595959),
+        primaryColor: Color.fromARGB(255, 162, 162, 162),
+        scaffoldBackgroundColor: const Color(0xFF595959),
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFFF2E088),
-            primary: const Color(0xFF403B25),),
+            seedColor: const Color(0xFF6F8C42),
+            primary: const Color(0xFF595959),),
         useMaterial3: true,
       ),
       home: Home(

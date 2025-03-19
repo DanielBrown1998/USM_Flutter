@@ -23,13 +23,7 @@ class Header extends StatelessWidget {
           image: AssetImage("lib/assets/images/back-720.png"),
           fit: BoxFit.cover,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            blurRadius: 8.0,
-            offset: Offset(4, 4),
-          ),
-        ],
+        
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -44,7 +38,7 @@ class Header extends StatelessWidget {
                 Text(
                   "MONITOR: $aluno",
                   style: TextStyle(
-                    color: Theme.of(context).primaryColorDark,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   ),
@@ -53,7 +47,7 @@ class Header extends StatelessWidget {
                 Text(
                   "MONITORIAS HOJE: $num",
                   style: TextStyle(
-                    color: Theme.of(context).primaryColorDark,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   ),
@@ -62,7 +56,7 @@ class Header extends StatelessWidget {
                 Text(
                   "DISCIPLINA: $disciplina",
                   style: TextStyle(
-                    color: Theme.of(context).primaryColorDark,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   ),

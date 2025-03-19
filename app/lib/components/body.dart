@@ -17,12 +17,19 @@ class ListBody {
         return Card(
           borderOnForeground: true,
           elevation: 10,
-          shadowColor: Theme.of(context).shadowColor,
           child: Container(
             height: 75,
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                color: Theme.of(context).dividerColor,
+                width: 4,
+              ),
+            ),
             child: MaterialButton(
               onPressed: () {},
-              splashColor: Theme.of(context).primaryColorDark,
+              splashColor: Theme.of(context).primaryColor,
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
@@ -33,6 +40,8 @@ class ListBody {
                   decoration: TextDecoration.none,
                   color: Theme.of(context).primaryColorDark,
                   fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Roboto",
                 ),
               ),
             ),
