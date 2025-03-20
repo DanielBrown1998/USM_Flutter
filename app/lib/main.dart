@@ -16,15 +16,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: ThemeData(
-        cardColor: Color(0xFFBAF266),
-        dividerColor: Color(0xFF0D0D0D),
-        shadowColor: const Color(0xFFD6F272),
-        primaryColorDark: Color(0xFF595959),
-        primaryColor: Color.fromARGB(255, 162, 162, 162),
+        cardColor: Color(0xFF2f4073),
+        dividerColor: Color.fromARGB(255, 196, 8, 8),
+        shadowColor: const Color(0xFFbfb6aa),
+        primaryColorDark: Color(0xFF0e3659),
+        primaryColor: Color(0xFFF2EDE4),
         scaffoldBackgroundColor: const Color(0xFF595959),
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6F8C42),
-            primary: const Color(0xFF595959),),
+            seedColor: const Color(0xFF0e3659),
+            primary: const Color(0xFFF2EDE4),),
         useMaterial3: true,
       ),
       home: Home(

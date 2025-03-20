@@ -12,10 +12,7 @@ class Header extends StatelessWidget {
       height: 150,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        border: Border.all(
-          color: Theme.of(context).dividerColor,
-          width: 2,
-        ),
+        
         borderRadius: BorderRadius.all(
           Radius.elliptical(16, 16),
         ),

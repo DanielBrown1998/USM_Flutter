@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).cardColor,
         actions: [
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               onPressed: () {},
               icon: Icon(Icons.logout),
-              color: Theme.of(context).primaryColorDark,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           Padding(
@@ -33,14 +33,14 @@ class _HomeState extends State<Home> {
             child: IconButton(
               onPressed: () {},
               icon: Icon(Icons.update),
-              color: Theme.of(context).primaryColorDark,
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ],
         title: Text(
           widget.title,
           style: TextStyle(
-            color: Theme.of(context).primaryColorDark,
+            color: Theme.of(context).primaryColor,
             fontSize: 18,
           ),
         ),
@@ -56,8 +56,15 @@ class _HomeState extends State<Home> {
             ),
           ),
           SizedBox(
-            height: 500,
-            child: custom_body.ListBody.list(context),
+            height: 100,
+            child: custom_body.ListBody(
+              key: Key("home_screen"),
+            ),
+          ),
+          Expanded(
+            child: custom_body.MonitoriaView(
+              key: Key("home_screen"),
+            ),
           ),
         ],
       ),
@@ -70,13 +77,14 @@ class _HomeState extends State<Home> {
         backgroundColor: Theme.of(context).cardColor,
         child: Icon(
           Icons.add,
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).primaryColor,
           size: 40,
         ),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+    
     );
   }
 }
