@@ -1,56 +1,115 @@
 import 'package:flutter/material.dart';
 
 class ListDrawer {
-  static Widget list(BuildContext context) {
-    List<List<Widget>> listWidgets = [
-      [
-        Text("home",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.home,
-          color: Theme.of(context).primaryColor,
+  static Drawer list(BuildContext context) {
+    List<Widget> listWidgets = [
+      DrawerHeader(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8.0),
+          image: DecorationImage(
+            image: AssetImage("lib/assets/images/logomarca-uerj.png"),
+            fit: BoxFit.cover,
+          ),
         ),
-      ],
-      [
-        Text("dias disponiveis",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.calendar_today,
-          color: Theme.of(context).primaryColor,
+        child: null,
+      ),
+      ListTile(
+        leading: Icon(Icons.search, color: Theme.of(context).primaryColor),
+        title: Text(
+          "Alunos",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
         ),
-      ],
-      [
-        Text("monitorias hoje",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.today,
-          color: Theme.of(context).primaryColor,
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
         ),
-      ],
-      [
-        Text("config",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.settings,
-          color: Theme.of(context).primaryColor,
+      ),
+      ListTile(
+        leading: Icon(Icons.assignment_ind_outlined,
+            color: Theme.of(context).primaryColor),
+        title: Text(
+          "Monitoria",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
         ),
-      ],
-      [
-        Text("matriculas",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.vpn_key,
-          color: Theme.of(context).primaryColor,
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
         ),
-      ],
-      [
-        Text("info",
-            style: TextStyle(color: Theme.of(context).primaryColor)),
-        Icon(
-          Icons.info,
-          color: Theme.of(context).primaryColor,
+      ),
+      ListTile(
+        leading: Icon(Icons.receipt_long_sharp,
+            color: Theme.of(context).primaryColor),
+        title: Text(
+          "Relatórios",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
         ),
-      ],
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.settings_applications_outlined,
+            color: Theme.of(context).primaryColor),
+        title: Text(
+          "Configurações",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
+        ),
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.volunteer_activism_outlined,
+            color: Theme.of(context).primaryColor),
+        title: Text(
+          "Sobre",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
+        ),
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      ListTile(
+        leading: Icon(Icons.exit_to_app_outlined,
+            color: Theme.of(context).primaryColor),
+        title: Text(
+          "Sair",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 14,
+          ),
+        ),
+        onTap: () {},
+        splashColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
     ];
 
     return Drawer(
@@ -64,10 +123,7 @@ class ListDrawer {
           ),
           itemCount: listWidgets.length,
           itemBuilder: (BuildContext context, int i) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: listWidgets[i],
-            );
+            return listWidgets[i];
           },
         ),
       ),

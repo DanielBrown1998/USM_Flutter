@@ -19,12 +19,22 @@ class _HomeState extends State<Home> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).cardColor,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            color: Theme.of(context).primaryColor,
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
         actions: [
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: IconButton(
               onPressed: () {},
-              icon: Icon(Icons.logout),
+              icon: Icon(Icons.account_box_outlined ),
               color: Theme.of(context).primaryColor,
             ),
           ),
@@ -84,7 +94,6 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-    
     );
   }
 }
