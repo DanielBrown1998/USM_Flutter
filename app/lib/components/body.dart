@@ -1,19 +1,20 @@
+import "package:app/search_student-screen/search_student.dart";
 import "package:flutter/material.dart";
 
 class ListBody extends StatelessWidget {
   const ListBody({super.key});
   @override
   Widget build(BuildContext context) {
-    List<String> nameButtons = <String>[
-      "buscar alunos",
-      "update monitorias",
-      "inserir matriculas",
-      "resetar senha",
-      "alterar dia da monitoria",
-    ];
+    Map<String, dynamic> buttons = {
+      "buscar alunos": SearchStudentScreen(),
+      "update monitorias": null,
+      "inserir matriculas": null,
+      "resetar senha": null,
+      "alterar dia da monitoria": null,
+  };
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
-      itemCount: nameButtons.length,
+      itemCount: buttons.length,
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
@@ -27,20 +28,19 @@ class ListBody extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColorDark,
               borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(
-                color: Theme.of(context).dividerColor,
-                width: 2,
-              ),
             ),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+              MaterialPageRoute(builder: (context) => buttons.values.toList()[i]),);
+              },
               splashColor: Theme.of(context).primaryColorDark,
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
-                nameButtons[i],
+                buttons.keys.toList()[i],
                 style: TextStyle(
                   decoration: TextDecoration.none,
                   color: Theme.of(context).primaryColor,
@@ -107,12 +107,11 @@ class MonitoriaView extends StatelessWidget {
                     fontFamily: "Roboto",
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.check, color: Theme.of(context).primaryColor),
+                    icon: Icon(Icons.check,
+                        color: Theme.of(context).primaryColor),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColorDark,
                       shape: RoundedRectangleBorder(
@@ -127,13 +126,15 @@ class MonitoriaView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    icon: Icon(Icons.delete, color: Theme.of(context).primaryColor),
+                    icon: Icon(Icons.delete,
+                        color: Theme.of(context).primaryColor),
                     onPressed: () {},
                   ),
                 ])
               ],
             );
-          }, separatorBuilder: (BuildContext context, int index) { 
+          },
+          separatorBuilder: (BuildContext context, int index) {
             return Divider(
               color: Theme.of(context).dividerColor,
               height: 2,

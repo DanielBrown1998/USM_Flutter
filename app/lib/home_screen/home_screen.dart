@@ -5,9 +5,7 @@ import 'package:app/components/body.dart' as custom_body;
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
-
   final String title;
-
   @override
   State<Home> createState() => _HomeState();
 }
