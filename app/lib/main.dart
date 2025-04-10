@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app/home_screen/home_screen.dart';
+import 'package:app/screen/home_screen.dart';
+import 'package:app/theme/theme.dart';
 
 void main() {
   runApp(const MyApp(
@@ -16,12 +17,50 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: ThemeData(
-        cardColor: Color(0xFF2f4073),
-        dividerColor: Color.fromARGB(255, 196, 8, 8),
-        shadowColor: const Color(0xFFbfb6aa),
-        primaryColorDark: Color(0xFF0e3659),
-        primaryColor: Color(0xFFF2EDE4),
-        scaffoldBackgroundColor: const Color(0xFF595959),
+        cardColor: ThemeUSM.cardColor,
+        dividerColor: ThemeUSM.dividerDrawerColor,
+        shadowColor: ThemeUSM.shadowColor,
+        primaryColor: ThemeUSM.textColor,
+        scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
+        drawerTheme: DrawerThemeData(
+          backgroundColor: ThemeUSM.backgroundColor,
+          elevation: 10,
+        ),
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: ThemeUSM.textColor,
+            applyTextScaling: true,
+          ),
+          actionsIconTheme: IconThemeData(
+            applyTextScaling: true
+          ),
+          backgroundColor: ThemeUSM.cardColor,
+          elevation: 20,
+          titleTextStyle: TextStyle(
+            color: ThemeUSM.textColor
+          )
+        ),
+        buttonTheme: ButtonThemeData(
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: ThemeUSM.buttonColor,
+          secondary: ThemeUSM.textColor,
+        ),
+          buttonColor: ThemeUSM.buttonColor,
+        ),
+        textTheme: TextTheme(
+          displayLarge: TextStyle(
+            fontFamily: "Ubuntu",
+            fontSize: 22,
+          ),
+          displayMedium: TextStyle(
+            fontFamily: "Ubuntu",
+            fontSize: 18
+          ),
+          displaySmall: TextStyle(
+            fontFamily: "Ubuntu",
+            fontSize: 14
+          )
+        ),
         useMaterial3: true,
       ),
       home: Home(

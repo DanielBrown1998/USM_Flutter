@@ -1,4 +1,4 @@
-import "package:app/search_student-screen/search_student.dart";
+import "package:app/screen/search_student_screen.dart";
 import "package:flutter/material.dart";
 
 class ListBody extends StatelessWidget {

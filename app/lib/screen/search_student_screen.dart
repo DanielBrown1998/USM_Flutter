@@ -1,4 +1,5 @@
 import 'package:app/components/header.dart';
+import 'package:app/components/alert_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SearchStudentScreen extends StatefulWidget {
@@ -14,37 +15,10 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _matricula = TextEditingController();
 
-  Future<void> _alertDialog(BuildContext context,
-      {required IconData icon, required String title, required String msg}) {
-    AlertDialog alert = AlertDialog(
-      icon: Icon(icon),
-      elevation: 20,
-      backgroundColor: Theme.of(context).primaryColor,
-      title: Text(
-        title,
-        style: TextStyle(color: Theme.of(context).dividerColor, fontSize: 20),
-      ),
-      content: Text(msg),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              "voltar",
-              style:
-                  TextStyle(color: Theme.of(context).cardColor, fontSize: 15),
-            ))
-      ],
-    );
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+    
+    
+    
+  
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +106,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                   if (name == "" &&
                                       email == "" &&
                                       matricula == "") {
-                                    await _alertDialog(context,
+                                    await alertDialogStudent(context,
                                         title: "Atencao",
                                         msg: "preencha algum campo!!!",
                                         icon: Icons.dangerous_outlined);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
 import 'package:app/components/drawer.dart';
+import 'package:app/theme/theme.dart';
+import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/body.dart' as custom_body;
 
 class Home extends StatefulWidget {
@@ -14,13 +16,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: ThemeUSM.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).cardColor,
         leading: Builder(builder: (context) {
           return IconButton(
             icon: const Icon(Icons.menu),
-            color: Theme.of(context).primaryColor,
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             onPressed: () {
               Scaffold.of(context).openDrawer();
@@ -32,8 +32,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(4.0),
             child: IconButton(
               onPressed: () {},
-              icon: Icon(Icons.account_box_outlined ),
-              color: Theme.of(context).primaryColor,
+              icon: Icon(Icons.account_box_outlined),
             ),
           ),
           Padding(
@@ -41,14 +40,12 @@ class _HomeState extends State<Home> {
             child: IconButton(
               onPressed: () {},
               icon: Icon(Icons.update),
-              color: Theme.of(context).primaryColor,
             ),
           ),
         ],
         title: Text(
           widget.title,
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
             fontSize: 18,
           ),
         ),
@@ -78,14 +75,16 @@ class _HomeState extends State<Home> {
       ),
       drawer: ListDrawer.list(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        backgroundColor: ThemeUSM.buttonColor,
+        foregroundColor: ThemeUSM.textColor,
+        onPressed: () async {
+          await alertDialogAddMonitoria(context);
+        },
         tooltip: 'Increment',
         elevation: 10,
         heroTag: "add_monitoria",
-        backgroundColor: Theme.of(context).cardColor,
         child: Icon(
           Icons.add,
-          color: Theme.of(context).primaryColor,
           size: 40,
         ),
       ),
