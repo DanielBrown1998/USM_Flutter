@@ -1,17 +1,24 @@
-import "package:app/screen/search_student_screen.dart";
-import "package:flutter/material.dart";
+import "dart:async";
 
-class ListBody extends StatelessWidget {
+import "package:flutter/material.dart";
+import "package:app/components/alert_dialog.dart";
+
+class ListBody extends StatefulWidget {
   const ListBody({super.key});
+
+  @override
+  State<ListBody> createState() => _ListBodyState();
+}
+
+class _ListBodyState extends State<ListBody> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> buttons = {
-      "buscar alunos": SearchStudentScreen(),
-      "update monitorias": null,
+      "buscar alunos": "/search_student",
       "inserir matriculas": null,
       "resetar senha": null,
       "alterar dia da monitoria": null,
-  };
+    };
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
       itemCount: buttons.length,
@@ -31,8 +38,7 @@ class ListBody extends StatelessWidget {
             ),
             child: MaterialButton(
               onPressed: () {
-                Navigator.push(context,
-              MaterialPageRoute(builder: (context) => buttons.values.toList()[i]),);
+                Navigator.pushNamed(context, buttons.values.toList()[i]);
               },
               splashColor: Theme.of(context).primaryColorDark,
               color: Theme.of(context).cardColor,
@@ -57,9 +63,14 @@ class ListBody extends StatelessWidget {
   }
 }
 
-class MonitoriaView extends StatelessWidget {
+class MonitoriaView extends StatefulWidget {
   MonitoriaView({super.key});
 
+  @override
+  State<MonitoriaView> createState() => _MonitoriaViewState();
+}
+
+class _MonitoriaViewState extends State<MonitoriaView> {
   final List<dynamic> listMonitorias = <dynamic>[
     "monitoria 1",
     "monitoria 2",
@@ -72,6 +83,8 @@ class MonitoriaView extends StatelessWidget {
     "monitoria 9",
     "monitoria 10",
   ];
+
+  final List<dynamic> historyMonitorias = <dynamic>[];
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +121,28 @@ class MonitoriaView extends StatelessWidget {
                   ),
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  //confirmation button
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      alertDialogStudent(context,
+                              icon: Icons.dangerous_outlined,
+                              title: "Atencao",
+                              confirmation: "sim",
+                              cancel: "nao",
+                              msg:
+                                  "deseja alterar o status da msg para concluido")
+                          .then((value) {
+                        print(value);
+                        if (value == true) {
+                          setState(() {
+                            dynamic item = listMonitorias.removeAt(i);
+                            historyMonitorias.add(item);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("$item concluida")));
+                          });
+                        }
+                      } as FutureOr Function(void value));
+                    },
                     icon: Icon(Icons.check,
                         color: Theme.of(context).primaryColor),
                     style: ElevatedButton.styleFrom(
@@ -119,6 +152,7 @@ class MonitoriaView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //no confirmation button
                   IconButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).dividerColor,
@@ -128,7 +162,30 @@ class MonitoriaView extends StatelessWidget {
                     ),
                     icon: Icon(Icons.delete,
                         color: Theme.of(context).primaryColor),
-                    onPressed: () {},
+                    onPressed: () {
+                      alertDialogStudent(context,
+                              icon: Icons.dangerous_outlined,
+                              title: "Atencao",
+                              confirmation: "sim",
+                              cancel: "nao",
+                              msg:
+                                  "deseja alterar o status da msg para nao concluido")
+                          .then((value) {
+                        print(value);
+                        if (value == true) {
+                          setState(() {
+                            dynamic item = listMonitorias.removeAt(i);
+                            historyMonitorias.add(item);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(" $item nao concluida")));
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("cancelada")));
+                        }
+                      } as FutureOr Function(void value));
+                      ;
+                    },
                   ),
                 ])
               ],

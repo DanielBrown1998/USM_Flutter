@@ -15,11 +15,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _matricula = TextEditingController();
 
-    
-    
-    
   
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +105,8 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                     await alertDialogStudent(context,
                                         title: "Atencao",
                                         msg: "preencha algum campo!!!",
+                                        confirmation: "sim",
+                                        cancel: "nao",
                                         icon: Icons.dangerous_outlined);
                                     return;
                                   }

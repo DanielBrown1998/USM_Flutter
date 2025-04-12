@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app/screen/home_screen.dart';
+import 'package:app/screen/search_student_screen.dart';
 import 'package:app/theme/theme.dart';
+
 
 void main() {
   runApp(const MyApp(
@@ -27,46 +29,40 @@ class MyApp extends StatelessWidget {
           elevation: 10,
         ),
         appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(
-            color: ThemeUSM.textColor,
-            applyTextScaling: true,
-          ),
-          actionsIconTheme: IconThemeData(
-            applyTextScaling: true
-          ),
-          backgroundColor: ThemeUSM.cardColor,
-          elevation: 20,
-          titleTextStyle: TextStyle(
-            color: ThemeUSM.textColor
-          )
-        ),
+            iconTheme: IconThemeData(
+              color: ThemeUSM.textColor,
+              applyTextScaling: true,
+            ),
+            actionsIconTheme: IconThemeData(applyTextScaling: true),
+            backgroundColor: ThemeUSM.cardColor,
+            elevation: 20,
+            titleTextStyle: TextStyle(color: ThemeUSM.textColor)),
         buttonTheme: ButtonThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: ThemeUSM.buttonColor,
-          secondary: ThemeUSM.textColor,
-        ),
+            primary: ThemeUSM.buttonColor,
+            secondary: ThemeUSM.textColor,
+          ),
           buttonColor: ThemeUSM.buttonColor,
         ),
         textTheme: TextTheme(
-          displayLarge: TextStyle(
-            fontFamily: "Ubuntu",
-            fontSize: 22,
-          ),
-          displayMedium: TextStyle(
-            fontFamily: "Ubuntu",
-            fontSize: 18
-          ),
-          displaySmall: TextStyle(
-            fontFamily: "Ubuntu",
-            fontSize: 14
-          )
-        ),
+            displayLarge: TextStyle(
+              fontFamily: "Ubuntu",
+              fontSize: 22,
+            ),
+            displayMedium: TextStyle(fontFamily: "Ubuntu", fontSize: 18),
+            displaySmall: TextStyle(fontFamily: "Ubuntu", fontSize: 14)),
         useMaterial3: true,
       ),
-      home: Home(
-        key: Key('home_screen'),
-        title: title,
-      ),
+      
+      initialRoute: "/",
+      
+      routes: {
+        "/": (context) => Home(
+          key: Key('home_screen'),
+          title: title,
+        ),
+        "/search_student": (context) => SearchStudentScreen(),
+      },
     );
   }
 }
