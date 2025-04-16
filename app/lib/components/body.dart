@@ -64,7 +64,7 @@ class _ListBodyState extends State<ListBody> {
 }
 
 class MonitoriaView extends StatefulWidget {
-  MonitoriaView({super.key});
+  const MonitoriaView({super.key});
 
   @override
   State<MonitoriaView> createState() => _MonitoriaViewState();
