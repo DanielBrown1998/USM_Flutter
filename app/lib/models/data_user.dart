@@ -4,9 +4,9 @@ import "user.dart";
 class DataUser {
 
   final User owner;
-  final int monitoriasMarcadas;        
-  final int monitoriasPresentes;
-  final int monitoriasAusentes;
+  late int monitoriasMarcadas;        
+  late int monitoriasPresentes;
+  late int monitoriasAusentes;
   final int monitoriasCanceladas;
   final String phone;
 
