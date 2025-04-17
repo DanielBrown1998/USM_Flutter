@@ -1,3 +1,6 @@
+import 'package:app/models/data_user.dart';
+import 'package:app/models/days.dart';
+import 'package:app/models/matricula.dart';
 import 'package:app/services/objects/data_user_objects.dart';
 import 'package:app/services/objects/days_objects.dart';
 import 'package:app/services/objects/matricula_objects.dart';
@@ -14,28 +17,68 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => UserObjects(user: [])),
-      ChangeNotifierProvider(create: (_) => MatriculaObjects(matriculas: [])),
-      ChangeNotifierProvider(create: (_) => MonitoriaObjects(monitoria: [
-        Monitoria(
-          owner: User(
-            email: "daniel@xpto.com",
-            firstName: "Daniel",
-            lastName: "Passos",
-            userName: "202213313611",
-            password: "hash123",
-            isStaff: true,
-            isSuperUser: true,
-            isActive: true,
-            dateJoined: DateTime.now(),
-            lastLogin: DateTime.now()
-          ),
-          date: DateTime.now(),
-          status: 'MARCADA'
-        ),
-      ])),
-      ChangeNotifierProvider(create: (_) => DataUserObjects(dataUser: [])),
-      ChangeNotifierProvider(create: (_) => DaysObjects(days: []))
+      ChangeNotifierProvider(
+          create: (_) => UserObjects(user: [
+                User(
+                    email: "daniel@xpto.com",
+                    firstName: "Daniel",
+                    lastName: "Passos",
+                    userName: "202213313611",
+                    password: "hash123",
+                    isStaff: true,
+                    isSuperUser: true,
+                    isActive: true,
+                    dateJoined: DateTime.now(),
+                    lastLogin: DateTime.now()),
+              ])),
+      ChangeNotifierProvider(
+          create: (_) => MatriculaObjects(matriculas: [
+                Matricula(matricula: '202213313611', id: '01'),
+              ])),
+      ChangeNotifierProvider(
+          create: (_) => MonitoriaObjects(monitoria: [
+                Monitoria(
+                    owner: User(
+                        email: "daniel@xpto.com",
+                        firstName: "Daniel",
+                        lastName: "Passos",
+                        userName: "202213313611",
+                        password: "hash123",
+                        isStaff: true,
+                        isSuperUser: true,
+                        isActive: true,
+                        dateJoined: DateTime.now(),
+                        lastLogin: DateTime.now()),
+                    date: DateTime.now(),
+                    status: 'MARCADA'),
+              ])),
+      ChangeNotifierProvider(
+          create: (_) => DataUserObjects(dataUser: [
+                DataUser(
+                    owner: User(
+                        email: "daniel@xpto.com",
+                        firstName: "Daniel",
+                        lastName: "Passos",
+                        userName: "202213313611",
+                        password: "hash123",
+                        isStaff: true,
+                        isSuperUser: true,
+                        isActive: true,
+                        dateJoined: DateTime.now(),
+                        lastLogin: DateTime.now()),
+                    monitoriasPresentes: 0,
+                    monitoriasAusentes: 0,
+                    monitoriasMarcadas: 1,
+                    monitoriasCanceladas: 0,
+                    phone: '21999998888'),
+              ])),
+      ChangeNotifierProvider(
+          create: (_) => DaysObjects(days: [
+                Days(days: "segunda-feira"),
+                Days(days: "terca-feira"),
+                Days(days: "quinta-feira"),
+                Days(days: "sexta-feira"),
+              ])),
     ],
     child: const MyApp(
       title: "MON. UERJ-ZO",

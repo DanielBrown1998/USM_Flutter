@@ -1,5 +1,19 @@
+//TODO passar todo o codigo comentado para o body com o .then()
+
+
+// import 'package:app/models/matricula.dart';
+// import 'package:app/models/data_user.dart';
+// import 'package:app/models/days.dart';
+// import 'package:app/models/user.dart';
+
+// import 'package:app/services/objects/data_user_objects.dart';
+// import 'package:app/services/objects/days_objects.dart';
+// import 'package:app/services/objects/matricula_objects.dart';
+// import 'package:app/services/objects/user_objects.dart';
+
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+// import 'package:provider/provider.dart';
 
 Future<dynamic> alertDialogStudent(BuildContext context,
     {required IconData icon,
@@ -7,7 +21,6 @@ Future<dynamic> alertDialogStudent(BuildContext context,
     required String msg,
     required String confirmation,
     required String cancel}) {
-  
   AlertDialog alert = AlertDialog(
     icon: Icon(icon),
     elevation: 20,
@@ -47,12 +60,19 @@ Future<dynamic> alertDialogStudent(BuildContext context,
   );
 }
 
-Future<void> alertDialogAddMonitoria(BuildContext context) {
+Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   final formkey = GlobalKey<FormState>();
   final TextEditingController matricula = TextEditingController();
-  late TextEditingController day = TextEditingController();
-  late String weekday;
-  late String month;
+  DateTime date = DateTime.now().add(Duration(days: 1));
+  // User? user;
+
+  // MatriculaObjects matriculas =
+  //     Provider.of<MatriculaObjects>(context, listen: false);
+  // DataUserObjects dataUser =
+  //     Provider.of<DataUserObjects>(context, listen: false);
+  // UserObjects users = Provider.of<UserObjects>(context, listen: false);
+
+  // DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
 
   AlertDialog alert = AlertDialog(
     content: SizedBox(
@@ -71,35 +91,70 @@ Future<void> alertDialogAddMonitoria(BuildContext context) {
                   ),
                   TextFormField(
                     controller: matricula,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Matricula",
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                         helperText: "insira a matricula do aluno"),
                     validator: (value) {
-                      if (matricula.text.length != 12) {
-                        return "Matricula errada!";
-                      }
-                      return null;
+
+                      // bool varControl = false;
+                      // if (matricula.text.length != 12) {
+                      //   return "Matricula errada!";
+                      // }
+                      // for (Matricula item in matriculas.matriculas) {
+                      //   if (item.matricula == value) {
+                      //     //verificar se possui usuario com essa matricula
+                      //     for (User item in users.user) {
+                      //       if (item.userName == value) {
+                      //         varControl == true;
+                      //         user = item;
+                      //         break;
+                      //       }
+                      //     }
+                      //   }
+                      // }
+
+                      // if (varControl == true) {
+                      //   return null;
+                      // } else {
+                      //   return "MAtricula nao encontrada!";
+                      // }
                     },
                     onSaved: (value) {},
                   ),
                   DateTimeFormField(
+                    onChanged: (newValue) {
+                      if (newValue != null) {
+                        date = newValue;
+                      }
+                    },
+                    firstDate: DateTime.now().add(Duration(days: 1)),
+                    lastDate: DateTime.now().add(Duration(days: 8)),
                     decoration: InputDecoration(
                         labelText: "Insira o Dia",
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                         helperText: "insira um dia da semana disponivel"),
                     validator: (value) {
-                      if (day.text.isEmpty) {
-                        return "insira uma data disponivel para monitoria";
-                      }
-                      return null;
-                    },
-                    onChanged: (DateTime? value) {
-                      if (value != null) {
-                        day = value.day as TextEditingController;
-                        weekday = value.weekday as String;
-                        month = value.month as String;
-                      }
+                      // if (value == null) {
+                      //   return "insira uma data valida para monitoria";
+                      // }
+
+                      // List<String> daysWeek = [
+                      //   'domingo',
+                      //   'segunda-feira',
+                      //   'terca-feira',
+                      //   'quarta=feira',
+                      //   'quinta-feira',
+                      //   'sexta-feira',
+                      //   'sabado'
+                      // ];
+
+                      // String dayWeek = daysWeek[value.weekday];
+                      // if (!days.days.contains(Days(days: dayWeek))) {
+                      //   return "$dayWeek nao e dia de monitoria";
+                      // }
+                      // return null;
                     },
                   )
                 ],
@@ -109,6 +164,18 @@ Future<void> alertDialogAddMonitoria(BuildContext context) {
         ],
       ),
     ),
+    actions: [
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context, <dynamic>[date, matricula.text]);
+          },
+          icon: Icon(Icons.add_task)),
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+          icon: Icon(Icons.cancel))
+    ],
   );
 
   return showDialog(
