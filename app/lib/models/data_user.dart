@@ -4,19 +4,19 @@ import "user.dart";
 class DataUser {
 
   final User owner;
-  late int monitoriasMarcadas;        
-  late int monitoriasPresentes;
-  late int monitoriasAusentes;
-  final int monitoriasCanceladas;
+  int monitoriasMarcadas;        
+  int monitoriasPresentes;
+  int monitoriasAusentes;
+  int monitoriasCanceladas;
   final String phone;
 
   DataUser(
     {
       required this.owner, 
-      required this.monitoriasMarcadas,
-      required this.monitoriasPresentes,
-      required this.monitoriasCanceladas,
-      required this.monitoriasAusentes,
+      this.monitoriasMarcadas = 0,
+      this.monitoriasPresentes = 0,
+      this.monitoriasCanceladas = 0,
+      this.monitoriasAusentes = 0,
       required this.phone
     }
   );

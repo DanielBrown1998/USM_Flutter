@@ -3,7 +3,7 @@ import "user.dart";
 class Monitoria {
   final User owner;
   final DateTime date;
-  final String status;
+  String status;
 
-  Monitoria({required this.owner, required this.date, required this.status});
+  Monitoria({required this.owner, required this.date, this.status = "MARCADA"});
 }
