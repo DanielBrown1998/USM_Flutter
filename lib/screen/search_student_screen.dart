@@ -15,7 +15,6 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _matricula = TextEditingController();
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +142,6 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                             ],
                           ),
                         ),
-                        
                       ],
                     ),
                   ),

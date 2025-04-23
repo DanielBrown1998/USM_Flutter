@@ -15,22 +15,21 @@ import 'package:app/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  User userRoot = User(
+      email: "daniel@xpto.com",
+      firstName: "Daniel",
+      lastName: "Passos",
+      userName: "202213313611",
+      password: "hash123",
+      isStaff: true,
+      isSuperUser: true,
+      isActive: true,
+      dateJoined: DateTime.now(),
+      lastLogin: DateTime.now());
+
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-          create: (_) => UserObjects(user: [
-                User(
-                    email: "daniel@xpto.com",
-                    firstName: "Daniel",
-                    lastName: "Passos",
-                    userName: "202213313611",
-                    password: "hash123",
-                    isStaff: true,
-                    isSuperUser: true,
-                    isActive: true,
-                    dateJoined: DateTime.now(),
-                    lastLogin: DateTime.now()),
-              ])),
+      ChangeNotifierProvider(create: (_) => UserObjects(user: [userRoot,])),
       ChangeNotifierProvider(
           create: (_) => MatriculaObjects(matriculas: [
                 Matricula(matricula: '202213313611', id: '01'),
@@ -38,34 +37,14 @@ void main() {
       ChangeNotifierProvider(
           create: (_) => MonitoriaObjects(monitoria: [
                 Monitoria(
-                    owner: User(
-                        email: "daniel@xpto.com",
-                        firstName: "Daniel",
-                        lastName: "Passos",
-                        userName: "202213313611",
-                        password: "hash123",
-                        isStaff: true,
-                        isSuperUser: true,
-                        isActive: true,
-                        dateJoined: DateTime.now(),
-                        lastLogin: DateTime.now()),
+                    owner: userRoot,
                     date: DateTime.now(),
                     status: 'MARCADA'),
               ])),
       ChangeNotifierProvider(
           create: (_) => DataUserObjects(dataUser: [
                 DataUser(
-                    owner: User(
-                        email: "daniel@xpto.com",
-                        firstName: "Daniel",
-                        lastName: "Passos",
-                        userName: "202213313611",
-                        password: "hash123",
-                        isStaff: true,
-                        isSuperUser: true,
-                        isActive: true,
-                        dateJoined: DateTime.now(),
-                        lastLogin: DateTime.now()),
+                    owner: userRoot,
                     monitoriasPresentes: 0,
                     monitoriasAusentes: 0,
                     monitoriasMarcadas: 1,

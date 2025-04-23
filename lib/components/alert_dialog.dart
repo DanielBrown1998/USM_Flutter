@@ -1,26 +1,24 @@
 //TODO passar todo o codigo comentado para o home_screen com o .then()
 
+import 'package:app/models/data_user.dart';
+import 'package:app/models/monitoria.dart';
+import 'package:app/models/user.dart';
 
-// import 'package:app/models/matricula.dart';
-// import 'package:app/models/data_user.dart';
-// import 'package:app/models/days.dart';
-// import 'package:app/models/user.dart';
-
-// import 'package:app/services/objects/data_user_objects.dart';
-// import 'package:app/services/objects/days_objects.dart';
-// import 'package:app/services/objects/matricula_objects.dart';
-// import 'package:app/services/objects/user_objects.dart';
+import 'package:app/services/objects/data_user_objects.dart';
+import 'package:app/services/objects/monitoria_objects.dart';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
-Future<dynamic> alertDialogStudent(BuildContext context,
-    {required IconData icon,
-    required String title,
-    required String msg,
-    required String confirmation,
-    required String cancel}) {
+Future<dynamic> alertDialogStudent(
+  BuildContext context, {
+  required IconData icon,
+  required String title,
+  required String msg,
+  required String confirmation,
+  required String cancel,
+}) {
   AlertDialog alert = AlertDialog(
     icon: Icon(icon),
     elevation: 20,
@@ -33,7 +31,6 @@ Future<dynamic> alertDialogStudent(BuildContext context,
     actions: [
       TextButton(
           onPressed: () {
-            print("sim");
             Navigator.pop(context, true);
           },
           child: Text(
@@ -42,7 +39,73 @@ Future<dynamic> alertDialogStudent(BuildContext context,
           )),
       TextButton(
           onPressed: () {
-            print("nao");
+            Navigator.pop(context, false);
+          },
+          child: Text(
+            cancel,
+            style: TextStyle(color: Theme.of(context).cardColor, fontSize: 15),
+          )),
+    ],
+  );
+
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+Future<dynamic> alertDialogStatusMonitoria(
+  BuildContext context, {
+  required User user,
+  required IconData icon,
+  required String title,
+  required String msg,
+  required String confirmation,
+  required String cancel,
+  bool monitoriaOk = true,
+}) {
+  DataUserObjects dataUser =
+      Provider.of<DataUserObjects>(context, listen: false);
+  MonitoriaObjects monitoria =
+      Provider.of<MonitoriaObjects>(context, listen: false);
+
+  AlertDialog alert = AlertDialog(
+    icon: Icon(icon),
+    elevation: 20,
+    backgroundColor: Theme.of(context).primaryColor,
+    title: Text(
+      title,
+      style: TextStyle(color: Theme.of(context).dividerColor, fontSize: 20),
+    ),
+    content: Text(msg),
+    actions: [
+      TextButton(
+          onPressed: () async {
+            DataUser? data = dataUser.getUser(user);
+            try {
+              if (monitoriaOk) {
+                monitoria.updateStatusMonitoria(user: data, status: "PRESENTE");
+                dataUser.updateDataUser(data!, "PRESENTE"); //update dataUser
+              } else {
+                monitoria.updateStatusMonitoria(user: data, status: "AUSENTE");
+                dataUser.updateDataUser(data!, "AUSENTE"); //update dataUser
+              }
+
+              Navigator.pop(context, true);
+            } on StatusMOnitoriaException catch (e) {
+              Navigator.pop(context, e.message);
+            } catch (e) {
+              Navigator.pop(context, e.toString());
+            }
+          },
+          child: Text(
+            confirmation,
+            style: TextStyle(color: Theme.of(context).cardColor, fontSize: 15),
+          )),
+      TextButton(
+          onPressed: () {
             Navigator.pop(context, false);
           },
           child: Text(
@@ -97,7 +160,6 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                         helperText: "insira a matricula do aluno"),
                     validator: (value) {
-
                       // bool varControl = false;
                       // if (matricula.text.length != 12) {
                       //   return "Matricula errada!";
