@@ -23,3 +23,4 @@ class User {
     required this.dateJoined
   });
 }
+
