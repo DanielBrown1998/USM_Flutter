@@ -36,13 +36,22 @@ class DataUserObjects with ChangeNotifier {
     }
   }
 
-  DataUser? getUser(User user){
+  DataUser getUser(User user){
     for (DataUser value in dataUser) {
       if (value.owner == user) {
         return value;
       }
     }
-    return null;
+    throw DataUserNotFoundException("User with matricula ${user.userName} not found.");
   }
 
+}
+
+class DataUserNotFoundException implements Exception {
+  final String message;
+  DataUserNotFoundException(this.message);
+  @override
+  String toString() {
+    return message;
+  }
 }
