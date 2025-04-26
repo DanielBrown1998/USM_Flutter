@@ -29,25 +29,22 @@ void main() {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => UserObjects(user: [userRoot,])),
+      ChangeNotifierProvider(
+          create: (_) => UserObjects(user: [
+                userRoot,
+              ])),
       ChangeNotifierProvider(
           create: (_) => MatriculaObjects(matriculas: [
                 Matricula(matricula: '202213313611', id: '01'),
               ])),
-      ChangeNotifierProvider(
-          create: (_) => MonitoriaObjects(monitoria: [
-                Monitoria(
-                    owner: userRoot,
-                    date: DateTime.now(),
-                    status: 'MARCADA'),
-              ])),
+      ChangeNotifierProvider(create: (_) => MonitoriaObjects(monitoria: [])),
       ChangeNotifierProvider(
           create: (_) => DataUserObjects(dataUser: [
                 DataUser(
                     owner: userRoot,
                     monitoriasPresentes: 0,
                     monitoriasAusentes: 0,
-                    monitoriasMarcadas: 1,
+                    monitoriasMarcadas: 0,
                     monitoriasCanceladas: 0,
                     phone: '21999998888'),
               ])),

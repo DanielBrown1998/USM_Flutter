@@ -5,13 +5,15 @@ import 'package:app/services/objects/monitoria_objects.dart';
 
 class DataUserObjects with ChangeNotifier {
   List<DataUser> dataUser;
-
   DataUserObjects({required this.dataUser});
-
   addMonitoria(DataUser user) {
     for (DataUser value in dataUser) {
       if (value == user) {
-        user.monitoriasMarcadas++;
+        print("------------------------------------------------------------");
+        print("marcadas: ${value.monitoriasMarcadas}");
+        value.monitoriasMarcadas++;
+        print("marcadas: ${value.monitoriasMarcadas}");
+        print("------------------------------------------------------------");
         notifyListeners();
         break;
       }
@@ -21,6 +23,12 @@ class DataUserObjects with ChangeNotifier {
   updateDataUser(DataUser user, String status) {
     for (DataUser value in dataUser) {
       if (value == user) {
+        print("------------------------------------------------------------");
+        print("marcadas: ${value.monitoriasMarcadas}");
+        print("ausentes: ${value.monitoriasAusentes}");
+        print("presentes: ${value.monitoriasPresentes}");
+        print("------------------------------------------------------------");
+
         if (status == "PRESENTE") {
           value.monitoriasPresentes++;
         } else if (status == "AUSENTE") {
@@ -30,21 +38,27 @@ class DataUserObjects with ChangeNotifier {
         } else {
           throw StatusMOnitoriaException("Status inválido");
         }
+        print("------------------------------------------------------------");
+        print("marcadas: ${value.monitoriasMarcadas}");
+        print("ausentes: ${value.monitoriasAusentes}");
+        print("presentes: ${value.monitoriasPresentes}");
+        print("------------------------------------------------------------");
+
         notifyListeners();
         return user;
       }
     }
   }
 
-  DataUser getUser(User user){
+  DataUser getUser(User user) {
     for (DataUser value in dataUser) {
       if (value.owner == user) {
         return value;
       }
     }
-    throw DataUserNotFoundException("User with matricula ${user.userName} not found.");
+    throw DataUserNotFoundException(
+        "User with matricula ${user.userName} not found.");
   }
-
 }
 
 class DataUserNotFoundException implements Exception {
