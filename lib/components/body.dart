@@ -1,3 +1,4 @@
+import 'package:app/models/monitoria.dart';
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
 import "package:app/components/alert_dialog.dart";
@@ -86,8 +87,8 @@ class _MonitoriaViewState extends State<MonitoriaView> {
         ),
         child: Consumer<MonitoriaObjects>(builder: (BuildContext context,
             MonitoriaObjects listMonitorias, Widget? widget) {
-          if (listMonitorias.getStatusMarcada() == null ||
-              listMonitorias.getStatusMarcada()!.isEmpty) {
+          List<Monitoria>? list = listMonitorias.getStatusMarcada();
+          if (list == null || list.isEmpty) {
             return const Center(
               child: Text(
                 "Nenhuma monitoria marcada",
@@ -112,15 +113,31 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      listMonitorias.monitoria[i].owner.userName,
-                      style: TextStyle(
-                        decoration: TextDecoration.none,
-                        color: Theme.of(context).primaryColorDark,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Roboto",
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          list[i].owner.userName,
+                          style: TextStyle(
+                            decoration: TextDecoration.none,
+                            color: Theme.of(context).cardColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Roboto",
+                          ),
+                        ),
+                        Text(
+                          "${list[i].date.day}-${list[i].date.month}-${list[i].date.year}",
+                          style: TextStyle(
+                            decoration: TextDecoration.none,
+                            color: Theme.of(context).cardColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: "Roboto",
+                          ),
+                        )
+                      ],
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       //confirmation button
@@ -133,19 +150,16 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                               cancel: "nao",
                               msg:
                                   "deseja alterar o status da msg para concluido",
-                              user: listMonitorias.monitoria[i].owner);
+                              user: list[i].owner,
+                              date: list[i].date);
                           if (value == true) {
-                            setState(() {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      "${listMonitorias.monitoria[i].owner.userName} realizou a monitoria!")));
-                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "${listMonitorias.monitoria[i].owner.userName} realizou a monitoria!")));
                           } else if (value == false) {
-                            setState(() {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      " status nao alterado para ${listMonitorias.monitoria[i].owner.userName}")));
-                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    " status nao alterado para ${listMonitorias.monitoria[i].owner.userName}")));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Erro: ${value.toString()}")));
@@ -178,20 +192,17 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                               cancel: "nao",
                               msg:
                                   "deseja alterar o status da msg para nao concluido",
-                              user: listMonitorias.monitoria[i].owner,
+                              user: list[i].owner,
+                              date: list[i].date,
                               monitoriaOk: false);
                           if (value == true) {
-                            setState(() {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      " ${listMonitorias.monitoria[i].owner.userName} nao realizou a monitoria")));
-                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    " ${listMonitorias.monitoria[i].owner.userName} nao realizou a monitoria")));
                           } else if (value == false) {
-                            setState(() {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      " status nao alterado para ${listMonitorias.monitoria[i].owner.userName}")));
-                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    " status nao alterado para ${listMonitorias.monitoria[i].owner.userName}")));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Erro: ${value.toString()}")));

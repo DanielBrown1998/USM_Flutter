@@ -1,4 +1,3 @@
-
 import 'package:app/models/data_user.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
@@ -66,6 +65,7 @@ Future<dynamic> alertDialogStatusMonitoria(
   required String msg,
   required String confirmation,
   required String cancel,
+  required DateTime date,
   bool monitoriaOk = true,
 }) {
   DataUserObjects dataUser =
@@ -84,17 +84,16 @@ Future<dynamic> alertDialogStatusMonitoria(
     content: Text(msg),
     actions: [
       TextButton(
-          onPressed: () async {
+          onPressed: () {
             DataUser? data = dataUser.getUser(user);
             try {
               if (monitoriaOk) {
-                monitoria.updateStatusMonitoria(user: data, status: "PRESENTE");
-                dataUser.updateDataUser(data!, "PRESENTE"); //update dataUser
+                monitoria.updateStatusMonitoria(user: data, date: date, status: "PRESENTE");
+                dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
-                monitoria.updateStatusMonitoria(user: data, status: "AUSENTE");
-                dataUser.updateDataUser(data!, "AUSENTE"); //update dataUser
+                monitoria.updateStatusMonitoria(user: data, date: date, status: "AUSENTE");
+                dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
-
               Navigator.pop(context, true);
             } on StatusMOnitoriaException catch (e) {
               Navigator.pop(context, e.message);
@@ -197,38 +196,19 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               User userMon = users.getUserByMatricula(matricula.text);
               DataUser data = dataUser.getUser(userMon);
               Monitoria monitoria = Monitoria(owner: userMon, date: date);
-              bool mark = monitorias.addMonitoria(mon: monitoria, dataUser: data);
-              Navigator.pop(context, mark);
+              bool mark =
+                  monitorias.addMonitoria(mon: monitoria, dataUser: data);
+              dataUser.addMonitoria(data);
+              List<dynamic> result = [mark, userMon, date];
+              Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(e.message),
-                duration: Duration(seconds: 2),
-              ));
-              Navigator.pop(context, false);
+              Navigator.pop(context, e.message);
             } on UserAlreadyMarkDateException catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(e.message),
-                duration: Duration(seconds: 2),
-              ));
-              Navigator.pop(context, false);
+              Navigator.pop(context, e.message);
             } on UserNotFoundException catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(e.message),
-                duration: Duration(seconds: 2),
-              ));
-              Navigator.pop(context, false);
+              Navigator.pop(context, e.message);
             } on DataUserNotFoundException catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(e.message),
-                duration: Duration(seconds: 2),
-              ));
-              Navigator.pop(context, false);
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("An unexpected error occurred: "),
-                duration: Duration(seconds: 2),
-              ));
-              Navigator.pop(context, false);
+              Navigator.pop(context, e.message);
             }
           },
           icon: Icon(Icons.add_task)),

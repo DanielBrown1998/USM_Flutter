@@ -15,6 +15,10 @@ class MonitoriaObjects with ChangeNotifier {
             element.date.month == date.month &&
             element.date.year == date.year)
         .toList();
+    print("------------------------------------------------------------");
+    monitoriasByDate.forEach((element) => print(element.owner.firstName));
+    print("------------------------------------------------------------");
+
     if (monitoriasByDate.length >= limit) {
       throw MonitoriaExceedException(
           "Limite de monitorias por dia excedido. Limite: $limit");
@@ -23,10 +27,15 @@ class MonitoriaObjects with ChangeNotifier {
   }
 
   bool _getMonitoriasbyUser(
-      {required List<Monitoria> monitoriaList, required DateTime date, required DataUser dataUser}) {
+      {required List<Monitoria> monitoriaList,
+      required DateTime date,
+      required DataUser dataUser}) {
     bool monitoriasByDate = monitoriaList
         .where((element) => element.owner == dataUser.owner)
         .isEmpty;
+    print("------------------------------------------------------------");
+    print(monitoriasByDate);
+    print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
           "${dataUser.owner.firstName} ja marcoru monitoria para esse dia ${date.day}/${date.month}/${date.year}");
@@ -36,12 +45,21 @@ class MonitoriaObjects with ChangeNotifier {
 
   bool addMonitoria({required Monitoria mon, required DataUser dataUser}) {
     List<Monitoria> mons = _getMonitoriasbyDate(date: mon.date, limit: 10);
-    bool mark = _getMonitoriasbyUser(monitoriaList: mons, date: mon.date, dataUser: dataUser);
+    bool mark = _getMonitoriasbyUser(
+        monitoriaList: mons, date: mon.date, dataUser: dataUser);
     if (mark) {
+      print("------------------------------------------------------------");
+      print(mon.date);
+      print(mon.owner.firstName);
+      print(mon.status);
+      print("------------------------------------------------------------");
       monitoria.add(mon);
+      print("------------------------------------------------------------");
+      monitoria.forEach((element) => print(element.date));
       notifyListeners();
       return true;
     }
+    notifyListeners();
     return false;
   }
 
@@ -51,7 +69,7 @@ class MonitoriaObjects with ChangeNotifier {
     return statusMarcada;
   }
 
-  updateStatusMonitoria({required DataUser? user, required String status}) {
+  updateStatusMonitoria({required DataUser? user, required DateTime date, required String status}) {
     if (status != "CANCELADA" && status != "PRESENTE" && status != "AUSENTE") {
       throw StatusMOnitoriaException("Status inválido");
     }
@@ -60,9 +78,16 @@ class MonitoriaObjects with ChangeNotifier {
       throw StatusMOnitoriaException("Usuário inválido");
     }
 
+    print("------------------------------------------------------------");
+    monitoria.forEach((element) => print(element.date));
+
     for (Monitoria item in monitoria) {
-      if (item.owner == user.owner) {
+      if (item.owner == user.owner && item.date == date) {
+        print("------------------------------------------------------------");
+        print("antes: ${item.status}");
         item.status = status;
+        print("depois: ${item.status}");
+        print("------------------------------------------------------------");
         notifyListeners();
         return item;
       }

@@ -1,3 +1,4 @@
+import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
 import 'package:app/components/drawer.dart';
@@ -78,7 +79,29 @@ class _HomeState extends State<Home> {
         backgroundColor: ThemeUSM.buttonColor,
         foregroundColor: ThemeUSM.textColor,
         onPressed: () async {
-          await alertDialogAddMonitoria(context);
+          dynamic value = await alertDialogAddMonitoria(context);
+          if (value.runtimeType == List) {
+            User user = value[1];
+            DateTime date = value[2];
+            if (value[0]) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
+                duration: Duration(seconds: 2),
+              ));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
+                duration: Duration(seconds: 2),
+              ));
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("$value"),
+              duration: Duration(seconds: 2),
+            ));
+          }
         },
         tooltip: 'Increment',
         elevation: 10,
