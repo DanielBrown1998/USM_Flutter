@@ -13,8 +13,14 @@ import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
 import 'package:app/theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:app/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // -> porque a main agora e assincrona
+  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   User userRoot = User(
       email: "daniel@xpto.com",
       firstName: "Daniel",

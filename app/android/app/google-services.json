@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "692343760177",
+    "project_id": "usm-uerj-flutter",
+    "storage_bucket": "usm-uerj-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692343760177:android:022948833122496b29fc10",
+        "android_client_info": {
+          "package_name": "com.danielbrown.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaAUQegg-53coW1dSy8nKCdhofYfm_Hyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
