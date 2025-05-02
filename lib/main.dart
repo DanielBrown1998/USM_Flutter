@@ -8,6 +8,7 @@ import 'package:app/services/objects/monitoria_objects.dart';
 import 'package:app/services/objects/user_objects.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
@@ -17,8 +18,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:app/firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // -> porque a main agora e assincrona
-  
+  WidgetsFlutterBinding
+      .ensureInitialized(); // -> porque a main agora e assincrona
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   User userRoot = User(
@@ -66,6 +68,9 @@ void main() async {
       title: "MON. UERJ-ZO",
     ),
   ));
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  firestore.collection("teste").doc("testando").set({"work?": true});
 }
 
 class MyApp extends StatelessWidget {
