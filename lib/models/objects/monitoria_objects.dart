@@ -7,7 +7,7 @@ class MonitoriaObjects with ChangeNotifier {
 
   MonitoriaObjects({required this.monitoria});
 
-  List<Monitoria> _getMonitoriasbyDate(
+  List<Monitoria> getMonitoriasbyDate(
       {required DateTime date, required int limit}) {
     List<Monitoria> monitoriasByDate = monitoria
         .where((element) =>
@@ -25,13 +25,13 @@ class MonitoriaObjects with ChangeNotifier {
     }
     return monitoriasByDate;
   }
-
-  bool _getMonitoriasbyUser(
+  //TODO alterar o datauser para user
+  bool getMonitoriasbyUser(
       {required List<Monitoria> monitoriaList,
       required DateTime date,
       required DataUser dataUser}) {
     bool monitoriasByDate = monitoriaList
-        .where((element) => element.owner == dataUser.owner)
+        .where((element) => element.owner == dataUser.owner && element.date == date)
         .isEmpty;
     print("------------------------------------------------------------");
     print(monitoriasByDate);
@@ -44,8 +44,8 @@ class MonitoriaObjects with ChangeNotifier {
   }
 
   bool addMonitoria({required Monitoria mon, required DataUser dataUser}) {
-    List<Monitoria> mons = _getMonitoriasbyDate(date: mon.date, limit: 10);
-    bool mark = _getMonitoriasbyUser(
+    List<Monitoria> mons = getMonitoriasbyDate(date: mon.date, limit: 10);
+    bool mark = getMonitoriasbyUser(
         monitoriaList: mons, date: mon.date, dataUser: dataUser);
     if (mark) {
       print("------------------------------------------------------------");

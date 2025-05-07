@@ -2,11 +2,11 @@ import 'package:app/models/data_user.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
-import 'package:app/services/objects/data_user_objects.dart';
-import 'package:app/services/objects/days_objects.dart';
-import 'package:app/services/objects/matricula_objects.dart';
-import 'package:app/services/objects/monitoria_objects.dart';
-import 'package:app/services/objects/user_objects.dart';
+import 'package:app/models/objects/data_user_objects.dart';
+import 'package:app/models/objects/days_objects.dart';
+import 'package:app/models/objects/matricula_objects.dart';
+import 'package:app/models/objects/monitoria_objects.dart';
+import 'package:app/models/objects/user_objects.dart';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';

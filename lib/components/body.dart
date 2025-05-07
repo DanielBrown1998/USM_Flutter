@@ -2,7 +2,7 @@ import 'package:app/models/monitoria.dart';
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
 import "package:app/components/alert_dialog.dart";
-import 'package:app/services/objects/monitoria_objects.dart';
+import 'package:app/models/objects/monitoria_objects.dart';
 
 class ListBody extends StatefulWidget {
   const ListBody({super.key});
