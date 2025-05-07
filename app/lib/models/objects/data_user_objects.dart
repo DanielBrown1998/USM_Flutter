@@ -1,7 +1,7 @@
 import 'package:app/models/data_user.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:app/services/objects/monitoria_objects.dart';
+import 'package:app/models/objects/monitoria_objects.dart';
 
 class DataUserObjects with ChangeNotifier {
   List<DataUser> dataUser;
