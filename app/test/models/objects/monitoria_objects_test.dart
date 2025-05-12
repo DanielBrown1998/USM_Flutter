@@ -17,14 +17,12 @@ void main() {
       dateJoined: DateTime.now(),
       lastLogin: DateTime.now());
 
-  DataUser dataUser = DataUser(owner: userRoot, phone: "21999998888");
-
   Monitoria mon = Monitoria(owner: userRoot, date: DateTime.now());
 
   List<Monitoria> mons = [];
   MonitoriaObjects monitorias = MonitoriaObjects(monitoria: mons);
 
-  monitorias.addMonitoria(dataUser: dataUser, mon: mon);
+  monitorias.addMonitoria(mon: mon);
 
   test("Buscando monitorias de hoje!", () {
     List<Monitoria> monitoriasToday =
@@ -35,7 +33,7 @@ void main() {
   test("Buscando monitoria por Usuario e Data", () {
     DateTime date = DateTime.now().add(const Duration(days: 1));
     bool monitoriasUser = monitorias.getMonitoriasbyUser(
-        monitoriaList: mons, date: date, dataUser: dataUser);
+        monitoriaList: mons, date: date, user: userRoot);
     expect(monitoriasUser, true);
   });
 }

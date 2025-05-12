@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
               applyTextScaling: true,
             ),
             actionsIconTheme: IconThemeData(applyTextScaling: true),
-            backgroundColor: ThemeUSM.cardColor,
+            backgroundColor: ThemeUSM.backgroundColor,
             elevation: 20,
             titleTextStyle: TextStyle(color: ThemeUSM.textColor)),
         buttonTheme: ButtonThemeData(

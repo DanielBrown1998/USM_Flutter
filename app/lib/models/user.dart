@@ -10,17 +10,42 @@ class User {
   final DateTime lastLogin;
   final DateTime dateJoined;
 
-  User({
-    required this.firstName,
-    required this.lastName, 
-    required this.userName,
-    required this.email,
-    required this.password,
-    required this.isStaff,
-    required this.isActive,
-    required this.isSuperUser,
-    required this.lastLogin,
-    required this.dateJoined
-  });
-}
+  User(
+      {required this.firstName,
+      required this.lastName,
+      required this.userName,
+      required this.email,
+      required this.password,
+      required this.isStaff,
+      required this.isActive,
+      required this.isSuperUser,
+      required this.lastLogin,
+      required this.dateJoined});
 
+  User.fromMap(Map<String, dynamic> map)
+      : firstName = map["firstName"],
+        lastName = map["lastName"],
+        userName = map["UserName"],
+        email = map["email"],
+        password = map["password"],
+        isStaff = map["isStaff"],
+        isActive = map["isActive"],
+        isSuperUser = map["isSuperUser"],
+        lastLogin = map["lastLogin"],
+        dateJoined = map["dateJoined"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      "firstName": firstName,
+      "lastName": lastName,
+      "userName": userName,
+      "email": email,
+      "password": password,
+      "isStaff": isStaff,
+      "isActive": isActive,
+      "isSuperUser": isSuperUser,
+      "lastLogin": lastLogin,
+      "dateJoined": dateJoined
+    };
+  }
+}
