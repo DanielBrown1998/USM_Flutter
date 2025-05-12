@@ -1,5 +1,6 @@
 import 'package:app/components/header.dart';
 import 'package:app/components/alert_dialog.dart';
+import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SearchStudentScreen extends StatefulWidget {
@@ -20,8 +21,10 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor: ThemeUSM.backgroundColor,
         actions: [],
+        centerTitle: true,
+        elevation: 10,
         title: Text(
           "Buscar Alunos",
           style: TextStyle(

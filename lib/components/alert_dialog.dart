@@ -197,7 +197,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               DataUser data = dataUser.getUser(userMon);
               Monitoria monitoria = Monitoria(owner: userMon, date: date);
               bool mark =
-                  monitorias.addMonitoria(mon: monitoria, dataUser: data);
+                  monitorias.addMonitoria(mon: monitoria);
               dataUser.addMonitoria(data);
               List<dynamic> result = [mark, userMon, date];
               Navigator.pop(context, result);

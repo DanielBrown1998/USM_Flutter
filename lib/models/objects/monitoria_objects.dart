@@ -1,5 +1,6 @@
 import "package:app/models/data_user.dart";
 import "package:app/models/monitoria.dart";
+import "package:app/models/user.dart";
 import "package:flutter/material.dart";
 
 class MonitoriaObjects with ChangeNotifier {
@@ -25,28 +26,27 @@ class MonitoriaObjects with ChangeNotifier {
     }
     return monitoriasByDate;
   }
-  //TODO alterar o datauser para user
   bool getMonitoriasbyUser(
       {required List<Monitoria> monitoriaList,
       required DateTime date,
-      required DataUser dataUser}) {
+      required User user}) {
     bool monitoriasByDate = monitoriaList
-        .where((element) => element.owner == dataUser.owner && element.date == date)
+        .where((element) => element.owner == user && element.date == date)
         .isEmpty;
     print("------------------------------------------------------------");
     print(monitoriasByDate);
     print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
-          "${dataUser.owner.firstName} ja marcoru monitoria para esse dia ${date.day}/${date.month}/${date.year}");
+          "${user.firstName} ja marcoru monitoria para esse dia ${date.day}/${date.month}/${date.year}");
     }
     return monitoriasByDate;
   }
 
-  bool addMonitoria({required Monitoria mon, required DataUser dataUser}) {
+  bool addMonitoria({required Monitoria mon}) {
     List<Monitoria> mons = getMonitoriasbyDate(date: mon.date, limit: 10);
     bool mark = getMonitoriasbyUser(
-        monitoriaList: mons, date: mon.date, dataUser: dataUser);
+        monitoriaList: mons, date: mon.date, user: mon.owner);
     if (mark) {
       print("------------------------------------------------------------");
       print(mon.date);

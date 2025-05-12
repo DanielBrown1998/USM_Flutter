@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           SizedBox(
-            height: 100,
+            height: 64,
             child: custom_body.ListBody(
               key: Key("home_screen"),
             ),
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
       ),
       drawer: ListDrawer.list(context),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeUSM.buttonColor,
+        backgroundColor: ThemeUSM.backgroundColor,
         foregroundColor: ThemeUSM.textColor,
         onPressed: () async {
           dynamic value = await alertDialogAddMonitoria(context);
