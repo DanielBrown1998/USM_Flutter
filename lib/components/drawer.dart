@@ -39,7 +39,7 @@ class ListTileWidget extends StatelessWidget {
 }
 
 class ListDrawer {
-  static Drawer list(BuildContext context) {
+  static Drawer list(BuildContext context, {required String user}) {
     List<Widget> listWidgets = [
       DrawerHeader(
         child: Column(
@@ -93,7 +93,7 @@ class ListDrawer {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    "Daniel Brown",
+                    user,
                     style: TextStyle(
                       color: ThemeUSM.textColor,
                       fontSize: 15,
