@@ -39,7 +39,7 @@ class ListTileWidget extends StatelessWidget {
 }
 
 class ListDrawer {
-  static Drawer list(BuildContext context) {
+  static Drawer list(BuildContext context, {required String user}) {
     List<Widget> listWidgets = [
       DrawerHeader(
         child: Column(
@@ -93,7 +93,7 @@ class ListDrawer {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    "Daniel Brown",
+                    user,
                     style: TextStyle(
                       color: ThemeUSM.textColor,
                       fontSize: 15,
@@ -111,7 +111,7 @@ class ListDrawer {
         text: "Alunos",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.assignment_ind_outlined,
@@ -119,7 +119,7 @@ class ListDrawer {
         text: "Monitoria",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.receipt_long_sharp,
@@ -127,7 +127,7 @@ class ListDrawer {
         text: "Relatorios",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.settings_applications_outlined,
@@ -135,7 +135,7 @@ class ListDrawer {
         text: "Configuracoes",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.volunteer_activism_outlined,
@@ -143,7 +143,7 @@ class ListDrawer {
         text: "Sobre",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.exit_to_app_outlined,
@@ -151,7 +151,7 @@ class ListDrawer {
         text: "Sair",
         colorText: ThemeUSM.textColor,
         fontSizetext: 14,
-        splashColor: ThemeUSM.cardColor,
+        splashColor: ThemeUSM.dividerDrawerColor,
       ),
     ];
 

@@ -1,3 +1,4 @@
+import 'package:app/models/objects/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
@@ -5,6 +6,7 @@ import 'package:app/components/drawer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/body.dart' as custom_body;
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -74,7 +76,12 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      drawer: ListDrawer.list(context),
+      drawer: Consumer<UserObjects>(
+          builder: (BuildContext context, value, Widget? child) {
+        List<User> user = value.user;
+        return ListDrawer.list(context,
+            user: "${user.first.firstName} ${user.first.lastName}");
+      }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeUSM.backgroundColor,
         foregroundColor: ThemeUSM.textColor,

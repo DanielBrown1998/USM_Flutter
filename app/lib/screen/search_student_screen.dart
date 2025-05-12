@@ -96,45 +96,46 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                 },
                                 onSaved: (value) {},
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  final String name = _name.text;
-                                  final String email = _email.text;
-                                  final String matricula = _matricula.text;
-                                  if (name == "" &&
-                                      email == "" &&
-                                      matricula == "") {
-                                    await alertDialogStudent(context,
-                                        title: "Atencao",
-                                        msg: "preencha algum campo!!!",
-                                        confirmation: "sim",
-                                        cancel: "nao",
-                                        icon: Icons.dangerous_outlined);
-                                    return;
-                                  }
-                                  print("$name $email $matricula");
-                                  Navigator.pop(context);
-                                },
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: 100,
                                   height: 50,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Card(
-                                      elevation: 10,
-                                      color: Theme.of(context).cardColor,
-                                      shape: BeveledRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(2))),
+                                  child: Material(
+                                    color: ThemeUSM.backgroundColor,
+                                    animationDuration: Duration(seconds: 1),
+                                    textStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .primaryColorLight),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.elliptical(4, 2)),
+                                    elevation: 10,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final String name = _name.text;
+                                        final String email = _email.text;
+                                        final String matricula =
+                                            _matricula.text;
+                                        if (name == "" &&
+                                            email == "" &&
+                                            matricula == "") {
+                                          await alertDialogStudent(context,
+                                              title: "Atencao",
+                                              msg: "preencha algum campo!!!",
+                                              confirmation: "sim",
+                                              cancel: "nao",
+                                              icon: Icons.dangerous_outlined);
+                                          return;
+                                        }
+                                        print("$name $email $matricula");
+                                        Navigator.pop(context);
+                                      },
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             "buscar",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColorLight),
                                           ),
                                         ],
                                       ),
