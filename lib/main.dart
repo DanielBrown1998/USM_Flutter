@@ -8,7 +8,7 @@ import 'package:app/models/objects/monitoria_objects.dart';
 import 'package:app/models/objects/user_objects.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
-import 'package:app/screen/splash.dart';
+import 'package:app/screen/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screen/home_screen.dart';
@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => Splash(),
+        "/": (context) => Login(),
         "/home": (context) => Home(
               key: Key('home_screen'),
               title: title,
