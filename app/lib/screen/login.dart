@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<Splash> createState() => _SplashState();
+  State<Login> createState() => _LoginState();
 }
 
-class _SplashState extends State<Splash> {
+class _LoginState extends State<Login> {
   double _op = 0.0;
   double bottomPadding = 48;
   MainAxisAlignment columnMainAxisAlignment = MainAxisAlignment.center;
