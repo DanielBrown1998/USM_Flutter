@@ -1,13 +1,13 @@
-import 'package:app/models/data_user.dart';
-import 'package:app/models/days.dart';
+// import 'package:app/models/data_user.dart';
+// import 'package:app/models/days.dart';
 import 'package:app/models/matricula.dart';
-import 'package:app/models/objects/data_user_objects.dart';
-import 'package:app/models/objects/days_objects.dart';
+// import 'package:app/models/objects/data_user_objects.dart';
+// import 'package:app/models/objects/days_objects.dart';
 import 'package:app/models/objects/matricula_objects.dart';
-import 'package:app/models/objects/monitoria_objects.dart';
-import 'package:app/models/objects/user_objects.dart';
-import 'package:app/models/monitoria.dart';
-import 'package:app/models/user.dart';
+// import 'package:app/models/objects/monitoria_objects.dart';
+// import 'package:app/models/objects/user_objects.dart';
+// import 'package:app/models/monitoria.dart';
+// import 'package:app/models/user.dart';
 import 'package:app/screen/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,54 +24,63 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  User userRoot = User(
-      email: "daniel@xpto.com",
-      firstName: "Daniel",
-      lastName: "Passos",
-      userName: "202213313611",
-      password: "hash123",
-      isStaff: true,
-      isSuperUser: true,
-      isActive: true,
-      dateJoined: DateTime.now(),
-      lastLogin: DateTime.now());
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  firestore.collection("teste").doc("testando").set({"work?": true});
 
+  //TODO: inserir isso em um shared preferences
+  firestore.collection("matriculas").doc("matricula").get().then(
+    (value) => print("${value.data()} - ${value.data().runtimeType}"));
+
+  // User userRoot = User(
+  //     email: "daniel@xpto.com",
+  //     firstName: "Daniel",
+  //     lastName: "Passos",
+  //     userName: "202213313611",
+  //     password: "hash123",
+  //     isStaff: true,
+  //     isSuperUser: true,
+  //     isActive: true,
+  //     dateJoined: DateTime.now(),
+  //     lastLogin: DateTime.now());
+
+  //TODO retirar todos os providers e inicializar somente o matriculas
   runApp(MultiProvider(
     providers: [
+      // ChangeNotifierProvider(
+      //     create: (_) => UserObjects(user: [
+      //           userRoot,
+      //         ])),
       ChangeNotifierProvider(
-          create: (_) => UserObjects(user: [
-                userRoot,
-              ])),
-      ChangeNotifierProvider(
-          create: (_) => MatriculaObjects(matriculas: [
-                Matricula(matricula: '202213313611', id: '01'),
-              ])),
-      ChangeNotifierProvider(create: (_) => MonitoriaObjects(monitoria: [])),
-      ChangeNotifierProvider(
-          create: (_) => DataUserObjects(dataUser: [
-                DataUser(
-                    owner: userRoot,
-                    monitoriasPresentes: 0,
-                    monitoriasAusentes: 0,
-                    monitoriasMarcadas: 0,
-                    monitoriasCanceladas: 0,
-                    phone: '21999998888'),
-              ])),
-      ChangeNotifierProvider(
-          create: (_) => DaysObjects(days: [
-                Days(days: "segunda-feira"),
-                Days(days: "terca-feira"),
-                Days(days: "quinta-feira"),
-                Days(days: "sexta-feira"),
-              ])),
+          create: (_) => MatriculaObjects(
+                matriculas: [
+                  Matricula(
+                      matricula: '202213313611',
+                      disciplina: 'arquitetura de computadores'),
+                ],
+              )),
+      // ChangeNotifierProvider(create: (_) => MonitoriaObjects(monitoria: [])),
+      // ChangeNotifierProvider(
+      //     create: (_) => DataUserObjects(dataUser: [
+      //           DataUser(
+      //               owner: userRoot,
+      //               monitoriasPresentes: 0,
+      //               monitoriasAusentes: 0,
+      //               monitoriasMarcadas: 0,
+      //               monitoriasCanceladas: 0,
+      //               phone: '21999998888'),
+      //         ])),
+      // ChangeNotifierProvider(
+      //     create: (_) => DaysObjects(days: [
+      //           Days(days: "segunda-feira"),
+      //           Days(days: "terca-feira"),
+      //           Days(days: "quinta-feira"),
+      //           Days(days: "sexta-feira"),
+      //         ])),
     ],
     child: const MyApp(
       title: "MON. UERJ-ZO",
     ),
   ));
-
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  firestore.collection("teste").doc("testando").set({"work?": true});
 }
 
 class MyApp extends StatelessWidget {
