@@ -1,3 +1,5 @@
+import 'package:app/models/matricula.dart';
+import 'package:app/models/objects/matricula_objects.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -36,12 +38,12 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPadding(
-      duration: Duration(milliseconds: 1200),
-      curve: Curves.easeOutCubic,
-      padding:
-          EdgeInsets.only(top: 48, bottom: 40, left: 16, right: 16),
-      child: Container(
+    List<Matricula> matriculas =
+        Provider.of<MatriculaObjects>(context).matriculas;
+    // print(matriculas);
+    return Scaffold(
+      backgroundColor: ThemeUSM.backgroundColor,
+      body: Container(
         decoration: BoxDecoration(
           border: Border.all(
             color: ThemeUSM.backgroundColorWhite,
@@ -58,7 +60,7 @@ class _LoginState extends State<Login> {
               curve: Curves.easeInCubic,
               opacity: _op,
               child: Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text(
                   "USM",
                   style: TextStyle(
@@ -93,10 +95,16 @@ class _LoginState extends State<Login> {
                             fontStyle: FontStyle.italic),
                         controller: matricula,
                         keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           labelText: "Matricula",
                           icon: Icon(Icons.login),
                           iconColor: ThemeUSM.textColor,
+                          helperText: "Insira sua matricula",
+                          helperStyle: TextStyle(
+                              color: ThemeUSM.textColor,
+                              fontSize: 12,
+                              fontFamily: "Ubuntu"),
                           constraints: BoxConstraints(
                               minHeight: 60,
                               maxHeight: 120,
@@ -110,7 +118,23 @@ class _LoginState extends State<Login> {
                       children: [
                         TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed("/home");
+                              if (matriculas.any((value) =>
+                                  matricula.text == value.matricula)) {
+                                Navigator.of(context).pushNamed("/home");
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Matricula não encontrada",
+                                      style: TextStyle(
+                                          color: ThemeUSM.textColor,
+                                          fontSize: 16),
+                                    ),
+                                    backgroundColor:
+                                        ThemeUSM.backgroundColor,
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               "entrar",
