@@ -88,10 +88,12 @@ Future<dynamic> alertDialogStatusMonitoria(
             DataUser? data = dataUser.getUser(user);
             try {
               if (monitoriaOk) {
-                monitoria.updateStatusMonitoria(user: data, date: date, status: "PRESENTE");
+                monitoria.updateStatusMonitoria(
+                    user: data, date: date, status: "PRESENTE");
                 dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
-                monitoria.updateStatusMonitoria(user: data, date: date, status: "AUSENTE");
+                monitoria.updateStatusMonitoria(
+                    user: data, date: date, status: "AUSENTE");
                 dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
               Navigator.pop(context, true);
@@ -135,7 +137,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
       Provider.of<MatriculaObjects>(context, listen: false);
   UserObjects users = Provider.of<UserObjects>(context, listen: false);
   User? user =
-      users.user[0]; //substituindo o shared preference apenas por enquanto
+      users.users[0]; //substituindo o shared preference apenas por enquanto
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
@@ -196,8 +198,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               User userMon = users.getUserByMatricula(matricula.text);
               DataUser data = dataUser.getUser(userMon);
               Monitoria monitoria = Monitoria(owner: userMon, date: date);
-              bool mark =
-                  monitorias.addMonitoria(mon: monitoria);
+              bool mark = monitorias.addMonitoria(mon: monitoria);
               dataUser.addMonitoria(data);
               List<dynamic> result = [mark, userMon, date];
               Navigator.pop(context, result);
