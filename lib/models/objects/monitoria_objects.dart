@@ -1,12 +1,31 @@
 import "package:app/models/data_user.dart";
 import "package:app/models/monitoria.dart";
 import "package:app/models/user.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
 class MonitoriaObjects with ChangeNotifier {
-  List<Monitoria> monitoria;
+  List<Monitoria> monitoria = [];
+  final FirebaseFirestore firestore;
 
-  MonitoriaObjects({required this.monitoria});
+  MonitoriaObjects({required this.firestore});
+
+  Future<List<Monitoria>> loadMonitorias() async {
+    if (monitoria.isNotEmpty) return monitoria;
+    var monitorias = await firestore.collection("monitorias").get();
+    for (var item in monitorias.docs) {
+      var itemMap = item.data();
+      var user = await firestore.collection("user").doc(itemMap["user"]).get();
+      if (user.data() == null) {
+        continue;
+      }
+      monitoria.add(Monitoria(
+          date: itemMap["date"].toDate(),
+          owner: User.fromMap(user.data()!),
+          status: itemMap["status"].toString().toUpperCase()));
+    }
+    return monitoria;
+  }
 
   List<Monitoria> getMonitoriasbyDate(
       {required DateTime date, required int limit}) {
@@ -26,6 +45,7 @@ class MonitoriaObjects with ChangeNotifier {
     }
     return monitoriasByDate;
   }
+
   bool getMonitoriasbyUser(
       {required List<Monitoria> monitoriaList,
       required DateTime date,
@@ -63,13 +83,17 @@ class MonitoriaObjects with ChangeNotifier {
     return false;
   }
 
-  List<Monitoria>? getStatusMarcada() {
+  List<Monitoria>? _getStatusMarcada() {
     List<Monitoria> statusMarcada =
         monitoria.where((element) => element.status == "MARCADA").toList();
+    print(statusMarcada);
     return statusMarcada;
   }
 
-  updateStatusMonitoria({required DataUser? user, required DateTime date, required String status}) {
+  updateStatusMonitoria(
+      {required DataUser? user,
+      required DateTime date,
+      required String status}) {
     if (status != "CANCELADA" && status != "PRESENTE" && status != "AUSENTE") {
       throw StatusMOnitoriaException("Status inválido");
     }

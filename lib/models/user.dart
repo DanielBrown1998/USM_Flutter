@@ -3,7 +3,7 @@ class User {
   final String lastName;
   final String userName;
   final String email;
-  final String password;
+  final String? password;
   final bool isStaff;
   final bool isActive;
   final bool isSuperUser;
@@ -25,14 +25,14 @@ class User {
   User.fromMap(Map<String, dynamic> map)
       : firstName = map["firstName"],
         lastName = map["lastName"],
-        userName = map["UserName"],
+        userName = map["userName"],
         email = map["email"],
         password = map["password"],
         isStaff = map["isStaff"],
         isActive = map["isActive"],
         isSuperUser = map["isSuperUser"],
-        lastLogin = map["lastLogin"],
-        dateJoined = map["dateJoined"];
+        lastLogin = map["lastLogin"].toDate(),
+        dateJoined = map["dateJoined"].toDate();
 
   Map<String, dynamic> toMap() {
     return {

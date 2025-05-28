@@ -4,12 +4,13 @@
 // import 'package:app/models/objects/data_user_objects.dart';
 // import 'package:app/models/objects/days_objects.dart';
 import 'package:app/models/objects/matricula_objects.dart';
+import 'package:app/models/objects/monitoria_objects.dart';
 // import 'package:app/models/objects/monitoria_objects.dart';
-// import 'package:app/models/objects/user_objects.dart';
+import 'package:app/models/objects/user_objects.dart';
 // import 'package:app/models/monitoria.dart';
 // import 'package:app/models/user.dart';
 import 'package:app/screen/login.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
@@ -17,10 +18,11 @@ import 'package:app/theme/theme.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:app/firebase_options.dart';
+import "package:app/services/firebase_service.dart" as firebase;
 
 void main() async {
-  // WidgetsFlutterBinding
-  //     .ensureInitialized(); // -> porque a main agora e assincrona
+  WidgetsFlutterBinding
+      .ensureInitialized(); // -> porque a main agora e assincrona
 
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -28,14 +30,17 @@ void main() async {
   // firestore.collection("teste").doc("testando").set({"work?": true});
 
   //TODO: inserir isso em um shared preferences
-  
-  // firestore.collection("matriculas").doc("matricula").get().then(
-    // (value) => print("${value.data()} - ${value.data().runtimeType}"));
 
+  // firestore.collection("matriculas").doc("matricula").get().then(
+  // (value) => print("${value.data()} - ${value.data().runtimeType}"));
+  FirebaseFirestore firestore =
+      await firebase.FirebaseService.initializeFirebase();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-          create: (_) => MatriculaObjects()),
+          create: (_) => MatriculaObjects(firestore: firestore)),
+      ChangeNotifierProvider(create: (_) => UserObjects(firestore: firestore)),
+      ChangeNotifierProvider(create: (_) => MonitoriaObjects(firestore: firestore))
     ],
     child: const MyApp(
       title: "MON. UERJ-ZO",
