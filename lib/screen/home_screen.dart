@@ -78,9 +78,9 @@ class _HomeState extends State<Home> {
       ),
       drawer: Consumer<UserObjects>(
           builder: (BuildContext context, value, Widget? child) {
-        List<User> user = value.users;
         return ListDrawer.list(context,
-            user: "${user.first.firstName} ${user.first.lastName}");
+            user:
+                "${value.users.first.firstName} ${value.users.first.lastName}");
       }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeUSM.backgroundColor,

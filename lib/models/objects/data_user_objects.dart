@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:app/models/objects/monitoria_objects.dart';
 
 class DataUserObjects with ChangeNotifier {
-  List<DataUser> dataUser;
+  final List<DataUser> dataUser;
+
   DataUserObjects({required this.dataUser});
+
   addMonitoria(DataUser user) {
     for (DataUser value in dataUser) {
       if (value == user) {
@@ -52,7 +54,7 @@ class DataUserObjects with ChangeNotifier {
 
   DataUser getUser(User user) {
     for (DataUser value in dataUser) {
-      if (value.owner == user) {
+      if (value.owner.userName == user.userName) {
         return value;
       }
     }
