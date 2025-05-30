@@ -85,7 +85,7 @@ Future<dynamic> alertDialogStatusMonitoria(
     actions: [
       TextButton(
           onPressed: () {
-            DataUser? data = dataUser.getUser(user);
+            DataUser data = dataUser.getUser(user);
             try {
               if (monitoriaOk) {
                 monitoria.updateStatusMonitoria(

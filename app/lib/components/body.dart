@@ -1,5 +1,6 @@
 import 'package:app/components/monitoria_card.dart';
 import 'package:app/models/monitoria.dart';
+// import 'package:app/models/monitoria.dart';
 import 'package:app/theme/theme.dart';
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
@@ -87,57 +88,25 @@ class _MonitoriaViewState extends State<MonitoriaView> {
         ),
         child: Consumer<MonitoriaObjects>(builder: (BuildContext context,
             MonitoriaObjects listMonitorias, Widget? widget) {
-          return FutureBuilder(
-            future: listMonitorias.loadMonitorias(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.connectionState == ConnectionState.none) {
-                return const Center(
-                  child: Text(
-                    "No connection",
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Roboto",
-                    ),
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                return ListView.separated(
-                  padding: const EdgeInsets.all(8.0),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, int i) {
-                    return MonitoriaCard(monitoria: snapshot.data![i]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      color: Theme.of(context).dividerColor,
-                      height: 2,
-                      thickness: 1,
-                      indent: 10,
-                      endIndent: 10,
-                    );
-                  },
-                );
-              }
-              return const Center(
-                  child: Text(
-                    "Nenhuma monitoria Marcada",
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Roboto",
-                    ),
-                  ),
-                );
+          List<Monitoria> list = listMonitorias.monitoria;
+
+          return ListView.separated(
+            padding: const EdgeInsets.all(8.0),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: list.length,
+            itemBuilder: (context, int i) {
+              return MonitoriaCard(monitoria: list[i]);
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
+                color: Theme.of(context).dividerColor,
+                height: 2,
+                thickness: 1,
+                indent: 10,
+                endIndent: 10,
+              );
             },
           );
         }),
