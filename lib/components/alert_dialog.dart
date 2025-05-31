@@ -85,7 +85,7 @@ Future<dynamic> alertDialogStatusMonitoria(
     actions: [
       TextButton(
           onPressed: () {
-            DataUser data = dataUser.getUser(user);
+            DataUser data = dataUser.dataUser!;
             try {
               if (monitoriaOk) {
                 monitoria.updateStatusMonitoria(
@@ -131,14 +131,16 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   final TextEditingController matricula = TextEditingController();
   DateTime date = DateTime.now().add(Duration(days: 1));
 
+  UserObjects users = Provider.of<UserObjects>(context, listen: false);
   DataUserObjects dataUser =
       Provider.of<DataUserObjects>(context, listen: false);
+  //substituindo o usuario autenticado por enquanto!
+  User? user = users.user;
+
   MatriculaObjects matriculas =
       Provider.of<MatriculaObjects>(context, listen: false);
-  UserObjects users = Provider.of<UserObjects>(context, listen: false);
-  User? user =
-      users.users[0]; //substituindo o shared preference apenas por enquanto
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
+  
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
 
@@ -195,12 +197,14 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
             //TODO: check if matricula is in data
             //TODO: check if have available days
             try {
-              User userMon = users.getUserByMatricula(matricula.text);
-              DataUser data = dataUser.getUser(userMon);
-              Monitoria monitoria = Monitoria(owner: userMon, date: date);
+              //substituindo o usuario autenticado
+              // User userMon = users.getUserByMatricula(matricula.text);
+              // DataUser data = dataUser.dataUser;
+              Monitoria monitoria = Monitoria(owner: user!, date: date);
+              //TODO set on firestore
               bool mark = monitorias.addMonitoria(mon: monitoria);
-              dataUser.addMonitoria(data);
-              List<dynamic> result = [mark, userMon, date];
+              dataUser.addMonitoria();
+              List<dynamic> result = [mark, user, date];
               Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);

@@ -1,7 +1,11 @@
 import 'package:app/components/monitoria_card.dart';
 import 'package:app/models/monitoria.dart';
+import 'package:app/services/monitorias_service.dart';
 // import 'package:app/models/monitoria.dart';
 import 'package:app/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:app/services/firebase_service.dart" as firebase;
+
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
 import 'package:app/models/objects/monitoria_objects.dart';
@@ -72,7 +76,14 @@ class MonitoriaView extends StatefulWidget {
   State<MonitoriaView> createState() => _MonitoriaViewState();
 }
 
+//TODO: fix the error
 class _MonitoriaViewState extends State<MonitoriaView> {
+  loadData(List<Monitoria> list) async {
+    FirebaseFirestore firestore =
+        await firebase.FirebaseService.initializeFirebase();
+    list = await MonitoriasService.loadMonitorias(firestore);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -86,29 +97,40 @@ class _MonitoriaViewState extends State<MonitoriaView> {
             width: 3,
           ),
         ),
-        child: Consumer<MonitoriaObjects>(builder: (BuildContext context,
-            MonitoriaObjects listMonitorias, Widget? widget) {
-          List<Monitoria> list = listMonitorias.monitoria;
-
-          return ListView.separated(
-            padding: const EdgeInsets.all(8.0),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            itemCount: list.length,
-            itemBuilder: (context, int i) {
-              return MonitoriaCard(monitoria: list[i]);
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider(
-                color: Theme.of(context).dividerColor,
-                height: 2,
-                thickness: 1,
-                indent: 10,
-                endIndent: 10,
-              );
-            },
-          );
+        child: Consumer<MonitoriaObjects>(builder:
+            (BuildContext context, MonitoriaObjects list, Widget? widget) {
+          list.monitoria ??= [];
+          return FutureBuilder(
+              future: loadData(list.monitoria!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (list.monitoria == []){
+                    return Center(child: Text("Nenhuma monitoria marcada"));
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.all(8.0),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: list.monitoria!.length,
+                    itemBuilder: (context, int i) {
+                      return MonitoriaCard(monitoria: list.monitoria![i]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(
+                        color: Theme.of(context).dividerColor,
+                        height: 2,
+                        thickness: 1,
+                        indent: 10,
+                        endIndent: 10,
+                      );
+                    },
+                  );
+                }
+                return Container(); // Return an empty container or another widget if connectionState is not done
+              });
         }),
       ),
     );

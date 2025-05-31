@@ -3,23 +3,31 @@ import 'package:app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataUserService {
-  static Future<List<DataUser>> loadDataUser(FirebaseFirestore firestore) async {
-    List<DataUser> dataUser = [];
+  static Future<DataUser> loadDataUser(
+      {required FirebaseFirestore firestore, required User user}) async {
+    var data = await firestore.collection("dataUser").doc(user.userName.toString()).get();
+    if (data.data() == null) {
+      return DataUser(
+        owner: user,
+        phone: "",
+      );
+    } else {
+      return DataUser.fromMap(data.data()!);
+    }
+  }
+
+  static Future<List<DataUser>> loadDataUsers(
+      FirebaseFirestore firestore) async {
+    List<DataUser> dataUsers = [];
     var data = await firestore.collection("dataUser").get();
     for (var item in data.docs) {
-      var user = await firestore.collection("user").doc(item.id).get();
-      if (user.data() == null) {
-        continue;
-      }
+      // var user = await firestore.collection("user").doc(item.id).get();
+      // if (user.data() == null) {
+      //   continue;
+      // }
       Map<String, dynamic> itemData = item.data();
-      dataUser.add(DataUser(
-          owner: User.fromMap(user.data()!),
-          phone: itemData["phone"],
-          monitoriasAusentes: itemData["monitoriasAusentes"],
-          monitoriasCanceladas: itemData["monitoriasCanceladas"],
-          monitoriasMarcadas: itemData["monitoriasMarcadas"],
-          monitoriasPresentes: itemData["monitoriasPresentes"]));
+      dataUsers.add(DataUser.fromMap(itemData));
     }
-    return dataUser;
+    return dataUsers;
   }
 }

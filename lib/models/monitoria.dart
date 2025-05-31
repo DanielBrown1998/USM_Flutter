@@ -9,7 +9,7 @@ class Monitoria {
 
   Monitoria.fromMap(Map<String, dynamic> map)
       : owner = User.fromMap(map["owner"]),
-        date = map["date"],
+        date = map["date"].toDate(),
         status = map["status"];
 
   Map<String, dynamic> toMap() {

@@ -4,27 +4,31 @@ import "package:app/models/user.dart";
 import "package:flutter/material.dart";
 
 class MonitoriaObjects with ChangeNotifier {
-  final List<Monitoria> monitoria;
+  List<Monitoria>? monitoria;
 
-  MonitoriaObjects({required this.monitoria});
+  MonitoriaObjects({this.monitoria});
 
-  List<Monitoria> getMonitoriasbyDate(
+  List<Monitoria>? getMonitoriasbyDate(
       {required DateTime date, required int limit}) {
-    List<Monitoria> monitoriasByDate = monitoria
-        .where((element) =>
-            element.date.day == date.day &&
-            element.date.month == date.month &&
-            element.date.year == date.year)
-        .toList();
-    print("------------------------------------------------------------");
-    monitoriasByDate.forEach((element) => print(element.owner.firstName));
-    print("------------------------------------------------------------");
+    if (monitoria != null) {
+      List<Monitoria> monitoriasByDate = monitoria!
+          .where((element) =>
+              element.date.day == date.day &&
+              element.date.month == date.month &&
+              element.date.year == date.year)
+          .toList();
+      print("------------------------------------------------------------");
+      monitoriasByDate.forEach((element) => print(element.owner.firstName));
+      print("------------------------------------------------------------");
 
-    if (monitoriasByDate.length >= limit) {
-      throw MonitoriaExceedException(
-          "Limite de monitorias por dia excedido. Limite: $limit");
+      if (monitoriasByDate.length >= limit) {
+        throw MonitoriaExceedException(
+            "Limite de monitorias por dia excedido. Limite: $limit");
+      }
+      return monitoriasByDate;
+    } else {
+      return null;
     }
-    return monitoriasByDate;
   }
 
   bool getMonitoriasbyUser(
@@ -45,7 +49,10 @@ class MonitoriaObjects with ChangeNotifier {
   }
 
   bool addMonitoria({required Monitoria mon}) {
-    List<Monitoria> mons = getMonitoriasbyDate(date: mon.date, limit: 10);
+    List<Monitoria>? mons = getMonitoriasbyDate(date: mon.date, limit: 10);
+    if (mons == null) {
+      return false;
+    }
     bool mark = getMonitoriasbyUser(
         monitoriaList: mons, date: mon.date, user: mon.owner);
 
@@ -55,9 +62,9 @@ class MonitoriaObjects with ChangeNotifier {
       print(mon.owner.firstName);
       print(mon.status);
       print("------------------------------------------------------------");
-      monitoria.add(mon);
+      monitoria!.add(mon);
       print("------------------------------------------------------------");
-      monitoria.forEach((element) => print(element.date));
+      monitoria!.forEach((element) => print(element.date));
       notifyListeners();
       return true;
     }
@@ -65,9 +72,12 @@ class MonitoriaObjects with ChangeNotifier {
     return false;
   }
 
-  List<Monitoria> getStatusMarcada() {
+  List<Monitoria>? getStatusMarcada() {
+    if (monitoria == null) {
+      return null;
+    }
     List<Monitoria> statusMarcada =
-        monitoria.where((element) => element.status == "MARCADA").toList();
+        monitoria!.where((element) => element.status == "MARCADA").toList();
     print(statusMarcada);
     return statusMarcada;
   }
@@ -76,18 +86,21 @@ class MonitoriaObjects with ChangeNotifier {
       {required DataUser? user,
       required DateTime date,
       required String status}) {
+    
     if (status != "CANCELADA" && status != "PRESENTE" && status != "AUSENTE") {
       throw StatusMOnitoriaException("Status inválido");
     }
-
+    if (monitoria == null){
+      return null;
+    }
     if (user == null) {
       throw StatusMOnitoriaException("Usuário inválido");
     }
 
     print("------------------------------------------------------------");
-    monitoria.forEach((element) => print(element.date));
+    monitoria!.forEach((element) => print(element.date));
 
-    for (Monitoria item in monitoria) {
+    for (Monitoria item in monitoria!) {
       if (item.owner == user.owner && item.date == date) {
         print("------------------------------------------------------------");
         print("antes: ${item.status}");

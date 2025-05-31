@@ -2,18 +2,18 @@ import "package:app/models/user.dart";
 import 'package:flutter/material.dart';
 
 class UserObjects with ChangeNotifier {
-  final List<User> users;
+  User? user;
 
-  UserObjects({required this.users});
+  UserObjects({this.user});
 
-  User getUserByMatricula(String matricula) {
-    for (User user in users) {
-      if (user.userName == matricula) {
-        return user;
-      }
-    }
-    throw UserNotFoundException("$matricula nao encontrada");
-  }
+  // User getUserByMatricula(String matricula) {
+  //   for (User user in users) {
+  //     if (user.userName == matricula) {
+  //       return user;
+  //     }
+  //   }
+  //   throw UserNotFoundException("$matricula nao encontrada");
+  // }
 }
 
 class UserNotFoundException implements Exception {
