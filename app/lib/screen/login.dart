@@ -1,6 +1,14 @@
+import 'package:app/models/data_user.dart';
 import 'package:app/models/matricula.dart';
+import 'package:app/models/objects/data_user_objects.dart';
 import 'package:app/models/objects/matricula_objects.dart';
+import 'package:app/models/objects/user_objects.dart';
+import 'package:app/models/user.dart';
+import 'package:app/services/data_user_service.dart';
+import 'package:app/services/firebase_service.dart';
+import 'package:app/services/user_service.dart';
 import 'package:app/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +48,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     List<Matricula> matriculas =
         Provider.of<MatriculaObjects>(context).matriculas;
-    // print(matriculas);
+
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
       body: Container(
@@ -117,10 +125,37 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (matriculas.any((value) =>
                                   matricula.text == value.matricula)) {
-                                Navigator.of(context).pushNamed("/home");
+                                FirebaseFirestore firestore =
+                                    await FirebaseService.initializeFirebase();
+                                Provider.of<UserObjects>(context, listen: false).user =
+                                    await UserService.loadUser(
+                                        firestore: firestore,
+                                        matricula: matricula.text);
+                                User? user =
+                                    Provider.of<UserObjects>(context, listen: false).user;
+                                if (user == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Usuario nao encontrado!",
+                                        style: TextStyle(
+                                            color: ThemeUSM.textColor,
+                                            fontSize: 16),
+                                      ),
+                                      backgroundColor: ThemeUSM.backgroundColor,
+                                    ),
+                                  );
+                                  //TODO redirect to sign-in screen
+                                } else {
+                                  Provider.of<DataUserObjects>(context, listen: false)
+                                          .dataUser =
+                                      await DataUserService.loadDataUser(
+                                          firestore: firestore, user: user!);
+                                  Navigator.of(context).pushNamed("/home");
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -130,8 +165,7 @@ class _LoginState extends State<Login> {
                                           color: ThemeUSM.textColor,
                                           fontSize: 16),
                                     ),
-                                    backgroundColor:
-                                        ThemeUSM.backgroundColor,
+                                    backgroundColor: ThemeUSM.backgroundColor,
                                   ),
                                 );
                               }

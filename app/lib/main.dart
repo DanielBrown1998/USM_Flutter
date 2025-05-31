@@ -1,20 +1,14 @@
-import 'package:app/models/data_user.dart';
 import 'package:app/models/days.dart';
 import 'package:app/models/matricula.dart';
-import 'package:app/models/monitoria.dart';
-import 'package:app/models/user.dart';
+import 'package:app/models/objects/monitoria_objects.dart';
 
 import 'package:app/models/objects/data_user_objects.dart';
 import 'package:app/models/objects/days_objects.dart';
 import 'package:app/models/objects/matricula_objects.dart';
-import 'package:app/models/objects/monitoria_objects.dart';
 import 'package:app/models/objects/user_objects.dart';
 
-import 'package:app/services/data_user_service.dart';
 import 'package:app/services/days_service.dart';
 import 'package:app/services/matricula_service.dart';
-import 'package:app/services/monitorias_service.dart';
-import 'package:app/services/user_service.dart';
 
 import 'package:app/screen/login.dart';
 import 'package:app/screen/home_screen.dart';
@@ -33,29 +27,26 @@ void main() async {
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // FirebaseFirestore firestore = FirebaseFirestore.instance;
   // firestore.collection("teste").doc("testando").set({"work?": true});
+
   //TODO: inserir isso em um shared preferences
   // firestore.collection("matriculas").doc("matricula").get().then(
   // (value) => print("${value.data()} - ${value.data().runtimeType}"));
 
   FirebaseFirestore firestore =
       await firebase.FirebaseService.initializeFirebase();
-  List<User> users = await UserService.loadUsers(firestore);
   List<Matricula> matriculas = await MatriculaService.takeMatriculas(firestore);
-  List<Monitoria> monitorias =
-      await MonitoriasService.loadMonitorias(firestore);
-  List<DataUser> dataUser = await DataUserService.loadDataUser(firestore);
   List<Days> days = await DaysService.takeDays(firestore);
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
           create: (_) => MatriculaObjects(matriculas: matriculas)),
-      ChangeNotifierProvider(create: (_) => UserObjects(users: users)),
-      ChangeNotifierProvider(
-          create: (_) => MonitoriaObjects(monitoria: monitorias)),
+      ChangeNotifierProvider(create: (_) => UserObjects()),
       ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
       ChangeNotifierProvider(
-          create: (_) => DataUserObjects(dataUser: dataUser)),
+          create: (_) => DataUserObjects()),
+      ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
+
     ],
     child: const MyApp(
       title: "MON. UERJ-ZO",
