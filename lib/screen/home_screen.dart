@@ -78,9 +78,14 @@ class _HomeState extends State<Home> {
       ),
       drawer: Consumer<UserObjects>(
           builder: (BuildContext context, value, Widget? child) {
+        if (value.user == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return ListDrawer.list(context,
             user:
-                "${value.users.first.firstName} ${value.users.first.lastName}");
+                "${value.user!.firstName} ${value.user!.lastName}");
       }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeUSM.backgroundColor,
