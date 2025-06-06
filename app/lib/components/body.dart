@@ -76,12 +76,13 @@ class MonitoriaView extends StatefulWidget {
   State<MonitoriaView> createState() => _MonitoriaViewState();
 }
 
-//TODO: fix the error
 class _MonitoriaViewState extends State<MonitoriaView> {
-  loadData(List<Monitoria> list) async {
+  
+  Future<List<Monitoria>> loadData() async {
     FirebaseFirestore firestore =
         await firebase.FirebaseService.initializeFirebase();
-    list = await MonitoriasService.loadMonitorias(firestore);
+    List<Monitoria> list = await MonitoriasService.loadMonitorias(firestore);
+    return list;
   }
 
   @override
@@ -99,24 +100,20 @@ class _MonitoriaViewState extends State<MonitoriaView> {
         ),
         child: Consumer<MonitoriaObjects>(builder:
             (BuildContext context, MonitoriaObjects list, Widget? widget) {
-          list.monitoria ??= [];
           return FutureBuilder(
-              future: loadData(list.monitoria!),
+              future: loadData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (list.monitoria == []){
-                    return Center(child: Text("Nenhuma monitoria marcada"));
-                  }
                   return ListView.separated(
                     padding: const EdgeInsets.all(8.0),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
-                    itemCount: list.monitoria!.length,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, int i) {
-                      return MonitoriaCard(monitoria: list.monitoria![i]);
+                      return MonitoriaCard(monitoria: snapshot.data![i]);
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return Divider(

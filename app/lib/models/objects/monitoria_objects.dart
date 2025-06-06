@@ -1,6 +1,8 @@
 import "package:app/models/data_user.dart";
 import "package:app/models/monitoria.dart";
 import "package:app/models/user.dart";
+import "package:app/services/firebase_service.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
 class MonitoriaObjects with ChangeNotifier {
@@ -48,7 +50,7 @@ class MonitoriaObjects with ChangeNotifier {
     return monitoriasByDate;
   }
 
-  bool addMonitoria({required Monitoria mon}) {
+  Future<bool> addMonitoria({required Monitoria mon}) async {
     List<Monitoria>? mons = getMonitoriasbyDate(date: mon.date, limit: 10);
     if (mons == null) {
       return false;
@@ -57,6 +59,9 @@ class MonitoriaObjects with ChangeNotifier {
         monitoriaList: mons, date: mon.date, user: mon.owner);
 
     if (mark) {
+      FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+      print(mon.toMap());
+      await firestore.collection("monitorias").doc(mon.owner.userName).set(mon.toMap());
       print("------------------------------------------------------------");
       print(mon.date);
       print(mon.owner.firstName);
@@ -86,11 +91,10 @@ class MonitoriaObjects with ChangeNotifier {
       {required DataUser? user,
       required DateTime date,
       required String status}) {
-    
     if (status != "CANCELADA" && status != "PRESENTE" && status != "AUSENTE") {
       throw StatusMOnitoriaException("Status inválido");
     }
-    if (monitoria == null){
+    if (monitoria == null) {
       return null;
     }
     if (user == null) {

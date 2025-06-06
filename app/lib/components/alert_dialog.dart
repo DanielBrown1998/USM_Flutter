@@ -192,7 +192,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
     ),
     actions: [
       IconButton(
-          onPressed: () {
+          onPressed: () async{
             //TODO: check if user is staff
             //TODO: check if matricula is in data
             //TODO: check if have available days
@@ -202,7 +202,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               // DataUser data = dataUser.dataUser;
               Monitoria monitoria = Monitoria(owner: user!, date: date);
               //TODO set on firestore
-              bool mark = monitorias.addMonitoria(mon: monitoria);
+              bool mark = await monitorias.addMonitoria(mon: monitoria);
               dataUser.addMonitoria();
               List<dynamic> result = [mark, user, date];
               Navigator.pop(context, result);
