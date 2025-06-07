@@ -1,10 +1,5 @@
 import 'package:app/components/monitoria_card.dart';
-import 'package:app/models/monitoria.dart';
-import 'package:app/services/monitorias_service.dart';
-// import 'package:app/models/monitoria.dart';
 import 'package:app/theme/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import "package:app/services/firebase_service.dart" as firebase;
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
@@ -77,14 +72,6 @@ class MonitoriaView extends StatefulWidget {
 }
 
 class _MonitoriaViewState extends State<MonitoriaView> {
-  
-  Future<List<Monitoria>> loadData() async {
-    FirebaseFirestore firestore =
-        await firebase.FirebaseService.initializeFirebase();
-    List<Monitoria> list = await MonitoriasService.loadMonitorias(firestore);
-    return list;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -101,7 +88,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
         child: Consumer<MonitoriaObjects>(builder:
             (BuildContext context, MonitoriaObjects list, Widget? widget) {
           return FutureBuilder(
-              future: loadData(),
+              future: list.getStatusMarcada(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());

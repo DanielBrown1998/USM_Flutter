@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class MonitoriaCard extends StatelessWidget {
   final Monitoria monitoria;
 
-  const MonitoriaCard({required this.monitoria});
+  const MonitoriaCard({super.key, required this.monitoria});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,8 @@ class MonitoriaCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: ThemeUSM.backgroundColorWhite,
-            border: Border.all(color: ThemeUSM.backgroundColor), 
-            borderRadius: BorderRadius.all(Radius.elliptical(4, 2))
-            ),
+            border: Border.all(color: ThemeUSM.backgroundColor),
+            borderRadius: BorderRadius.all(Radius.elliptical(4, 2))),
         child: Padding(
           padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Row(
@@ -60,8 +59,7 @@ class MonitoriaCard extends StatelessWidget {
                         confirmation: "sim",
                         cancel: "nao",
                         msg: "deseja alterar o status da msg para concluido",
-                        user: monitoria.owner,
-                        date: monitoria.date);
+                        mon: monitoria);
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -101,8 +99,7 @@ class MonitoriaCard extends StatelessWidget {
                         cancel: "nao",
                         msg:
                             "deseja alterar o status da msg para nao concluido",
-                        user: monitoria.owner,
-                        date: monitoria.date,
+                        mon: monitoria,
                         monitoriaOk: false);
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

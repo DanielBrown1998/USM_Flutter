@@ -1,7 +1,6 @@
-import "package:app/models/data_user.dart";
 import "package:app/models/monitoria.dart";
-import "package:app/models/user.dart";
 import "package:app/services/firebase_service.dart";
+import "package:app/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
@@ -10,58 +9,67 @@ class MonitoriaObjects with ChangeNotifier {
 
   MonitoriaObjects({this.monitoria});
 
-  List<Monitoria>? getMonitoriasbyDate(
-      {required DateTime date, required int limit}) {
-    if (monitoria != null) {
-      List<Monitoria> monitoriasByDate = monitoria!
-          .where((element) =>
-              element.date.day == date.day &&
-              element.date.month == date.month &&
-              element.date.year == date.year)
-          .toList();
-      print("------------------------------------------------------------");
-      monitoriasByDate.forEach((element) => print(element.owner.firstName));
-      print("------------------------------------------------------------");
+  Future<List<Monitoria>> getMonitoriasbyDate(
+      {required DateTime date, required int limit}) async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    monitoria = await MonitoriasService.loadMonitorias(firestore);
 
-      if (monitoriasByDate.length >= limit) {
-        throw MonitoriaExceedException(
-            "Limite de monitorias por dia excedido. Limite: $limit");
-      }
-      return monitoriasByDate;
-    } else {
-      return null;
+    List<Monitoria> monitoriasByDate = (monitoria != [])
+        ? monitoria!
+            .where((element) =>
+                element.date.day == date.day &&
+                element.date.month == date.month &&
+                element.date.year == date.year)
+            .toList()
+        : [];
+
+    print("------------------------------------------------------------");
+    monitoriasByDate.forEach((element) => print(element.owner.firstName));
+    print("------------------------------------------------------------");
+
+    if (monitoriasByDate.length >= limit) {
+      throw MonitoriaExceedException(
+          "Limite de monitorias por dia excedido. Limite: $limit");
     }
+    return monitoriasByDate;
   }
 
   bool getMonitoriasbyUser(
-      {required List<Monitoria> monitoriaList,
-      required DateTime date,
-      required User user}) {
+      {required List<Monitoria> monitoriaList, required Monitoria mon}) {
     bool monitoriasByDate = monitoriaList
-        .where((element) => element.owner == user && element.date == date)
+        .where((element) =>
+            element.owner.userName == mon.owner.userName &&
+            element.date.day == mon.date.day &&
+            element.date.month == mon.date.month &&
+            element.date.year == mon.date.year)
         .isEmpty;
     print("------------------------------------------------------------");
     print(monitoriasByDate);
     print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
-          "${user.firstName} ja marcoru monitoria para esse dia ${date.day}/${date.month}/${date.year}");
+          "${mon.owner.firstName} ja marcou monitoria para esse dia ${mon.date.day}/${mon.date.month}/${mon.date.year}");
     }
     return monitoriasByDate;
   }
 
   Future<bool> addMonitoria({required Monitoria mon}) async {
-    List<Monitoria>? mons = getMonitoriasbyDate(date: mon.date, limit: 10);
-    if (mons == null) {
-      return false;
-    }
-    bool mark = getMonitoriasbyUser(
-        monitoriaList: mons, date: mon.date, user: mon.owner);
+    bool mark = false;
+    List<Monitoria> mons = await getMonitoriasbyDate(date: mon.date, limit: 10);
+    print(mons);
 
+    if (mons == []) {
+      mark = true;
+    } else {
+      mark = getMonitoriasbyUser(monitoriaList: mons, mon: mon);
+    }
+    print(mark);
     if (mark) {
       FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
       print(mon.toMap());
-      await firestore.collection("monitorias").doc(mon.owner.userName).set(mon.toMap());
+      await MonitoriasService.saveMonitoria(
+          firestore: firestore, monitoria: mon);
+
       print("------------------------------------------------------------");
       print(mon.date);
       print(mon.owner.firstName);
@@ -77,39 +85,35 @@ class MonitoriaObjects with ChangeNotifier {
     return false;
   }
 
-  List<Monitoria>? getStatusMarcada() {
-    if (monitoria == null) {
-      return null;
-    }
+  Future<List<Monitoria>> getStatusMarcada() async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    List<Monitoria> list = await MonitoriasService.loadMonitorias(firestore);
     List<Monitoria> statusMarcada =
-        monitoria!.where((element) => element.status == "MARCADA").toList();
-    print(statusMarcada);
+        list.where((element) => element.status == "MARCADA").toList();
     return statusMarcada;
   }
 
   updateStatusMonitoria(
-      {required DataUser? user,
-      required DateTime date,
-      required String status}) {
-    if (status != "CANCELADA" && status != "PRESENTE" && status != "AUSENTE") {
-      throw StatusMOnitoriaException("Status inválido");
-    }
-    if (monitoria == null) {
-      return null;
-    }
-    if (user == null) {
-      throw StatusMOnitoriaException("Usuário inválido");
-    }
+      {required Monitoria mon, required String newStatus}) async {
+    List<Monitoria> monitoria =
+        await getMonitoriasbyDate(date: mon.date, limit: 10);
 
     print("------------------------------------------------------------");
-    monitoria!.forEach((element) => print(element.date));
+    monitoria.forEach((element) => print(element.date));
 
-    for (Monitoria item in monitoria!) {
-      if (item.owner == user.owner && item.date == date) {
+    for (Monitoria item in monitoria) {
+      if (item.id == mon.id) {
+        print("${item.toMap()}");
+        FirebaseFirestore firestore =
+            await FirebaseService.initializeFirebase();
         print("------------------------------------------------------------");
         print("antes: ${item.status}");
-        item.status = status;
+        print(item.toMap());
+        item.status = newStatus;
+        await MonitoriasService.saveMonitoria(
+            firestore: firestore, monitoria: item);
         print("depois: ${item.status}");
+        print(item.toMap());
         print("------------------------------------------------------------");
         notifyListeners();
         return item;
