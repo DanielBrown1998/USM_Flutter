@@ -8,7 +8,7 @@ class MonitoriasService {
       required Monitoria monitoria}) async {
     await firestore
         .collection("monitorias")
-        .doc(monitoria.owner.userName)
+        .doc(monitoria.id)
         .set(monitoria.toMap());
   }
 

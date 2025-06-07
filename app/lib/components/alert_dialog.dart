@@ -1,4 +1,3 @@
-import 'package:app/models/data_user.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
@@ -59,17 +58,16 @@ Future<dynamic> alertDialogStudent(
 
 Future<dynamic> alertDialogStatusMonitoria(
   BuildContext context, {
-  required User user,
+  required Monitoria mon,
   required IconData icon,
   required String title,
   required String msg,
   required String confirmation,
   required String cancel,
-  required DateTime date,
   bool monitoriaOk = true,
 }) {
-  DataUserObjects dataUser =
-      Provider.of<DataUserObjects>(context, listen: false);
+  // DataUserObjects dataUser =
+  // Provider.of<DataUserObjects>(context, listen: false);
   MonitoriaObjects monitoria =
       Provider.of<MonitoriaObjects>(context, listen: false);
 
@@ -84,17 +82,18 @@ Future<dynamic> alertDialogStatusMonitoria(
     content: Text(msg),
     actions: [
       TextButton(
-          onPressed: () {
-            DataUser data = dataUser.dataUser!;
+          onPressed: () async {
+            // DataUser data = dataUser.dataUser!;
+            print(mon.toMap());
             try {
               if (monitoriaOk) {
-                monitoria.updateStatusMonitoria(
-                    user: data, date: date, status: "PRESENTE");
-                dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
+                await monitoria.updateStatusMonitoria(
+                    mon: mon, newStatus: "PRESENTE");
+                // dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
-                monitoria.updateStatusMonitoria(
-                    user: data, date: date, status: "AUSENTE");
-                dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
+                await monitoria.updateStatusMonitoria(
+                    mon: mon, newStatus: "AUSENTE");
+                // dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
               Navigator.pop(context, true);
             } on StatusMOnitoriaException catch (e) {
@@ -132,15 +131,15 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   DateTime date = DateTime.now().add(Duration(days: 1));
 
   UserObjects users = Provider.of<UserObjects>(context, listen: false);
-  DataUserObjects dataUser =
-      Provider.of<DataUserObjects>(context, listen: false);
+  // DataUserObjects dataUser =
+  //     Provider.of<DataUserObjects>(context, listen: false);
   //substituindo o usuario autenticado por enquanto!
   User? user = users.user;
 
   MatriculaObjects matriculas =
       Provider.of<MatriculaObjects>(context, listen: false);
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
-  
+
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
 
@@ -192,7 +191,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
     ),
     actions: [
       IconButton(
-          onPressed: () async{
+          onPressed: () async {
             //TODO: check if user is staff
             //TODO: check if matricula is in data
             //TODO: check if have available days
@@ -200,10 +199,15 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               //substituindo o usuario autenticado
               // User userMon = users.getUserByMatricula(matricula.text);
               // DataUser data = dataUser.dataUser;
-              Monitoria monitoria = Monitoria(owner: user!, date: date);
-              //TODO set on firestore
+              String id = user!.userName +
+                  date.day.toString() +
+                  date.month.toString() +
+                  date.year.toString() +
+                  date.hour.toString() +
+                  date.minute.toString();
+              Monitoria monitoria = Monitoria(id: id, owner: user, date: date);
               bool mark = await monitorias.addMonitoria(mon: monitoria);
-              dataUser.addMonitoria();
+              // dataUser.addMonitoria();
               List<dynamic> result = [mark, user, date];
               Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
