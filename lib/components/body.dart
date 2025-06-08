@@ -18,8 +18,8 @@ class _ListBodyState extends State<ListBody> {
     Map<String, dynamic> buttons = {
       "buscar alunos": "/search_student",
       "matriculas": null,
-      "resetar senha": null,
-      "dias monitoria": null,
+      "monitorias": "/monitorias",
+      "config.": null,
     };
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
