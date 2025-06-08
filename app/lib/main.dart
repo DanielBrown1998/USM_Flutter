@@ -6,6 +6,7 @@ import 'package:app/models/objects/data_user_objects.dart';
 import 'package:app/models/objects/days_objects.dart';
 import 'package:app/models/objects/matricula_objects.dart';
 import 'package:app/models/objects/user_objects.dart';
+import 'package:app/screen/monitorias.dart';
 
 import 'package:app/services/days_service.dart';
 import 'package:app/services/matricula_service.dart';
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
               title: title,
             ),
         "/search_student": (context) => SearchStudentScreen(),
+        "/monitorias": (context) => MonitoriasSreen(),
       },
     );
   }

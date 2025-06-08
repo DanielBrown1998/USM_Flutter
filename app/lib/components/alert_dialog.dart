@@ -158,6 +158,14 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                     "Add Monitoria",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.width * 0.5,
+                    child: Image.asset(
+                      "lib/assets/images/logomarca-uerj.png",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                   TextFormField(
                     controller: matricula,
                     keyboardType: TextInputType.number,

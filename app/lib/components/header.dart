@@ -5,20 +5,23 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 150,
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.all(
-          Radius.elliptical(16, 16),
+    return Hero(
+      tag: "header",
+      child: Container(
+        height: 150,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.all(
+            Radius.elliptical(16, 16),
+          ),
+          image: DecorationImage(
+            image: AssetImage("lib/assets/images/back-720.png"),
+            fit: BoxFit.cover,
+          ),
         ),
-        image: DecorationImage(
-          image: AssetImage("lib/assets/images/back-720.png"),
-          fit: BoxFit.cover,
-        ),
+        child: Image.asset("lib/assets/images/logomarca-uerj.png"),
       ),
-      child: Image.asset("lib/assets/images/logomarca-uerj.png"),
     );
   }
 }
