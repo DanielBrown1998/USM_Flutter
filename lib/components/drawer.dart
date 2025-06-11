@@ -41,6 +41,19 @@ class ListTileWidget extends StatelessWidget {
 class ListDrawer {
   static Drawer list(BuildContext context, {required String user}) {
     List<Widget> listWidgets = [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+              color: ThemeUSM.textColor,
+              key: Key("back_drawer"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back_outlined)),
+        ],
+      ),
       DrawerHeader(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

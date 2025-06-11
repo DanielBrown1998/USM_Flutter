@@ -39,8 +39,12 @@ dependencies:
   firebase_core: ^3.13.0
   cloud_firestore: ^5.6.7
   lottie: ^3.3.1
+  build_runner: ^2.4.15
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
+    
   flutter_test:
     sdk: flutter
 
@@ -51,6 +55,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   test: ^1.25.15
+  mockito: ^5.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
