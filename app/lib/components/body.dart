@@ -19,7 +19,7 @@ class _ListBodyState extends State<ListBody> {
       "buscar alunos": "/search_student",
       "matriculas": null,
       "monitorias": "/monitorias",
-      "config.": null,
+      "config": null,
     };
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),

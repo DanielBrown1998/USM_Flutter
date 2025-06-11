@@ -60,18 +60,18 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Header(
-              key: Key("home_screen"),
+              key: Key("home_screen_header"),
             ),
           ),
           SizedBox(
             height: 64,
             child: custom_body.ListBody(
-              key: Key("home_screen"),
+              key: Key("home_screen_list"),
             ),
           ),
           Expanded(
             child: custom_body.MonitoriaView(
-              key: Key("home_screen"),
+              key: Key("home_screen_monitoria"),
             ),
           ),
         ],
@@ -88,6 +88,7 @@ class _HomeState extends State<Home> {
                 "${value.user!.firstName} ${value.user!.lastName}");
       }),
       floatingActionButton: FloatingActionButton(
+        key: Key("add_monitoria"),
         backgroundColor: ThemeUSM.backgroundColor,
         foregroundColor: ThemeUSM.textColor,
         onPressed: () async {

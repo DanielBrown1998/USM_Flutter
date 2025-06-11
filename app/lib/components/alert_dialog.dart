@@ -162,6 +162,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                     width: MediaQuery.of(context).size.width * 0.5,
                     height: MediaQuery.of(context).size.width * 0.5,
                     child: Image.asset(
+                      key: Key("add_monitoria_image"),
                       "lib/assets/images/logomarca-uerj.png",
                       fit: BoxFit.contain,
                     ),
