@@ -47,10 +47,12 @@ void main() {
         ),
       ));
       await test.pumpAndSettle();
+      
       expect(find.text("USM"), findsOneWidget);
       expect(find.byType(Lottie), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
       expect(find.text("entrar"), findsOneWidget);
+
       await test.enterText(find.byType(TextFormField), "202213313611");
       await test.pumpAndSettle();
       await test.tap(find.text("entrar"));
@@ -66,13 +68,16 @@ void main() {
       expect(find.text("buscar alunos"), findsOneWidget);
       expect(find.text("matriculas"), findsOneWidget);
       expect(find.text("monitorias"), findsOneWidget);
+      
       await test.drag(find.byType(custom_body.ListBody), Offset(-1000, 0));
       await test.pumpAndSettle();
+      
       expect(find.text("config"), findsOneWidget);
-
       expect(find.byKey(Key("add_monitoria")), findsOneWidget);
+
       await test.tap(find.byKey(Key("add_monitoria")));
       await test.pumpAndSettle(Duration(seconds: 4));
+      
       expect(find.text("Add Monitoria"), findsOneWidget);
       expect(find.byKey(Key("add_monitoria_image")), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
@@ -80,21 +85,26 @@ void main() {
       var iconWidgetRemoveAlertDialog =
           find.byIcon(Icons.highlight_remove_sharp);
       expect(iconWidgetRemoveAlertDialog, findsOneWidget);
+      
       await test.tap(iconWidgetRemoveAlertDialog);
       await test.pumpAndSettle();
+      
       expect(find.text("Add Monitoria"), findsNothing);
       expect(find.byKey(Key("add_monitoria_image")), findsNothing);
       expect(find.byType(TextFormField), findsNothing);
-
       expect(find.byIcon(Icons.menu), findsWidgets);
+      
       await test.tap(find.byIcon(Icons.menu));
       await test.pumpAndSettle();
+      
       expect(find.byType(DrawerHeader), findsOneWidget);
       expect(find.byType(ListTileWidget), findsNWidgets(6));
       var buttonBack = find.byKey(Key("back_drawer"));
       expect(buttonBack, findsOneWidget);
+      
       await test.tap(buttonBack);
       await test.pumpAndSettle();
+      
       expect(find.byType(DrawerHeader), findsNothing);
     });
   });

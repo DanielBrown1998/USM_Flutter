@@ -125,7 +125,8 @@ Future<dynamic> alertDialogStatusMonitoria(
   );
 }
 
-Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
+Future<dynamic> alertDialogAddMonitoria(BuildContext context) 
+{
   final formkey = GlobalKey<FormState>();
   final TextEditingController matricula = TextEditingController();
   DateTime date = DateTime.now().add(Duration(days: 1));
@@ -139,10 +140,8 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   MatriculaObjects matriculas =
       Provider.of<MatriculaObjects>(context, listen: false);
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
-
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
-
   AlertDialog alert = AlertDialog(
     content: SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
