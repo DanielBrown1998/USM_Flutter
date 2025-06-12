@@ -47,11 +47,11 @@ Estas instruções permitirão que você obtenha uma cópia do projeto em execu�
 
 1.  Clone o repositório:
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO_GIT>
+    git clone https://github.com/DanielBrown1998/USM_Flutter.git
     ```
 2.  Navegue até o diretório do projeto:
     ```bash
-    cd USM_Flutter/app 
+    cd ./app 
     ```
 3.  Instale as dependências:
     ```bash
@@ -95,10 +95,11 @@ bash: flutter test integration_test/app_test.dart
 
 ## Imagens do app
 
-![Tela de Login](app/lib/assets/readme_images/login.png)
-![Tela Home](app/lib/assets/readme_images/home.png)
-![Modal Adicionar Monitoria](app/lib/assets/readme_images/add_monitoria.png)
-![Tela de Busca de Alunos](app/lib/assets/readme_images/search_students.png)
-![Tela de Lista de Monitorias](app/lib/assets/readme_images/list_all_monitorias.png)
+<img src="app/lib/assets/readme_images/login.png" alt="Tela de Login" height="500">
+<img src="app/lib/assets/readme_images/home.png" alt="Tela Home" height="500">
+<img src="app/lib/assets/readme_images/add_monitoria.png" alt="Modal Adicionar Monitoria" height="500">
+<img src="app/lib/assets/readme_images/search_students.png" alt="Tela de Busca de Alunos" height="500">
+<img src="app/lib/assets/readme_images/list_all_monitorias.png" alt="Tela de Lista de Monitorias" height="500">
+
 
 
