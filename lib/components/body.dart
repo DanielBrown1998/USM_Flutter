@@ -1,9 +1,9 @@
 import 'package:app/components/monitoria_card.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
-import 'package:app/models/objects/monitoria_objects.dart';
+import 'package:app/controllers/monitoria_objects.dart';
 
 class ListBody extends StatefulWidget {
   const ListBody({super.key});
@@ -17,7 +17,7 @@ class _ListBodyState extends State<ListBody> {
   Widget build(BuildContext context) {
     Map<String, dynamic> buttons = {
       "buscar alunos": "/search_student",
-      "matriculas": null,
+      "matriculas": "/matriculas",
       "monitorias": "/monitorias",
       "config": null,
     };

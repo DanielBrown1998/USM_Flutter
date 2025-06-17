@@ -5,11 +5,10 @@ import "package:app/components/monitoria_card.dart";
 import "package:app/main.dart";
 import "package:app/models/days.dart";
 import "package:app/models/matricula.dart";
-import "package:app/models/objects/data_user_objects.dart";
-import "package:app/models/objects/days_objects.dart";
-import "package:app/models/objects/matricula_objects.dart";
-import "package:app/models/objects/monitoria_objects.dart";
-import "package:app/models/objects/user_objects.dart";
+import "package:app/controllers/days_objects.dart";
+import "package:app/controllers/matricula_objects.dart";
+import "package:app/controllers/monitoria_objects.dart";
+import "package:app/controllers/user_objects.dart";
 import "package:app/services/days_service.dart";
 import "package:app/services/matricula_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -39,7 +38,6 @@ void main() {
               create: (_) => MatriculaObjects(matriculas: matriculas)),
           ChangeNotifierProvider(create: (_) => UserObjects()),
           ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
-          ChangeNotifierProvider(create: (_) => DataUserObjects()),
           ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
         ],
         child: const MyApp(
@@ -47,7 +45,7 @@ void main() {
         ),
       ));
       await test.pumpAndSettle();
-      
+
       expect(find.text("USM"), findsOneWidget);
       expect(find.byType(Lottie), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
@@ -68,16 +66,16 @@ void main() {
       expect(find.text("buscar alunos"), findsOneWidget);
       expect(find.text("matriculas"), findsOneWidget);
       expect(find.text("monitorias"), findsOneWidget);
-      
+
       await test.drag(find.byType(custom_body.ListBody), Offset(-1000, 0));
       await test.pumpAndSettle();
-      
+
       expect(find.text("config"), findsOneWidget);
       expect(find.byKey(Key("add_monitoria")), findsOneWidget);
 
       await test.tap(find.byKey(Key("add_monitoria")));
       await test.pumpAndSettle(Duration(seconds: 4));
-      
+
       expect(find.text("Add Monitoria"), findsOneWidget);
       expect(find.byKey(Key("add_monitoria_image")), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
@@ -85,26 +83,26 @@ void main() {
       var iconWidgetRemoveAlertDialog =
           find.byIcon(Icons.highlight_remove_sharp);
       expect(iconWidgetRemoveAlertDialog, findsOneWidget);
-      
+
       await test.tap(iconWidgetRemoveAlertDialog);
       await test.pumpAndSettle();
-      
+
       expect(find.text("Add Monitoria"), findsNothing);
       expect(find.byKey(Key("add_monitoria_image")), findsNothing);
       expect(find.byType(TextFormField), findsNothing);
       expect(find.byIcon(Icons.menu), findsWidgets);
-      
+
       await test.tap(find.byIcon(Icons.menu));
       await test.pumpAndSettle();
-      
+
       expect(find.byType(DrawerHeader), findsOneWidget);
       expect(find.byType(ListTileWidget), findsNWidgets(6));
       var buttonBack = find.byKey(Key("back_drawer"));
       expect(buttonBack, findsOneWidget);
-      
+
       await test.tap(buttonBack);
       await test.pumpAndSettle();
-      
+
       expect(find.byType(DrawerHeader), findsNothing);
     });
   });

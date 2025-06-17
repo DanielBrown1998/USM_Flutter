@@ -1,7 +1,7 @@
 import 'package:app/components/monitoria_details.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/monitorias_service.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

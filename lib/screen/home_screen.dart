@@ -1,9 +1,9 @@
-import 'package:app/models/objects/user_objects.dart';
+import 'package:app/controllers/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
 import 'package:app/components/drawer.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/body.dart' as custom_body;
 import 'package:provider/provider.dart';

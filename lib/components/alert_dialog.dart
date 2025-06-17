@@ -1,11 +1,10 @@
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
-import 'package:app/models/objects/data_user_objects.dart';
-import 'package:app/models/objects/days_objects.dart';
-import 'package:app/models/objects/matricula_objects.dart';
-import 'package:app/models/objects/monitoria_objects.dart';
-import 'package:app/models/objects/user_objects.dart';
+import 'package:app/controllers/days_objects.dart';
+import 'package:app/controllers/matricula_objects.dart';
+import 'package:app/controllers/monitoria_objects.dart';
+import 'package:app/controllers/user_objects.dart';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -223,8 +222,6 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context)
             } on UserAlreadyMarkDateException catch (e) {
               Navigator.pop(context, e.message);
             } on UserNotFoundException catch (e) {
-              Navigator.pop(context, e.message);
-            } on DataUserNotFoundException catch (e) {
               Navigator.pop(context, e.message);
             }
           },
