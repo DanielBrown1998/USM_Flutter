@@ -5,6 +5,7 @@ import 'package:app/controllers/days_objects.dart';
 import 'package:app/controllers/matricula_objects.dart';
 import 'package:app/controllers/monitoria_objects.dart';
 import 'package:app/controllers/user_objects.dart';
+import 'package:app/utils/theme/theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -124,8 +125,7 @@ Future<dynamic> alertDialogStatusMonitoria(
   );
 }
 
-Future<dynamic> alertDialogAddMonitoria(BuildContext context) 
-{
+Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   final formkey = GlobalKey<FormState>();
   final TextEditingController matricula = TextEditingController();
   DateTime date = DateTime.now().add(Duration(days: 1));
@@ -232,6 +232,62 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context)
           },
           icon: Icon(Icons.highlight_remove_sharp))
     ],
+  );
+
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+Future<dynamic> alertDialogAddMatricula(BuildContext context) {
+  TextEditingController matricula = TextEditingController();
+
+  AlertDialog alert = AlertDialog(
+    content: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: matricula,
+              decoration: InputDecoration(
+                labelText: "Matricula",
+                icon: Icon(Icons.person),
+              ),
+            ),
+          ],
+        )),
+    actions: [
+      IconButton(
+        onPressed: () async {
+          print(matricula.text);
+          Navigator.pop(context, true);
+        },
+        icon: Icon(Icons.add_task),
+      ),
+      IconButton(
+        onPressed: () async {
+          Navigator.pop(context, false);
+        },
+        icon: Icon(Icons.highlight_remove_sharp),
+      )
+    ],
+    alignment: Alignment.center,
+    backgroundColor: Theme.of(context).primaryColor,
+    title: Text("Add Matricula"),
+    titleTextStyle: TextStyle(
+      color: ThemeUSM.textColor,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    elevation: 10,
+    icon: Icon(Icons.add),
+    iconColor: ThemeUSM.textColor,
   );
 
   return showDialog(
