@@ -1,6 +1,6 @@
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/models/monitoria.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class MonitoriaCard extends StatelessWidget {
@@ -14,9 +14,10 @@ class MonitoriaCard extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: Container(
         decoration: BoxDecoration(
-            color: ThemeUSM.backgroundColorWhite,
-            border: Border.all(color: ThemeUSM.backgroundColor),
-            borderRadius: BorderRadius.all(Radius.elliptical(4, 2))),
+            color: Theme.of(context).primaryColor,
+            // border: Border.all(color: ThemeUSM.backgroundColor),
+            // borderRadius: BorderRadius.all(Radius.elliptical(4, 2)),
+            ),
         child: Padding(
           padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Row(

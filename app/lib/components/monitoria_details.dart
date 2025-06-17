@@ -1,5 +1,5 @@
 import 'package:app/models/monitoria.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class MonitoriaDetails extends StatelessWidget {

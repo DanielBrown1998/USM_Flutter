@@ -1,11 +1,11 @@
 import 'package:app/models/days.dart';
 import 'package:app/models/matricula.dart';
-import 'package:app/models/objects/monitoria_objects.dart';
+import 'package:app/controllers/monitoria_objects.dart';
 
-import 'package:app/models/objects/data_user_objects.dart';
-import 'package:app/models/objects/days_objects.dart';
-import 'package:app/models/objects/matricula_objects.dart';
-import 'package:app/models/objects/user_objects.dart';
+import 'package:app/controllers/days_objects.dart';
+import 'package:app/controllers/matricula_objects.dart';
+import 'package:app/controllers/user_objects.dart';
+import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias.dart';
 
 import 'package:app/services/days_service.dart';
@@ -16,7 +16,7 @@ import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:provider/provider.dart';
 import "package:app/services/firebase_service.dart" as firebase;
 import 'package:flutter/material.dart';
@@ -44,10 +44,7 @@ void main() async {
           create: (_) => MatriculaObjects(matriculas: matriculas)),
       ChangeNotifierProvider(create: (_) => UserObjects()),
       ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
-      ChangeNotifierProvider(
-          create: (_) => DataUserObjects()),
       ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
-
     ],
     child: const MyApp(
       title: "MON. UERJ-ZO",
@@ -68,8 +65,7 @@ class MyApp extends StatelessWidget {
         cardColor: ThemeUSM.cardColor,
         dividerColor: ThemeUSM.dividerDrawerColor,
         shadowColor: ThemeUSM.shadowColor,
-        primaryColor: ThemeUSM.textColor,
-        scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
+        primaryColor: ThemeUSM.textColor, scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
         drawerTheme: DrawerThemeData(
           backgroundColor: ThemeUSM.backgroundColor,
           elevation: 10,
@@ -108,6 +104,7 @@ class MyApp extends StatelessWidget {
             ),
         "/search_student": (context) => SearchStudentScreen(),
         "/monitorias": (context) => MonitoriasSreen(),
+        "/matriculas": (context) => MatriculaScreen(), 
       },
     );
   }

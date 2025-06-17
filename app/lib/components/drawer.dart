@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 
 class ListTileWidget extends StatelessWidget {
   final IconData iconName;

@@ -1,13 +1,9 @@
-import 'package:app/models/data_user.dart';
-import 'package:app/models/matricula.dart';
-import 'package:app/models/objects/data_user_objects.dart';
-import 'package:app/models/objects/matricula_objects.dart';
-import 'package:app/models/objects/user_objects.dart';
+import 'package:app/controllers/matricula_objects.dart';
+import 'package:app/controllers/user_objects.dart';
 import 'package:app/models/user.dart';
-import 'package:app/services/data_user_service.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
-import 'package:app/theme/theme.dart';
+import 'package:app/utils/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -156,11 +152,6 @@ class _LoginState extends State<Login> {
                                     );
                                     //TODO redirect to sign-in screen
                                   } else {
-                                    Provider.of<DataUserObjects>(context,
-                                                listen: false)
-                                            .dataUser =
-                                        await DataUserService.loadDataUser(
-                                            firestore: firestore, user: user!);
                                     Navigator.of(context).pushNamed("/home");
                                   }
                                 } else {
