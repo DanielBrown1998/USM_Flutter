@@ -34,7 +34,7 @@ class MonitoriaObjects with ChangeNotifier {
     return monitoriasByDate;
   }
 
-  bool getMonitoriasbyUser(
+  bool _getMonitoriasbyUser(
       {required List<Monitoria> monitoriaList, required Monitoria mon}) {
     bool monitoriasByDate = monitoriaList
         .where((element) =>
@@ -61,7 +61,7 @@ class MonitoriaObjects with ChangeNotifier {
     if (mons == []) {
       mark = true;
     } else {
-      mark = getMonitoriasbyUser(monitoriaList: mons, mon: mon);
+      mark = _getMonitoriasbyUser(monitoriaList: mons, mon: mon);
     }
     print(mark);
     if (mark) {
