@@ -1,3 +1,4 @@
+import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/header.dart';
 import 'package:app/controllers/matricula_objects.dart';
 import 'package:app/models/matricula.dart';
@@ -78,7 +79,11 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
       floatingActionButton: FloatingActionButton(
         key: Key("add_matricula"),
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () async {
+          if (context.mounted) {
+            dynamic value = await alertDialogAddMatricula(context);
+          }
+        },
         elevation: 10,
         child: Icon(Icons.add),
       ),
