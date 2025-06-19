@@ -2,6 +2,7 @@ import "package:app/components/drawer.dart";
 import "package:app/components/header.dart";
 import "package:app/components/body.dart" as custom_body;
 import "package:app/components/monitoria_card.dart";
+import "package:app/components/monitoria_details.dart";
 import "package:app/main.dart";
 import "package:app/models/days.dart";
 import "package:app/models/matricula.dart";
@@ -46,6 +47,7 @@ void main() {
       ));
       await test.pumpAndSettle();
 
+      //verificando a tela de login
       expect(find.text("USM"), findsOneWidget);
       expect(find.byType(Lottie), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
@@ -56,6 +58,7 @@ void main() {
       await test.tap(find.text("entrar"));
       await test.pumpAndSettle();
 
+      //verificando a home
       expect(find.byType(Header), findsOneWidget);
       expect(find.byType(custom_body.ListBody), findsOneWidget);
       expect(find.byType(Card), findsWidgets);
@@ -76,6 +79,7 @@ void main() {
       await test.tap(find.byKey(Key("add_monitoria")));
       await test.pumpAndSettle(Duration(seconds: 4));
 
+      //verificando a adicao de monitoria
       expect(find.text("Add Monitoria"), findsOneWidget);
       expect(find.byKey(Key("add_monitoria_image")), findsOneWidget);
       expect(find.byType(TextFormField), findsOneWidget);
@@ -90,8 +94,8 @@ void main() {
       expect(find.text("Add Monitoria"), findsNothing);
       expect(find.byKey(Key("add_monitoria_image")), findsNothing);
       expect(find.byType(TextFormField), findsNothing);
-      expect(find.byIcon(Icons.menu), findsWidgets);
 
+      expect(find.byIcon(Icons.menu), findsWidgets);
       await test.tap(find.byIcon(Icons.menu));
       await test.pumpAndSettle();
 
@@ -104,6 +108,66 @@ void main() {
       await test.pumpAndSettle();
 
       expect(find.byType(DrawerHeader), findsNothing);
+
+      //verificando a home
+      expect(find.byType(Header), findsOneWidget);
+      expect(find.byType(custom_body.ListBody), findsOneWidget);
+      expect(find.byType(Card), findsWidgets);
+      expect(find.byType(custom_body.MonitoriaView), findsOneWidget);
+      expect(find.byType(MonitoriaCard), findsWidgets);
+      expect(find.byType(FloatingActionButton), findsOneWidget);
+
+      await test.drag(find.byType(custom_body.ListBody), Offset(1000, 0));
+      await test.pumpAndSettle();
+      expect(find.text("buscar alunos"), findsOneWidget);
+      expect(find.text("matriculas"), findsOneWidget);
+      expect(find.text("monitorias"), findsOneWidget);
+
+      await test.drag(find.byType(custom_body.ListBody), Offset(-1000, 0));
+      await test.pumpAndSettle();
+
+      expect(find.text("config"), findsOneWidget);
+      expect(find.byKey(Key("add_monitoria")), findsOneWidget);
+
+      await test.tap(find.text("matriculas"));
+      await test.pumpAndSettle();
+
+      expect(find.byKey(Key("202213313611")), findsOneWidget);
+      expect(find.byType(Header), findsOneWidget);
+      expect(find.byType(FloatingActionButton), findsOneWidget);
+
+      //TODO verificar a adicao de matriculas
+
+      await test.pageBack();
+      await test.pumpAndSettle();
+
+      //verificando a home
+      expect(find.byType(Header), findsOneWidget);
+      expect(find.byType(custom_body.ListBody), findsOneWidget);
+      expect(find.byType(Card), findsWidgets);
+      expect(find.byType(custom_body.MonitoriaView), findsOneWidget);
+      expect(find.byType(MonitoriaCard), findsWidgets);
+      expect(find.byType(FloatingActionButton), findsOneWidget);
+
+      await test.drag(find.byType(custom_body.ListBody), Offset(1000, 0));
+      await test.pumpAndSettle();
+      expect(find.text("buscar alunos"), findsOneWidget);
+      expect(find.text("matriculas"), findsOneWidget);
+      expect(find.text("monitorias"), findsOneWidget);
+
+      await test.drag(find.byType(custom_body.ListBody), Offset(-1000, 0));
+      await test.pumpAndSettle();
+
+      expect(find.text("config"), findsOneWidget);
+      expect(find.byKey(Key("add_monitoria")), findsOneWidget);
+
+      await test.tap(find.text("monitorias"));
+      await test.pumpAndSettle();
+
+      expect(find.byType(MonitoriaDetails), findsWidgets);
+
+      await test.pageBack();
+      await test.pumpAndSettle();
     });
   });
 }

@@ -152,7 +152,7 @@ class _LoginState extends State<Login> {
                                     );
                                     //TODO redirect to sign-in screen
                                   } else {
-                                    Navigator.of(context).pushNamed("/home");
+                                    Navigator.of(context).popAndPushNamed("/home");
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
