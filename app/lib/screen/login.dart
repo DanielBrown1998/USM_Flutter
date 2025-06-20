@@ -3,6 +3,7 @@ import 'package:app/controllers/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +153,7 @@ class _LoginState extends State<Login> {
                                     );
                                     //TODO redirect to sign-in screen
                                   } else {
-                                    Navigator.of(context).popAndPushNamed("/home");
+                                    Navigator.of(context).popAndPushNamed(Routes.home);
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

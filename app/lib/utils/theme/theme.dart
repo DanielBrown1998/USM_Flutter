@@ -10,3 +10,58 @@ class ThemeUSM {
   static Color shadowColor = Color.fromARGB(255, 201, 199, 198);
   static Color backgroundColorWhite = Colors.white12;
 }
+
+class USMThemeData {
+  static ThemeData themeData = ThemeData(
+    cardColor: ThemeUSM.cardColor,
+    dividerColor: ThemeUSM.dividerDrawerColor,
+    shadowColor: ThemeUSM.shadowColor,
+    primaryColor: ThemeUSM.textColor,
+    scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
+    drawerTheme: USMDrawerTheme.drawerTheme,
+    appBarTheme: USMAppBarTheme.appBarTheme,
+    buttonTheme: USMButtonThemeData.buttonThemeData,
+    textTheme: USMThemeText.textTheme,
+    useMaterial3: true,
+  );
+}
+
+class USMDrawerTheme {
+  static DrawerThemeData drawerTheme = DrawerThemeData(
+      backgroundColor: ThemeUSM.backgroundColor,
+      elevation: 10,
+    );
+}
+
+class USMAppBarTheme {
+  static AppBarTheme appBarTheme = AppBarTheme(
+      iconTheme: IconThemeData(
+        color: ThemeUSM.textColor,
+        applyTextScaling: true,
+      ),
+      actionsIconTheme: IconThemeData(applyTextScaling: true),
+      backgroundColor: ThemeUSM.backgroundColor,
+      elevation: 20,
+      titleTextStyle: TextStyle(color: ThemeUSM.textColor));
+}
+
+class USMButtonThemeData {
+  static ButtonThemeData buttonThemeData = ButtonThemeData(
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      primary: ThemeUSM.buttonColor,
+      secondary: ThemeUSM.textColor,
+    ),
+    buttonColor: ThemeUSM.buttonColor,
+  );
+}
+
+class USMThemeText {
+  static TextTheme textTheme = TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: "Ubuntu",
+      fontSize: 22,
+    ),
+    displayMedium: TextStyle(fontFamily: "Ubuntu", fontSize: 18),
+    displaySmall: TextStyle(fontFamily: "Ubuntu", fontSize: 14),
+  );
+}

@@ -1,3 +1,4 @@
+import 'package:app/components/appbar.dart';
 import 'package:app/components/header.dart';
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/utils/theme/theme.dart';
@@ -20,19 +21,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: ThemeUSM.backgroundColor,
-        actions: [],
-        centerTitle: true,
-        elevation: 10,
-        title: Text(
-          "Buscar Alunos",
-          style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).primaryColor),
-        ),
-      ),
+      appBar: USMAppBar.appBar(context, "Buscar Aluno"),
       body: Column(
           spacing: 5.5,
           mainAxisAlignment: MainAxisAlignment.start,

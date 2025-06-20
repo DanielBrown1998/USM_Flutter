@@ -1,4 +1,5 @@
 import 'package:app/components/monitoria_card.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 
 import 'package:provider/provider.dart';
@@ -16,10 +17,10 @@ class _ListBodyState extends State<ListBody> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> buttons = {
-      "buscar alunos": "/search_student",
-      "matriculas": "/matriculas",
-      "monitorias": "/monitorias",
-      "config": null,
+      "buscar alunos": Routes.searchStudent,
+      "matriculas": Routes.matriculas,
+      "monitorias": Routes.monitorias,
+      "config": Routes.config,
     };
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),

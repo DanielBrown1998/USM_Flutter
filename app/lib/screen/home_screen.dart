@@ -1,3 +1,4 @@
+import 'package:app/components/appbar.dart';
 import 'package:app/controllers/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
@@ -20,39 +21,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
-      appBar: AppBar(
-        leading: Builder(builder: (context) {
-          return IconButton(
-            icon: const Icon(Icons.menu),
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        }),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.account_box_outlined),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.update),
-            ),
-          ),
-        ],
-        title: Text(
-          widget.title,
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
-      ),
+      appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,8 +53,7 @@ class _HomeState extends State<Home> {
           );
         }
         return ListDrawer.list(context,
-            user:
-                "${value.user!.firstName} ${value.user!.lastName}");
+            user: "${value.user!.firstName} ${value.user!.lastName}");
       }),
       floatingActionButton: FloatingActionButton(
         key: Key("add_monitoria"),

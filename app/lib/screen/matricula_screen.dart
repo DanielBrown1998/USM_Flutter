@@ -1,4 +1,5 @@
 import 'package:app/components/alert_dialog.dart';
+import 'package:app/components/appbar.dart';
 import 'package:app/components/header.dart';
 import 'package:app/controllers/matricula_objects.dart';
 import 'package:app/models/matricula.dart';
@@ -15,16 +16,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Matriculas"),
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontSize: 30,
-          color: Theme.of(context).primaryColor,
-          fontWeight: FontWeight.w500,
-        ),
-        actions: [],
-      ),
+      appBar: USMAppBar.appBar(context, "Matriculas"),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

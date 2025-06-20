@@ -1,3 +1,4 @@
+import 'package:app/components/appbar.dart';
 import 'package:app/components/monitoria_details.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/monitorias_service.dart';
@@ -23,14 +24,7 @@ class _MonitoriasSreenState extends State<MonitoriasSreen> {
     // List<Monitoria> monitorias = MonitoriasService.loadMonitorias();
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text("Todas as Monitorias",
-            style: TextStyle(
-              fontSize: 20,
-              color: ThemeUSM.textColor,
-              fontWeight: FontWeight.w500,
-            )),
-      ),
+      appBar: USMAppBar.appBar(context, "Monitorias"),
       body: FutureBuilder(
           future: loadData(),
           builder: (context, snapshot) {

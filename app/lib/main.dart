@@ -4,6 +4,7 @@ import 'package:app/controllers/monitoria_objects.dart';
 
 import 'package:app/controllers/days_objects.dart';
 import 'package:app/controllers/matricula_objects.dart';
+
 import 'package:app/controllers/user_objects.dart';
 import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias.dart';
@@ -17,6 +18,7 @@ import 'package:app/screen/search_student_screen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:provider/provider.dart';
 import "package:app/services/firebase_service.dart" as firebase;
 import 'package:flutter/material.dart';
@@ -61,50 +63,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: title,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        cardColor: ThemeUSM.cardColor,
-        dividerColor: ThemeUSM.dividerDrawerColor,
-        shadowColor: ThemeUSM.shadowColor,
-        primaryColor: ThemeUSM.textColor, scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
-        drawerTheme: DrawerThemeData(
-          backgroundColor: ThemeUSM.backgroundColor,
-          elevation: 10,
-        ),
-        appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(
-              color: ThemeUSM.textColor,
-              applyTextScaling: true,
-            ),
-            actionsIconTheme: IconThemeData(applyTextScaling: true),
-            backgroundColor: ThemeUSM.backgroundColor,
-            elevation: 20,
-            titleTextStyle: TextStyle(color: ThemeUSM.textColor)),
-        buttonTheme: ButtonThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: ThemeUSM.buttonColor,
-            secondary: ThemeUSM.textColor,
-          ),
-          buttonColor: ThemeUSM.buttonColor,
-        ),
-        textTheme: TextTheme(
-            displayLarge: TextStyle(
-              fontFamily: "Ubuntu",
-              fontSize: 22,
-            ),
-            displayMedium: TextStyle(fontFamily: "Ubuntu", fontSize: 18),
-            displaySmall: TextStyle(fontFamily: "Ubuntu", fontSize: 14)),
-        useMaterial3: true,
-      ),
-      initialRoute: "/",
+      theme: USMThemeData.themeData,
+      initialRoute: Routes.login,
       routes: {
-        "/": (context) => Login(),
-        "/home": (context) => Home(
+        Routes.login: (context) => Login(),
+        Routes.home: (context) => Home(
               key: Key('home_screen'),
               title: title,
             ),
-        "/search_student": (context) => SearchStudentScreen(),
-        "/monitorias": (context) => MonitoriasSreen(),
-        "/matriculas": (context) => MatriculaScreen(), 
+        Routes.searchStudent: (context) => SearchStudentScreen(),
+        Routes.monitorias: (context) => MonitoriasSreen(),
+        Routes.matriculas: (context) => MatriculaScreen(),
       },
     );
   }
