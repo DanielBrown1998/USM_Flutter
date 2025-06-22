@@ -77,11 +77,6 @@ class _HomeState extends State<Home> {
                 duration: Duration(seconds: 2),
               ));
             }
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("$value"),
-              duration: Duration(seconds: 2),
-            ));
           }
         },
         tooltip: 'Increment',

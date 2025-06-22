@@ -3,6 +3,7 @@ import "package:app/services/firebase_service.dart";
 import "package:app/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:app/utils/constants/constants.dart";
 
 class MonitoriaObjects with ChangeNotifier {
   List<Monitoria>? monitoria;
@@ -89,7 +90,7 @@ class MonitoriaObjects with ChangeNotifier {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     List<Monitoria> list = await MonitoriasService.loadMonitorias(firestore);
     List<Monitoria> statusMarcada =
-        list.where((element) => element.status == "MARCADA").toList();
+        list.where((element) => element.status.toString().toUpperCase() == Status.marcada).toList();
     return statusMarcada;
   }
 

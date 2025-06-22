@@ -1,4 +1,5 @@
 import "user.dart";
+import 'package:app/utils/constants/constants.dart';
 
 class Monitoria {
   final String id;
@@ -10,7 +11,7 @@ class Monitoria {
       {required this.id,
       required this.owner,
       required this.date,
-      this.status = "MARCADA"});
+      this.status = Status.marcada});
 
   Monitoria.fromMap(Map<String, dynamic> map)
       : id = map["id"],

@@ -6,6 +6,7 @@ import 'package:app/controllers/matricula_objects.dart';
 import 'package:app/controllers/monitoria_objects.dart';
 import 'package:app/controllers/user_objects.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:app/utils/constants/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
@@ -88,11 +89,11 @@ Future<dynamic> alertDialogStatusMonitoria(
             try {
               if (monitoriaOk) {
                 await monitoria.updateStatusMonitoria(
-                    mon: mon, newStatus: "PRESENTE");
+                    mon: mon, newStatus: Status.presente);
                 // dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
                 await monitoria.updateStatusMonitoria(
-                    mon: mon, newStatus: "AUSENTE");
+                    mon: mon, newStatus: Status.ausente);
                 // dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
               Navigator.pop(context, true);
