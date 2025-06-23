@@ -1,4 +1,6 @@
+import 'package:app/controllers/disciplinas_objects.dart';
 import 'package:app/models/days.dart';
+import 'package:app/models/disciplinas.dart';
 import 'package:app/models/matricula.dart';
 import 'package:app/controllers/monitoria_objects.dart';
 
@@ -6,11 +8,13 @@ import 'package:app/controllers/days_objects.dart';
 import 'package:app/controllers/matricula_objects.dart';
 
 import 'package:app/controllers/user_objects.dart';
+import 'package:app/screen/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias.dart';
 
 import 'package:app/services/days_service.dart';
 import 'package:app/services/matricula_service.dart';
+import "package:app/services/disciplina_service.dart";
 
 import 'package:app/screen/login.dart';
 import 'package:app/screen/home_screen.dart';
@@ -39,7 +43,8 @@ void main() async {
       await firebase.FirebaseService.initializeFirebase();
   List<Matricula> matriculas = await MatriculaService.takeMatriculas(firestore);
   List<Days> days = await DaysService.takeDays(firestore);
-
+  List<Disciplinas> disciplinas =
+      await DisciplinaService.getDisciplinasIDs(firestore: firestore);
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -47,15 +52,17 @@ void main() async {
       ChangeNotifierProvider(create: (_) => UserObjects()),
       ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
       ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
+      ChangeNotifierProvider(
+          create: (_) => DisciplinasObjects(disciplinas: disciplinas)),
     ],
-    child: const MyApp(
+    child: const USMApp(
       title: "MON. UERJ-ZO",
     ),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.title});
+class USMApp extends StatelessWidget {
+  const USMApp({super.key, required this.title});
   final String title;
   // This widget is the root of your application.
   @override
@@ -74,6 +81,7 @@ class MyApp extends StatelessWidget {
         Routes.searchStudent: (context) => SearchStudentScreen(),
         Routes.monitorias: (context) => MonitoriasSreen(),
         Routes.matriculas: (context) => MatriculaScreen(),
+        Routes.config: (context) => ConfigScreen(),
       },
     );
   }

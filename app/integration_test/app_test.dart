@@ -41,7 +41,7 @@ void main() {
           ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
           ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
         ],
-        child: const MyApp(
+        child: const USMApp(
           title: "MON. UERJ-ZO Test",
         ),
       ));
