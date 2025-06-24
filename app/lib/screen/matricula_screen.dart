@@ -47,7 +47,8 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                               tileColor: Theme.of(context).primaryColor,
                               onTap: () {},
                               title: Text(data.matricula),
-                              subtitle: Text(data.disciplina),
+                              subtitle: Text(
+                                  "numero de disciplinas: ${data.disciplina.length.toString()}"),
                             ),
                           );
                         },

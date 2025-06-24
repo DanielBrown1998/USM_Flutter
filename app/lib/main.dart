@@ -8,6 +8,7 @@ import 'package:app/controllers/days_objects.dart';
 import 'package:app/controllers/matricula_objects.dart';
 
 import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/monitoria.dart';
 import 'package:app/screen/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias.dart';
@@ -19,6 +20,7 @@ import "package:app/services/disciplina_service.dart";
 import 'package:app/screen/login.dart';
 import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
+import 'package:app/services/monitorias_service.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app/utils/theme/theme.dart';
@@ -42,15 +44,18 @@ void main() async {
   FirebaseFirestore firestore =
       await firebase.FirebaseService.initializeFirebase();
   List<Matricula> matriculas = await MatriculaService.takeMatriculas(firestore);
-  List<Days> days = await DaysService.takeDays(firestore);
   List<Disciplinas> disciplinas =
       await DisciplinaService.getDisciplinasIDs(firestore: firestore);
+
+  List<Monitoria> monitorias =
+      await MonitoriasService.loadMonitorias(firestore);
+  print(monitorias);
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
           create: (_) => MatriculaObjects(matriculas: matriculas)),
       ChangeNotifierProvider(create: (_) => UserObjects()),
-      ChangeNotifierProvider(create: (_) => DaysObjects(days: days)),
+      ChangeNotifierProvider(create: (_) => DaysObjects()),
       ChangeNotifierProvider(create: (_) => MonitoriaObjects()),
       ChangeNotifierProvider(
           create: (_) => DisciplinasObjects(disciplinas: disciplinas)),

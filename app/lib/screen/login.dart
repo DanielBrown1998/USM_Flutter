@@ -124,8 +124,8 @@ class _LoginState extends State<Login> {
                         children: [
                           TextButton(
                               onPressed: () async {
-                                if (list.matriculas.any((value) =>
-                                    matricula.text == value.matricula)) {
+                                if (list.matriculas.any(
+                                    (value) => matricula.text == value.matricula)) {
                                   FirebaseFirestore firestore =
                                       await FirebaseService
                                           .initializeFirebase();
@@ -153,7 +153,8 @@ class _LoginState extends State<Login> {
                                     );
                                     //TODO redirect to sign-in screen
                                   } else {
-                                    Navigator.of(context).popAndPushNamed(Routes.home);
+                                    Navigator.of(context)
+                                        .popAndPushNamed(Routes.home);
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

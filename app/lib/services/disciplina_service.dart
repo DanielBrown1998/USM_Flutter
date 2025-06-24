@@ -10,6 +10,7 @@ class DisciplinaService {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await firestore.collection(collection).get();
     for (var item in snapshot.docs) {
+      print(item.data());
       disciplinas.add(Disciplinas.fromMap(item.data()));
     }
     return disciplinas;

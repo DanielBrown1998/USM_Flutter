@@ -1,9 +1,16 @@
 import "package:app/models/days.dart";
+import "package:app/services/firebase_service.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import 'package:app/services/days_service.dart';
 
 class DaysObjects with ChangeNotifier {
-  final List<Days> days;
+  late List<Days> days;
 
-  DaysObjects({required this.days});
-
+  Future<List<Days>> getDays({required String idDisciplina}) async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    days = await DaysService.takeDays(firestore, idDisciplina);
+    notifyListeners();
+    return days;
+  }
 }

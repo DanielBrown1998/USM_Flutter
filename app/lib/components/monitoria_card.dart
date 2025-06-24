@@ -14,10 +14,10 @@ class MonitoriaCard extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            // border: Border.all(color: ThemeUSM.backgroundColor),
-            // borderRadius: BorderRadius.all(Radius.elliptical(4, 2)),
-            ),
+          color: Theme.of(context).primaryColor,
+          // border: Border.all(color: ThemeUSM.backgroundColor),
+          // borderRadius: BorderRadius.all(Radius.elliptical(4, 2)),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(left: 2.0, right: 2.0),
           child: Row(
@@ -29,7 +29,7 @@ class MonitoriaCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    monitoria.owner.userName,
+                    monitoria.userName,
                     style: TextStyle(
                       decoration: TextDecoration.none,
                       color: ThemeUSM.backgroundColor,
@@ -64,11 +64,11 @@ class MonitoriaCard extends StatelessWidget {
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              "${monitoria.owner.userName} realizou a monitoria!")));
+                              "${monitoria.userName} realizou a monitoria!")));
                     } else if (value == false) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              " status nao alterado para ${monitoria.owner.userName}")));
+                              " status nao alterado para ${monitoria.userName}")));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));
@@ -105,11 +105,11 @@ class MonitoriaCard extends StatelessWidget {
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              " ${monitoria.owner.userName} nao realizou a monitoria")));
+                              " ${monitoria.userName} nao realizou a monitoria")));
                     } else if (value == false) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              " status nao alterado para ${monitoria.owner.userName}")));
+                              " status nao alterado para ${monitoria.userName}")));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));

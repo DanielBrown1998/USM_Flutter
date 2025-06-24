@@ -1,6 +1,10 @@
 import 'package:app/components/monitoria_card.dart';
+import 'package:app/models/monitoria.dart';
+import 'package:app/services/firebase_service.dart';
+import 'package:app/services/monitorias_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
@@ -86,37 +90,46 @@ class _MonitoriaViewState extends State<MonitoriaView> {
             width: 3,
           ),
         ),
-        child: Consumer<MonitoriaObjects>(builder:
-            (BuildContext context, MonitoriaObjects list, Widget? widget) {
-          return FutureBuilder(
-              future: list.getStatusMarcada(),
+        child: Consumer<MonitoriaObjects>(
+          builder:
+              (BuildContext context, MonitoriaObjects list, Widget? widget) {
+            
+            //TODO: refactor 
+            Future<List<Monitoria>> loadMonitorias() async {
+              FirebaseFirestore firestore =
+                  await FirebaseService.initializeFirebase();
+              List<Monitoria> monitorias =
+                  await MonitoriasService.loadMonitorias(firestore);
+              return monitorias;
+            }
+
+            return FutureBuilder(
+              future: loadMonitorias(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  return ListView.separated(
-                    padding: const EdgeInsets.all(8.0),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, int i) {
-                      return MonitoriaCard(monitoria: snapshot.data![i]);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider(
-                        color: Theme.of(context).dividerColor,
-                        height: 2,
-                        thickness: 1,
-                        indent: 10,
-                        endIndent: 10,
-                      );
-                    },
-                  );
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  case ConnectionState.done:
+                    if (!snapshot.hasData) {
+                      return Center(child: Text("Nenhuma monitoria marcada"));
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return MonitoriaCard(
+                          monitoria: snapshot.data![index],
+                        );
+                      },
+                    );
+                  case ConnectionState.none:
+                    return Center(child: Text("Erro ao carregar dados"));
+                  default:
+                    return Center(child: Text("Erro desconhecido!"));
                 }
-                return Container(); // Return an empty container or another widget if connectionState is not done
-              });
-        }),
+              },
+            );
+          },
+        ),
       ),
     );
   }

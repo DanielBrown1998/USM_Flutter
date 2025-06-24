@@ -1,3 +1,5 @@
+import 'package:app/models/disciplinas.dart';
+
 class User {
   final String firstName;
   final String lastName;
@@ -9,6 +11,8 @@ class User {
   final bool isSuperUser;
   final DateTime lastLogin;
   final DateTime dateJoined;
+  final List<Disciplinas> disciplinas;
+  final String campus;
 
   User(
       {required this.firstName,
@@ -20,7 +24,9 @@ class User {
       required this.isActive,
       required this.isSuperUser,
       required this.lastLogin,
-      required this.dateJoined});
+      required this.dateJoined,
+      required this.disciplinas,
+      required this.campus});
 
   User.fromMap(Map<String, dynamic> map)
       : firstName = map["firstName"],
@@ -32,7 +38,10 @@ class User {
         isActive = map["isActive"],
         isSuperUser = map["isSuperUser"],
         lastLogin = map["lastLogin"].toDate(),
-        dateJoined = map["dateJoined"].toDate();
+        dateJoined = map["dateJoined"].toDate(),
+        disciplinas = List.generate(map["disciplinas"].length,
+            (index) => Disciplinas.fromMap(map["disciplinas"][index])),
+        campus = map["campus"];
 
   Map<String, dynamic> toMap() {
     return {
@@ -45,7 +54,11 @@ class User {
       "isActive": isActive,
       "isSuperUser": isSuperUser,
       "lastLogin": lastLogin,
-      "dateJoined": dateJoined
+      "dateJoined": dateJoined,
+      "disciplinas": disciplinas.map(
+        (Disciplinas value) => value.toMap(),
+      ),
+      "campus": campus,
     };
   }
 }

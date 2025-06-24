@@ -24,7 +24,7 @@ class MonitoriaDetails extends StatelessWidget {
             ),
           ),
           title: Text(
-            "${monitoria.owner.firstName} ${monitoria.owner.lastName}",
+            monitoria.aluno,
             style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
           ),
           subtitle: Text(

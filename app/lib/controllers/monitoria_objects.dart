@@ -6,17 +6,22 @@ import "package:flutter/material.dart";
 import "package:app/utils/constants/constants.dart";
 
 class MonitoriaObjects with ChangeNotifier {
-  List<Monitoria>? monitoria;
+  List<Monitoria> monitoria = [];
 
-  MonitoriaObjects({this.monitoria});
+  Future<List<Monitoria>> getAllMonitorias() async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    List<Monitoria> monitoria =
+        await MonitoriasService.loadMonitorias(firestore);
+    this.monitoria = monitoria;
+    notifyListeners();
+    return monitoria;
+  }
 
   Future<List<Monitoria>> getMonitoriasbyDate(
       {required DateTime date, required int limit}) async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-    monitoria = await MonitoriasService.loadMonitorias(firestore);
-
-    List<Monitoria> monitoriasByDate = (monitoria != [])
-        ? monitoria!
+    await getAllMonitorias();
+    List<Monitoria> monitoriasByDate = (monitoria == [])
+        ? monitoria
             .where((element) =>
                 element.date.day == date.day &&
                 element.date.month == date.month &&
@@ -25,7 +30,7 @@ class MonitoriaObjects with ChangeNotifier {
         : [];
 
     print("------------------------------------------------------------");
-    monitoriasByDate.forEach((element) => print(element.owner.firstName));
+    monitoriasByDate.forEach((element) => print(element.aluno));
     print("------------------------------------------------------------");
 
     if (monitoriasByDate.length >= limit) {
@@ -39,7 +44,7 @@ class MonitoriaObjects with ChangeNotifier {
       {required List<Monitoria> monitoriaList, required Monitoria mon}) {
     bool monitoriasByDate = monitoriaList
         .where((element) =>
-            element.owner.userName == mon.owner.userName &&
+            element.userName == mon.userName &&
             element.date.day == mon.date.day &&
             element.date.month == mon.date.month &&
             element.date.year == mon.date.year)
@@ -49,7 +54,7 @@ class MonitoriaObjects with ChangeNotifier {
     print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
-          "${mon.owner.firstName} ja marcou monitoria para esse dia ${mon.date.day}/${mon.date.month}/${mon.date.year}");
+          "${mon.aluno} ja marcou monitoria para esse dia ${mon.date.day}/${mon.date.month}/${mon.date.year}");
     }
     return monitoriasByDate;
   }
@@ -73,12 +78,12 @@ class MonitoriaObjects with ChangeNotifier {
 
       print("------------------------------------------------------------");
       print(mon.date);
-      print(mon.owner.firstName);
+      print(mon.aluno);
       print(mon.status);
       print("------------------------------------------------------------");
-      monitoria!.add(mon);
+      monitoria.add(mon);
       print("------------------------------------------------------------");
-      monitoria!.forEach((element) => print(element.date));
+      monitoria.forEach((element) => print(element.date));
       notifyListeners();
       return true;
     }
@@ -87,10 +92,11 @@ class MonitoriaObjects with ChangeNotifier {
   }
 
   Future<List<Monitoria>> getStatusMarcada() async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-    List<Monitoria> list = await MonitoriasService.loadMonitorias(firestore);
-    List<Monitoria> statusMarcada =
-        list.where((element) => element.status.toString().toUpperCase() == Status.marcada).toList();
+    await getAllMonitorias();
+    List<Monitoria> statusMarcada = monitoria
+        .where((element) =>
+            element.status.toString().toUpperCase() == Status.marcada)
+        .toList();
     return statusMarcada;
   }
 
@@ -100,7 +106,9 @@ class MonitoriaObjects with ChangeNotifier {
         await getMonitoriasbyDate(date: mon.date, limit: 10);
 
     print("------------------------------------------------------------");
-    monitoria.forEach((element) => print(element.date));
+    for (var element in monitoria) {
+      print(element.date);
+    }
 
     for (Monitoria item in monitoria) {
       if (item.id == mon.id) {

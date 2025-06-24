@@ -17,12 +17,8 @@ class MonitoriasService {
     List<Monitoria> mon = [];
     var monitorias = await firestore.collection("monitorias").get();
     for (var item in monitorias.docs) {
-      Map<String, dynamic> itemMap = item.data();
-      // var user = await firestore.collection("user").doc(itemMap["user"]).get();
-      // if (user.data() == null) {
-      //   continue;
-      // }
-      mon.add(Monitoria.fromMap(itemMap));
+      print(item.data());
+      mon.add(Monitoria.fromMap(item.data()));
     }
     return mon;
   }

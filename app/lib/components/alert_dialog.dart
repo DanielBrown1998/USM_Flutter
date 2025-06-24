@@ -1,8 +1,8 @@
+import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
 import 'package:app/controllers/days_objects.dart';
-import 'package:app/controllers/matricula_objects.dart';
 import 'package:app/controllers/monitoria_objects.dart';
 import 'package:app/controllers/user_objects.dart';
 import 'package:app/utils/theme/theme.dart';
@@ -127,21 +127,22 @@ Future<dynamic> alertDialogStatusMonitoria(
 }
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
-  final formkey = GlobalKey<FormState>();
-  final TextEditingController matricula = TextEditingController();
-  DateTime date = DateTime.now().add(Duration(days: 1));
-
-  UserObjects users = Provider.of<UserObjects>(context, listen: false);
-  // DataUserObjects dataUser =
-  //     Provider.of<DataUserObjects>(context, listen: false);
-  //substituindo o usuario autenticado por enquanto!
-  User? user = users.user;
-
-  MatriculaObjects matriculas =
-      Provider.of<MatriculaObjects>(context, listen: false);
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
+
+  //substituindo o usuario autenticado por enquanto!
+  UserObjects users = Provider.of<UserObjects>(context, listen: false);
+  User? user = users.user;
+
+  //se user e monitor de uma materia, nao pode pedir monitoria da propria materia que e monitorando
+  //superusuario nao pode marcar monitorias
+
+  final formkey = GlobalKey<FormState>();
+  final TextEditingController matricula = TextEditingController();
+  Disciplinas disciplina = user!.disciplinas[0];
+  DateTime date = DateTime.now().add(Duration(days: 1));
+
   AlertDialog alert = AlertDialog(
     content: SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
@@ -167,7 +168,8 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                     ),
                   ),
                   TextFormField(
-                    controller: matricula,
+                    enabled: false,
+                    initialValue: user.userName,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Matricula",
@@ -176,6 +178,20 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                     validator: (value) {},
                     onSaved: (value) {},
                   ),
+                  DropdownButtonFormField(
+                      items: List.generate(
+                          user.disciplinas.length,
+                          (index) => DropdownMenuItem(
+                                value: user.disciplinas[index],
+                                child: Text(user.disciplinas[index].nome),
+                              )),
+                      decoration: InputDecoration(
+                        labelText: "Disciplina",
+                        labelStyle: Theme.of(context).textTheme.displayMedium,
+                      ),
+                      onChanged: (value) {
+                        if (value != null) disciplina = value;
+                      }),
                   DateTimeFormField(
                     onChanged: (newValue) {
                       if (newValue != null) {
@@ -200,22 +216,21 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
     actions: [
       IconButton(
           onPressed: () async {
-            //TODO: check if user is staff
-            //TODO: check if matricula is in data
             //TODO: check if have available days
             try {
-              //substituindo o usuario autenticado
-              // User userMon = users.getUserByMatricula(matricula.text);
-              // DataUser data = dataUser.dataUser;
-              String id = user!.userName +
+              String id = user.userName +
                   date.day.toString() +
                   date.month.toString() +
                   date.year.toString() +
                   date.hour.toString() +
                   date.minute.toString();
-              Monitoria monitoria = Monitoria(id: id, owner: user, date: date);
+              Monitoria monitoria = Monitoria(
+                  id: id,
+                  disciplina: disciplina,
+                  date: date,
+                  aluno: "${user.firstName} ${user.lastName}",
+                  userName: user.userName);
               bool mark = await monitorias.addMonitoria(mon: monitoria);
-              // dataUser.addMonitoria();
               List<dynamic> result = [mark, user, date];
               Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
