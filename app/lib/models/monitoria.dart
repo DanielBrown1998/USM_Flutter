@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import "disciplinas.dart";
 import 'package:app/utils/constants/constants.dart';
 

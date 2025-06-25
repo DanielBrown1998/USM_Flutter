@@ -1,6 +1,5 @@
-
 import 'package:app/models/matricula.dart';
-import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/settings/user_objects.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MatriculaService {
@@ -18,7 +17,6 @@ class MatriculaService {
     List<Matricula> matriculas = [];
     var data = await firestore.collection("matriculas").get();
     for (var item in data.docs) {
-      print(item.data()["disciplinas"].runtimeType);
       Matricula matricula = Matricula.fromMap(item.data());
       matriculas.add(matricula);
     }

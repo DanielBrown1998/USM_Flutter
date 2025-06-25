@@ -28,6 +28,7 @@ class User {
       required this.disciplinas,
       required this.campus});
 
+
   User.fromMap(Map<String, dynamic> map)
       : firstName = map["firstName"],
         lastName = map["lastName"],
@@ -61,4 +62,5 @@ class User {
       "campus": campus,
     };
   }
+
 }

@@ -1,5 +1,5 @@
 import 'package:app/components/appbar.dart';
-import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/settings/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';

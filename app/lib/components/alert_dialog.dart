@@ -2,9 +2,9 @@ import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
-import 'package:app/controllers/days_objects.dart';
-import 'package:app/controllers/monitoria_objects.dart';
-import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/settings/days_objects.dart';
+import 'package:app/models/settings/monitoria_objects.dart';
+import 'package:app/models/settings/user_objects.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:app/utils/constants/constants.dart';
 
@@ -130,7 +130,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
   MonitoriaObjects monitorias =
       Provider.of<MonitoriaObjects>(context, listen: false);
-
+      
   //substituindo o usuario autenticado por enquanto!
   UserObjects users = Provider.of<UserObjects>(context, listen: false);
   User? user = users.user;

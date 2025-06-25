@@ -1,14 +1,10 @@
 import 'package:app/components/monitoria_card.dart';
-import 'package:app/models/monitoria.dart';
-import 'package:app/services/firebase_service.dart';
-import 'package:app/services/monitorias_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
-import 'package:app/controllers/monitoria_objects.dart';
+import 'package:app/models/settings/monitoria_objects.dart';
 
 class ListBody extends StatefulWidget {
   const ListBody({super.key});
@@ -93,18 +89,8 @@ class _MonitoriaViewState extends State<MonitoriaView> {
         child: Consumer<MonitoriaObjects>(
           builder:
               (BuildContext context, MonitoriaObjects list, Widget? widget) {
-            
-            //TODO: refactor 
-            Future<List<Monitoria>> loadMonitorias() async {
-              FirebaseFirestore firestore =
-                  await FirebaseService.initializeFirebase();
-              List<Monitoria> monitorias =
-                  await MonitoriasService.loadMonitorias(firestore);
-              return monitorias;
-            }
-
             return FutureBuilder(
-              future: loadMonitorias(),
+              future: list.getStatusMarcada(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:

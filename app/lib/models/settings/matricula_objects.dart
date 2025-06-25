@@ -5,8 +5,12 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
 class MatriculaObjects with ChangeNotifier {
-  final List<Matricula> matriculas;
-  MatriculaObjects({required this.matriculas});
+  List<Matricula> matriculas = [];
+
+  void initializeMatriculas(List<Matricula> matriculas) {
+    this.matriculas = matriculas;
+    notifyListeners();
+  }
 
   Future<List<Matricula>> getMatriculas() async {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();

@@ -1,4 +1,4 @@
-import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/settings/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

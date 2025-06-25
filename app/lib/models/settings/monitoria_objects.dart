@@ -8,18 +8,20 @@ import "package:app/utils/constants/constants.dart";
 class MonitoriaObjects with ChangeNotifier {
   List<Monitoria> monitoria = [];
 
-  Future<List<Monitoria>> getAllMonitorias() async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-    List<Monitoria> monitoria =
-        await MonitoriasService.loadMonitorias(firestore);
+  void initializeMonitorias(List<Monitoria> monitoria) {
     this.monitoria = monitoria;
     notifyListeners();
-    return monitoria;
+  }
+
+  Future<List<Monitoria>> loadMonitorias() async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    return await MonitoriasService.loadMonitorias(firestore);
   }
 
   Future<List<Monitoria>> getMonitoriasbyDate(
       {required DateTime date, required int limit}) async {
-    await getAllMonitorias();
+    monitoria = await loadMonitorias();
+    notifyListeners();
     List<Monitoria> monitoriasByDate = (monitoria == [])
         ? monitoria
             .where((element) =>
@@ -87,16 +89,16 @@ class MonitoriaObjects with ChangeNotifier {
       notifyListeners();
       return true;
     }
-    notifyListeners();
     return false;
   }
 
   Future<List<Monitoria>> getStatusMarcada() async {
-    await getAllMonitorias();
+    List<Monitoria> monitoria = await loadMonitorias();
     List<Monitoria> statusMarcada = monitoria
         .where((element) =>
             element.status.toString().toUpperCase() == Status.marcada)
         .toList();
+
     return statusMarcada;
   }
 

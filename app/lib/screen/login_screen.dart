@@ -1,5 +1,6 @@
-import 'package:app/controllers/matricula_objects.dart';
-import 'package:app/controllers/user_objects.dart';
+import 'package:app/models/matricula.dart';
+import 'package:app/models/settings/matricula_objects.dart';
+import 'package:app/models/settings/user_objects.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
@@ -26,6 +27,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+
     awaitAndSet();
   }
 
@@ -43,13 +45,11 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    // List<Matricula> matriculas =
-    //     Provider.of<MatriculaObjects>(context).matriculas;
-
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
       body: Consumer<MatriculaObjects>(
-        builder: (context, list, child) => Container(
+          builder: (context, MatriculaObjects list, child) {
+        return Container(
           decoration: BoxDecoration(
             border: Border.all(
               color: ThemeUSM.backgroundColorWhite,
@@ -124,8 +124,9 @@ class _LoginState extends State<Login> {
                         children: [
                           TextButton(
                               onPressed: () async {
-                                if (list.matriculas.any(
-                                    (value) => matricula.text == value.matricula)) {
+                                if (list.matriculas.any((value) =>
+                                    matricula.text == value.matricula)) {
+                                  //substituir pela Authenticacao
                                   FirebaseFirestore firestore =
                                       await FirebaseService
                                           .initializeFirebase();
@@ -185,8 +186,8 @@ class _LoginState extends State<Login> {
               )
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

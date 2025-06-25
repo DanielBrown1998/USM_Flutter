@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:app/models/disciplinas.dart';
 
 class DisciplinasObjects with ChangeNotifier {
-  List<Disciplinas> disciplinas;
+  List<Disciplinas> disciplinas = [];
 
-  DisciplinasObjects({required this.disciplinas});
+  void initializeDisciplinas(List<Disciplinas> disciplinas) {
+    this.disciplinas = disciplinas;
+    notifyListeners();
+  }
 
   Future<List<Disciplinas>> getDisciplinas() async {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();

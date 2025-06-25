@@ -17,7 +17,6 @@ class MonitoriasService {
     List<Monitoria> mon = [];
     var monitorias = await firestore.collection("monitorias").get();
     for (var item in monitorias.docs) {
-      print(item.data());
       mon.add(Monitoria.fromMap(item.data()));
     }
     return mon;

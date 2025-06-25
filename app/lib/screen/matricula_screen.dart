@@ -1,7 +1,7 @@
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/appbar.dart';
 import 'package:app/components/header.dart';
-import 'package:app/controllers/matricula_objects.dart';
+import 'package:app/models/settings/matricula_objects.dart';
 import 'package:app/models/matricula.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
