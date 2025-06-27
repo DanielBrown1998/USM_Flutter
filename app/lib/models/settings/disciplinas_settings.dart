@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/models/disciplinas.dart';
 
-class DisciplinasObjects with ChangeNotifier {
+class DisciplinasSettings with ChangeNotifier {
   List<Disciplinas> disciplinas = [];
 
   void initializeDisciplinas(List<Disciplinas> disciplinas) {

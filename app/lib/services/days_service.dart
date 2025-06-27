@@ -2,7 +2,9 @@ import 'package:app/models/days.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DaysService {
-  static Future<List<Days>> takeDays(
+
+  //TODO add id na funcao e buscar a apartir dele
+  static Future<List<Days>> getDaysOfDisciplineId(
       FirebaseFirestore firestore, String idDisciplina) async {
     List<Days> days = [];
     var day = await firestore

@@ -1,7 +1,7 @@
 import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/appbar.dart';
 import 'package:app/components/header.dart';
-import 'package:app/models/settings/matricula_objects.dart';
+import 'package:app/models/settings/matricula_settings.dart';
 import 'package:app/models/matricula.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,10 +28,10 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
             ),
           ),
           Expanded(
-            child: Consumer<MatriculaObjects>(
+            child: Consumer<MatriculaSettings>(
               builder: (context, value, child) {
                 return FutureBuilder(
-                  future: value.getMatriculas(),
+                  future: value.getAllMatriculas(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());

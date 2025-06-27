@@ -4,7 +4,7 @@ import "package:app/services/matricula_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
-class MatriculaObjects with ChangeNotifier {
+class MatriculaSettings with ChangeNotifier {
   List<Matricula> matriculas = [];
 
   void initializeMatriculas(List<Matricula> matriculas) {
@@ -12,8 +12,8 @@ class MatriculaObjects with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Matricula>> getMatriculas() async {
+  Future<List<Matricula>> getAllMatriculas() async {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-    return await MatriculaService.takeMatriculas(firestore);
+    return await MatriculaService.getAllMatriculas(firestore);
   }
 }

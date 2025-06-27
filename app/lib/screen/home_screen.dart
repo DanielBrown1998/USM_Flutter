@@ -1,5 +1,5 @@
 import 'package:app/components/appbar.dart';
-import 'package:app/models/settings/user_objects.dart';
+import 'package:app/models/settings/user_settings.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app/components/header.dart';
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      drawer: Consumer<UserObjects>(
+      drawer: Consumer<UserSettings>(
           builder: (BuildContext context, value, Widget? child) {
         if (value.user == null) {
           return Center(

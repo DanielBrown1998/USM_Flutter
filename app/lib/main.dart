@@ -1,11 +1,11 @@
 import 'package:app/models/disciplinas.dart';
 import 'package:app/models/matricula.dart';
 import 'package:app/models/monitoria.dart';
-import 'package:app/models/settings/disciplinas_objects.dart';
-import 'package:app/models/settings/monitoria_objects.dart';
-import 'package:app/models/settings/user_objects.dart';
-import 'package:app/models/settings/days_objects.dart';
-import 'package:app/models/settings/matricula_objects.dart';
+import 'package:app/models/settings/disciplinas_settings.dart';
+import 'package:app/models/settings/monitoria_settings.dart';
+import 'package:app/models/settings/user_settings.dart';
+import 'package:app/models/settings/days_settings.dart';
+import 'package:app/models/settings/matricula_settings.dart';
 
 import 'package:app/screen/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
@@ -38,7 +38,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       FutureProvider<List<Matricula>>.value(
-        value: MatriculaService.takeMatriculas(firestore),
+        value: MatriculaService.getAllMatriculas(firestore),
         initialData: [],
       ),
       FutureProvider<List<Disciplinas>>.value(
@@ -46,23 +46,23 @@ void main() async {
         initialData: [],
       ),
       FutureProvider<List<Monitoria>>.value(
-        value: MonitoriasService.loadMonitorias(firestore),
+        value: MonitoriasService.getAllMonitorias(firestore),
         initialData: [],
       ),
 
       //substituindo o ChangeNotifierProvider deixando o listen = false
-      ProxyProvider<List<Matricula>, MatriculaObjects>(
+      ProxyProvider<List<Matricula>, MatriculaSettings>(
         update: (context, matriculas, previous) {
-          previous ??= MatriculaObjects();
+          previous ??= MatriculaSettings();
           previous.initializeMatriculas(matriculas);
           return previous;
         },
       ),
-      ChangeNotifierProvider<UserObjects>(create: (_) => UserObjects()),
-      ChangeNotifierProvider<DaysObjects>(create: (_) => DaysObjects()),
-      ChangeNotifierProvider<MonitoriaObjects>(
-          create: (_) => MonitoriaObjects()),
-      ChangeNotifierProvider(create: (_) => DisciplinasObjects()),
+      ChangeNotifierProvider<UserSettings>(create: (_) => UserSettings()),
+      ChangeNotifierProvider<DaysSettings>(create: (_) => DaysSettings()),
+      ChangeNotifierProvider<MonitoriaSettings>(
+          create: (_) => MonitoriaSettings()),
+      ChangeNotifierProvider(create: (_) => DisciplinasSettings()),
     ],
     child: const USMApp(
       title: "MON. UERJ-ZO",

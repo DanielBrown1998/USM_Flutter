@@ -12,13 +12,13 @@ class MonitoriasService {
         .set(monitoria.toMap());
   }
 
-  static Future<List<Monitoria>> loadMonitorias(
+  static Future<List<Monitoria>> getAllMonitorias(
       FirebaseFirestore firestore) async {
-    List<Monitoria> mon = [];
-    var monitorias = await firestore.collection("monitorias").get();
-    for (var item in monitorias.docs) {
-      mon.add(Monitoria.fromMap(item.data()));
+    List<Monitoria> monitorias = [];
+    var snapshot = await firestore.collection("monitorias").get();
+    for (var item in snapshot.docs) {
+      monitorias.add(Monitoria.fromMap(item.data()));
     }
-    return mon;
+    return monitorias;
   }
 }

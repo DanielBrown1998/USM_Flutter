@@ -4,7 +4,7 @@ import 'package:app/utils/theme/theme.dart';
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
-import 'package:app/models/settings/monitoria_objects.dart';
+import 'package:app/models/settings/monitoria_settings.dart';
 
 class ListBody extends StatefulWidget {
   const ListBody({super.key});
@@ -86,9 +86,9 @@ class _MonitoriaViewState extends State<MonitoriaView> {
             width: 3,
           ),
         ),
-        child: Consumer<MonitoriaObjects>(
+        child: Consumer<MonitoriaSettings>(
           builder:
-              (BuildContext context, MonitoriaObjects list, Widget? widget) {
+              (BuildContext context, MonitoriaSettings list, Widget? widget) {
             return FutureBuilder(
               future: list.getStatusMarcada(),
               builder: (context, snapshot) {

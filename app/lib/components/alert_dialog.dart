@@ -2,9 +2,9 @@ import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
-import 'package:app/models/settings/days_objects.dart';
-import 'package:app/models/settings/monitoria_objects.dart';
-import 'package:app/models/settings/user_objects.dart';
+// import 'package:app/models/settings/days_settings.dart';
+import 'package:app/models/settings/monitoria_settings.dart';
+import 'package:app/models/settings/user_settings.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:app/utils/constants/constants.dart';
 
@@ -59,18 +59,18 @@ Future<dynamic> alertDialogStudent(
 
 Future<dynamic> alertDialogStatusMonitoria(
   BuildContext context, {
-  required Monitoria mon,
+  required Monitoria monitoriaMarcada,
   required IconData icon,
   required String title,
-  required String msg,
+  required String description,
   required String confirmation,
   required String cancel,
   bool monitoriaOk = true,
 }) {
   // DataUserObjects dataUser =
   // Provider.of<DataUserObjects>(context, listen: false);
-  MonitoriaObjects monitoria =
-      Provider.of<MonitoriaObjects>(context, listen: false);
+  MonitoriaSettings monitoria =
+      Provider.of<MonitoriaSettings>(context, listen: false);
 
   AlertDialog alert = AlertDialog(
     icon: Icon(icon),
@@ -80,20 +80,20 @@ Future<dynamic> alertDialogStatusMonitoria(
       title,
       style: TextStyle(color: Theme.of(context).dividerColor, fontSize: 20),
     ),
-    content: Text(msg),
+    content: Text(description),
     actions: [
       TextButton(
           onPressed: () async {
             // DataUser data = dataUser.dataUser!;
-            print(mon.toMap());
+            print(monitoriaMarcada.toMap());
             try {
               if (monitoriaOk) {
                 await monitoria.updateStatusMonitoria(
-                    mon: mon, newStatus: Status.presente);
+                    monitoria: monitoriaMarcada, newStatus: Status.presente);
                 // dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
                 await monitoria.updateStatusMonitoria(
-                    mon: mon, newStatus: Status.ausente);
+                    monitoria: monitoriaMarcada, newStatus: Status.ausente);
                 // dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
               Navigator.pop(context, true);
@@ -127,19 +127,19 @@ Future<dynamic> alertDialogStatusMonitoria(
 }
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
-  DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
-  MonitoriaObjects monitorias =
-      Provider.of<MonitoriaObjects>(context, listen: false);
-      
+  // DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
+  MonitoriaSettings monitorias =
+      Provider.of<MonitoriaSettings>(context, listen: false);
+
   //substituindo o usuario autenticado por enquanto!
-  UserObjects users = Provider.of<UserObjects>(context, listen: false);
+  UserSettings users = Provider.of<UserSettings>(context, listen: false);
   User? user = users.user;
 
   //se user e monitor de uma materia, nao pode pedir monitoria da propria materia que e monitorando
   //superusuario nao pode marcar monitorias
 
   final formkey = GlobalKey<FormState>();
-  final TextEditingController matricula = TextEditingController();
+  // final TextEditingController matricula = TextEditingController();
   Disciplinas disciplina = user!.disciplinas[0];
   DateTime date = DateTime.now().add(Duration(days: 1));
 
@@ -230,8 +230,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                   date: date,
                   aluno: "${user.firstName} ${user.lastName}",
                   userName: user.userName);
-              bool mark = await monitorias.addMonitoria(mon: monitoria);
-              List<dynamic> result = [mark, user, date];
+              bool isAdded =
+                  await monitorias.addMonitoria(monitoria: monitoria);
+              List<dynamic> result = [isAdded, user, date];
               Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);

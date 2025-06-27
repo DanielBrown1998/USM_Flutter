@@ -59,8 +59,9 @@ class MonitoriaCard extends StatelessWidget {
                         title: "Alterar Status Monitoria",
                         confirmation: "sim",
                         cancel: "nao",
-                        msg: "deseja alterar o status da msg para concluido",
-                        mon: monitoria);
+                        description:
+                            "deseja alterar o status da msg para concluido",
+                        monitoriaMarcada: monitoria);
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -98,9 +99,9 @@ class MonitoriaCard extends StatelessWidget {
                         title: "Alterar Status Monitoria",
                         confirmation: "sim",
                         cancel: "nao",
-                        msg:
+                        description:
                             "deseja alterar o status da msg para nao concluido",
-                        mon: monitoria,
+                        monitoriaMarcada: monitoria,
                         monitoriaOk: false);
                     if (value == true) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

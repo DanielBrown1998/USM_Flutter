@@ -1,6 +1,6 @@
 import 'package:app/models/matricula.dart';
-import 'package:app/models/settings/matricula_objects.dart';
-import 'package:app/models/settings/user_objects.dart';
+import 'package:app/models/settings/matricula_settings.dart';
+import 'package:app/models/settings/user_settings.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
@@ -47,8 +47,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
-      body: Consumer<MatriculaObjects>(
-          builder: (context, MatriculaObjects list, child) {
+      body: Consumer<MatriculaSettings>(
+          builder: (context, MatriculaSettings list, child) {
         return Container(
           decoration: BoxDecoration(
             border: Border.all(
@@ -130,13 +130,14 @@ class _LoginState extends State<Login> {
                                   FirebaseFirestore firestore =
                                       await FirebaseService
                                           .initializeFirebase();
-                                  Provider.of<UserObjects>(context,
+                                  Provider.of<UserSettings>(context,
                                               listen: false)
                                           .user =
                                       await UserService.loadUser(
                                           firestore: firestore,
                                           matricula: matricula.text);
-                                  User? user = Provider.of<UserObjects>(context,
+                                  User? user = Provider.of<UserSettings>(
+                                          context,
                                           listen: false)
                                       .user;
                                   if (user == null) {

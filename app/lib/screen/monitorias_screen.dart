@@ -18,7 +18,7 @@ class _MonitoriasSreenState extends State<MonitoriasSreen> {
   Widget build(BuildContext context) {
     loadData() async {
       FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-      return await MonitoriasService.loadMonitorias(firestore);
+      return await MonitoriasService.getAllMonitorias(firestore);
     }
 
     // List<Monitoria> monitorias = MonitoriasService.loadMonitorias();

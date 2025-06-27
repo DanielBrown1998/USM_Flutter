@@ -1,10 +1,10 @@
 import "package:app/models/user.dart";
 import 'package:flutter/material.dart';
 
-class UserObjects with ChangeNotifier {
+class UserSettings with ChangeNotifier {
   User? user;
 
-  UserObjects({this.user});
+  UserSettings({this.user});
 
   // User getUserByMatricula(String matricula) {
   //   for (User user in users) {

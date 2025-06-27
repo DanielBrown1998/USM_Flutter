@@ -1,22 +1,22 @@
 import 'package:app/models/matricula.dart';
-import 'package:app/models/settings/user_objects.dart';
+import 'package:app/models/settings/user_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MatriculaService {
-  static Future<Matricula> takeMatricula(
+  static Future<Matricula> getDataMatriculaByNumberMatricula(
       {required FirebaseFirestore firestore, required String matricula}) async {
-    var data = await firestore.collection("matriculas").doc(matricula).get();
-    if (data.data() == null) {
+    var snapshot = await firestore.collection("matriculas").doc(matricula).get();
+    if (snapshot.data() == null) {
       throw UserNotFoundException("User with matricula $matricula not found.");
     }
-    return Matricula.fromMap(data.data()!);
+    return Matricula.fromMap(snapshot.data()!);
   }
 
-  static Future<List<Matricula>> takeMatriculas(
+  static Future<List<Matricula>> getAllMatriculas(
       FirebaseFirestore firestore) async {
     List<Matricula> matriculas = [];
-    var data = await firestore.collection("matriculas").get();
-    for (var item in data.docs) {
+    var snapshot = await firestore.collection("matriculas").get();
+    for (var item in snapshot.docs) {
       Matricula matricula = Matricula.fromMap(item.data());
       matriculas.add(matricula);
     }
