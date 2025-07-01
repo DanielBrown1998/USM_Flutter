@@ -116,7 +116,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                               icon: Icons.dangerous_outlined);
                                           return;
                                         }
-                                        print("$name $email $matricula");
+                                        // print("$name $email $matricula");
                                         Navigator.pop(context);
                                       },
                                       child: Row(

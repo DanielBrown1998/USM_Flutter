@@ -63,14 +63,17 @@ class MonitoriaCard extends StatelessWidget {
                             "deseja alterar o status da msg para concluido",
                         monitoriaMarcada: monitoria);
                     if (value == true) {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               "${monitoria.userName} realizou a monitoria!")));
                     } else if (value == false) {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               " status nao alterado para ${monitoria.userName}")));
                     } else {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));
                     }
@@ -104,14 +107,17 @@ class MonitoriaCard extends StatelessWidget {
                         monitoriaMarcada: monitoria,
                         monitoriaOk: false);
                     if (value == true) {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               " ${monitoria.userName} nao realizou a monitoria")));
                     } else if (value == false) {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               " status nao alterado para ${monitoria.userName}")));
                     } else {
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));
                     }

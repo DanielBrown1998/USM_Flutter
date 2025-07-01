@@ -7,7 +7,7 @@ import "package:app/utils/constants/constants.dart";
 
 class MonitoriaSettings with ChangeNotifier {
   List<Monitoria> monitoria = [];
-  int limit = 10;
+  int limitMonitoriaBYDisciplina = 10;
   //TODO enviar o limit para a disciplina
   //TODO realizar a monitoria de acordo com as regras da disciplina escolhida
   //TODO inserir a disciplina escolhida no addMonitoria
@@ -36,9 +36,11 @@ class MonitoriaSettings with ChangeNotifier {
             .toList()
         : [];
 
-    print("------------------------------------------------------------");
-    monitoriasByDate.forEach((element) => print(element.aluno));
-    print("------------------------------------------------------------");
+    // print("------------------------------------------------------------");
+    // for (var element in monitoriasByDate) {
+    //   print(element.aluno);
+    // }
+    // print("------------------------------------------------------------");
 
     if (monitoriasByDate.length >= limit) {
       throw MonitoriaExceedException(
@@ -56,9 +58,9 @@ class MonitoriaSettings with ChangeNotifier {
             element.date.month == monitoria.date.month &&
             element.date.year == monitoria.date.year)
         .isEmpty;
-    print("------------------------------------------------------------");
-    print(monitoriasByDate);
-    print("------------------------------------------------------------");
+    // print("------------------------------------------------------------");
+    // print(monitoriasByDate);
+    // print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
           "${monitoria.aluno} ja marcou monitoria para esse dia ${monitoria.date.day}/${monitoria.date.month}/${monitoria.date.year}");
@@ -70,7 +72,7 @@ class MonitoriaSettings with ChangeNotifier {
     bool isMonitoriaThisDay = false;
     List<Monitoria> monitorias =
         await getMonitoriasbyDate(date: monitoria.date, limit: 10);
-    print(monitorias);
+    // print(monitorias);
 
     if (monitorias == []) {
       isMonitoriaThisDay = true;
@@ -112,22 +114,22 @@ class MonitoriaSettings with ChangeNotifier {
   updateStatusMonitoria(
       {required Monitoria monitoria, required String newStatus}) async {
     List<Monitoria> monitorias =
-        await getMonitoriasbyDate(date: monitoria.date, limit: limit);
+        await getMonitoriasbyDate(date: monitoria.date, limit: limitMonitoriaBYDisciplina);
 
     for (Monitoria item in monitorias) {
       if (item.id == monitoria.id) {
-        print("${item.toMap()}");
+        // print("${item.toMap()}");
         FirebaseFirestore firestore =
             await FirebaseService.initializeFirebase();
-        print("------------------------------------------------------------");
-        print("antes: ${item.status}");
-        print(item.toMap());
+        // print("------------------------------------------------------------");
+        // print("antes: ${item.status}");
+        // print(item.toMap());
         item.status = newStatus;
         await MonitoriasService.saveMonitoria(
             firestore: firestore, monitoria: item);
-        print("depois: ${item.status}");
-        print(item.toMap());
-        print("------------------------------------------------------------");
+        // print("depois: ${item.status}");
+        // print(item.toMap());
+        // print("------------------------------------------------------------");
         notifyListeners();
         return item;
       }

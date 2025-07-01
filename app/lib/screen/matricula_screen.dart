@@ -74,7 +74,8 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () async {
           if (context.mounted) {
-            dynamic value = await alertDialogAddMatricula(context);
+            // dynamic value = 
+            await alertDialogAddMatricula(context);
           }
         },
         elevation: 10,

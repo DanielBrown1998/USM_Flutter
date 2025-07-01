@@ -65,12 +65,14 @@ class _HomeState extends State<Home> {
             User user = value[1];
             DateTime date = value[2];
             if (value[0]) {
+              if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                     "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
                 duration: Duration(seconds: 2),
               ));
             } else {
+              if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
                     "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),

@@ -88,15 +88,15 @@ void main() {
       final configScreen = find.text("config");
       final elevatedButtonAddMonitoria = find.byKey(Key("add_monitoria"));
       final listScreensInHome = find.byType(custom_body.ListBody);
-      final monitoriasView = find.byType(custom_body.MonitoriaView);
-      final monitoria = find.byType(MonitoriaCard);
+      final monitoriasMarcadasView = find.byType(custom_body.MonitoriaView);
+      final monitoriaMarcada = find.byType(MonitoriaCard);
 
       //verificando a home
       expect(find.byType(Header), findsOneWidget);
       expect(listScreensInHome, findsOneWidget);
       expect(find.byType(Card), findsWidgets);
-      expect(monitoriasView, findsOneWidget);
-      expect(monitoria, findsWidgets);
+      expect(monitoriasMarcadasView, findsOneWidget);
+      expect(monitoriaMarcada, findsWidgets);
       expect(elevatedButtonAddMonitoria, findsOneWidget);
 
       expect(buscarAlunosScreen, findsOneWidget);
@@ -150,8 +150,8 @@ void main() {
       expect(find.byType(Header), findsOneWidget);
       expect(listScreensInHome, findsOneWidget);
       expect(find.byType(Card), findsWidgets);
-      expect(monitoriasView, findsOneWidget);
-      expect(monitoria, findsWidgets);
+      expect(monitoriasMarcadasView, findsOneWidget);
+      expect(monitoriaMarcada, findsWidgets);
       expect(elevatedButtonAddMonitoria, findsOneWidget);
 
       await test.drag(listScreensInHome, Offset(1000, 0));
@@ -184,8 +184,8 @@ void main() {
       expect(find.byType(Header), findsOneWidget);
       expect(listScreensInHome, findsOneWidget);
       expect(find.byType(Card), findsWidgets);
-      expect(monitoriasView, findsOneWidget);
-      expect(monitoria, findsWidgets);
+      expect(monitoriasMarcadasView, findsOneWidget);
+      expect(monitoriaMarcada, findsWidgets);
       expect(elevatedButtonAddMonitoria, findsOneWidget);
 
       await test.drag(listScreensInHome, Offset(1000, 0));

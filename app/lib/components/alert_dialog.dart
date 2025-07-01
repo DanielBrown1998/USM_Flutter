@@ -84,18 +84,15 @@ Future<dynamic> alertDialogStatusMonitoria(
     actions: [
       TextButton(
           onPressed: () async {
-            // DataUser data = dataUser.dataUser!;
-            print(monitoriaMarcada.toMap());
             try {
               if (monitoriaOk) {
                 await monitoria.updateStatusMonitoria(
                     monitoria: monitoriaMarcada, newStatus: Status.presente);
-                // dataUser.updateDataUser(data, "PRESENTE"); //update dataUser
               } else {
                 await monitoria.updateStatusMonitoria(
                     monitoria: monitoriaMarcada, newStatus: Status.ausente);
-                // dataUser.updateDataUser(data, "AUSENTE"); //update dataUser
               }
+              if (!context.mounted) return;
               Navigator.pop(context, true);
             } on StatusMOnitoriaException catch (e) {
               Navigator.pop(context, e.message);
@@ -175,7 +172,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                         labelText: "Matricula",
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                         helperText: "insira a matricula do aluno"),
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                     onSaved: (value) {},
                   ),
                   DropdownButtonFormField(
@@ -204,7 +203,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                         labelText: "Insira o Dia",
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                         helperText: "insira um dia da semana disponivel"),
-                    validator: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
                   )
                 ],
               ),
@@ -233,6 +234,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               bool isAdded =
                   await monitorias.addMonitoria(monitoria: monitoria);
               List<dynamic> result = [isAdded, user, date];
+              if (!context.mounted) return;
               Navigator.pop(context, result);
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);
@@ -282,13 +284,14 @@ Future<dynamic> alertDialogAddMatricula(BuildContext context) {
     actions: [
       IconButton(
         onPressed: () async {
-          print(matricula.text);
+          if (!context.mounted) return;
           Navigator.pop(context, true);
         },
         icon: Icon(Icons.add_task),
       ),
       IconButton(
         onPressed: () async {
+          if (!context.mounted) return;
           Navigator.pop(context, false);
         },
         icon: Icon(Icons.highlight_remove_sharp),

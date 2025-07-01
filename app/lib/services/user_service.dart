@@ -3,15 +3,14 @@ import 'package:app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserService {
-
-  static Future<User> loadUser({required FirebaseFirestore firestore, required String matricula}) async {
+  static Future<User> getUserByMatricula(
+      {required FirebaseFirestore firestore, required String matricula}) async {
     var snapshot = await firestore.collection("user").doc(matricula).get();
     if (snapshot.data() == null) {
       throw UserNotFoundException("User with matricula $matricula not found.");
     }
     return User.fromMap(snapshot.data()!);
   }
-
 
   static Future<List<User>> loadUsers(FirebaseFirestore firestore) async {
     List<User> users = [];

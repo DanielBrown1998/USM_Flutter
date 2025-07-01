@@ -1,4 +1,3 @@
-import 'package:app/models/matricula.dart';
 import 'package:app/models/settings/matricula_settings.dart';
 import 'package:app/models/settings/user_settings.dart';
 import 'package:app/models/user.dart';
@@ -130,17 +129,20 @@ class _LoginState extends State<Login> {
                                   FirebaseFirestore firestore =
                                       await FirebaseService
                                           .initializeFirebase();
+                                  if (!context.mounted) return;
                                   Provider.of<UserSettings>(context,
                                               listen: false)
                                           .user =
-                                      await UserService.loadUser(
+                                      await UserService.getUserByMatricula(
                                           firestore: firestore,
                                           matricula: matricula.text);
+                                  if (!context.mounted) return;
                                   User? user = Provider.of<UserSettings>(
                                           context,
                                           listen: false)
                                       .user;
                                   if (user == null) {
+                                    if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
