@@ -1,6 +1,5 @@
 import "package:app/models/days.dart";
 import "package:app/models/disciplinas.dart";
-import "package:app/models/hours.dart";
 import "package:app/services/disciplina_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter_test/flutter_test.dart";
