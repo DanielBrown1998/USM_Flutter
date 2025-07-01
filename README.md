@@ -1,4 +1,5 @@
 # MON. UERJ-ZO
+[![Codemagic build status](https://api.codemagic.io/apps/685edcfa3096b3b0a849063b/685ef8926725832714ff2373/status_badge.svg)](https://codemagic.io/app/685edcfa3096b3b0a849063b/685ef8926725832714ff2373/latest_build)
 
 ## Descrição
 
