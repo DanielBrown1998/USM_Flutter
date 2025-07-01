@@ -7,7 +7,7 @@ import "package:app/main.dart";
 import "package:app/models/disciplinas.dart";
 import "package:app/models/matricula.dart";
 import "package:app/models/monitoria.dart";
-import "package:app/models/settings/days_settings.dart";
+
 import "package:app/models/settings/disciplinas_settings.dart";
 import "package:app/models/settings/matricula_settings.dart";
 import "package:app/models/settings/monitoria_settings.dart";
@@ -43,7 +43,7 @@ void main() {
             initialData: [],
           ),
           FutureProvider<List<Disciplinas>>.value(
-            value: DisciplinaService.getDisciplinasIDs(firestore: firestore),
+            value: DisciplinaService.getDisciplinas(firestore: firestore),
             initialData: [],
           ),
           FutureProvider<List<Monitoria>>.value(
@@ -60,7 +60,6 @@ void main() {
             },
           ),
           ChangeNotifierProvider<UserSettings>(create: (_) => UserSettings()),
-          ChangeNotifierProvider<DaysSettings>(create: (_) => DaysSettings()),
           ChangeNotifierProvider<MonitoriaSettings>(
               create: (_) => MonitoriaSettings()),
           ChangeNotifierProvider(create: (_) => DisciplinasSettings()),

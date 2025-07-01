@@ -137,6 +137,15 @@ class MonitoriaSettings with ChangeNotifier {
   }
 }
 
+class UserisNotAvailableToMonitoriaException implements Exception {
+  final String message;
+  UserisNotAvailableToMonitoriaException(this.message);
+  @override
+  String toString() {
+    return message;
+  }
+}
+
 class UserAlreadyMarkDateException implements Exception {
   final String message;
   UserAlreadyMarkDateException(this.message);

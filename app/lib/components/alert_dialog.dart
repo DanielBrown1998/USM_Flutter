@@ -2,9 +2,9 @@ import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/models/user.dart';
 
-// import 'package:app/models/settings/days_settings.dart';
 import 'package:app/models/settings/monitoria_settings.dart';
 import 'package:app/models/settings/user_settings.dart';
+import 'package:app/utils/utils_add_monitoria.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:app/utils/constants/constants.dart';
 
@@ -124,19 +124,13 @@ Future<dynamic> alertDialogStatusMonitoria(
 }
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
-  // DaysObjects days = Provider.of<DaysObjects>(context, listen: false);
-  MonitoriaSettings monitorias =
-      Provider.of<MonitoriaSettings>(context, listen: false);
-
+  
   //substituindo o usuario autenticado por enquanto!
   UserSettings users = Provider.of<UserSettings>(context, listen: false);
   User? user = users.user;
 
-  //se user e monitor de uma materia, nao pode pedir monitoria da propria materia que e monitorando
-  //superusuario nao pode marcar monitorias
-
   final formkey = GlobalKey<FormState>();
-  // final TextEditingController matricula = TextEditingController();
+
   Disciplinas disciplina = user!.disciplinas[0];
   DateTime date = DateTime.now().add(Duration(days: 1));
 
@@ -217,31 +211,37 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
     actions: [
       IconButton(
           onPressed: () async {
-            //TODO: check if have available days
             try {
-              String id = user.userName +
-                  date.day.toString() +
-                  date.month.toString() +
-                  date.year.toString() +
-                  date.hour.toString() +
-                  date.minute.toString();
-              Monitoria monitoria = Monitoria(
-                  id: id,
-                  disciplina: disciplina,
-                  date: date,
-                  aluno: "${user.firstName} ${user.lastName}",
-                  userName: user.userName);
-              bool isAdded =
-                  await monitorias.addMonitoria(monitoria: monitoria);
-              List<dynamic> result = [isAdded, user, date];
+              //TODO refatorar o codigo e por a excessao no modulo
+              Map<String, dynamic> isUserValid = isMonitoriaValid(
+                  user: user, disciplina: disciplina, date: date);
+              if (!isUserValid["value"]) {
+                throw UserisNotAvailableToMonitoriaException(
+                    isUserValid['message'].toString());
+              }
+
+              MonitoriaSettings monitorias =
+                  Provider.of<MonitoriaSettings>(context, listen: false);
+              Monitoria formatedDataToMonitoria =
+                  formatAddMonitoria(user, disciplina, date);
+              bool isUserAdded = await monitorias.addMonitoria(
+                  monitoria: formatedDataToMonitoria);
+              List<dynamic> resultAddDataMonitoria = [isUserAdded, user, date];
+
               if (!context.mounted) return;
-              Navigator.pop(context, result);
+              Navigator.pop(context, resultAddDataMonitoria);
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);
             } on UserAlreadyMarkDateException catch (e) {
               Navigator.pop(context, e.message);
             } on UserNotFoundException catch (e) {
               Navigator.pop(context, e.message);
+            } on UserisNotAvailableToMonitoriaException catch (e) {
+              Navigator.pop(context, e.message);
+            } on Exception catch (e) {
+              // implemente um log de erro!
+              Navigator.pop(
+                  context, "Erro desconhecido, tente novamente mais tarde");
             }
           },
           icon: Icon(Icons.add_task)),
