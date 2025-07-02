@@ -29,9 +29,7 @@ def flutterVersionName = localProperties.getProperty('flutter.build.name') ?: '1
 def flutterVersionCode = localProperties.getProperty('flutter.build.number') ?: '1'
 
 
-def buildNumber = flutterVersionCode.toInteger()
-def (major, minor, patch) = flutterVersionName.tokenize('.')
-def calculatedBuildVersion = major.toInteger() * 100000 + minor.toInteger() * 1000 + patch.toInteger() * 100 + buildNumber
+def calculatedBuildVersion = flutterVersionCode.toInteger()
 
 android {
     namespace = "com.danielbrown.app"
@@ -48,12 +46,11 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.danielbrown.app" // You can update the following values to match your application needs. // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.danielbrown.app" 
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
-        versionCode = calculatedBuildVersion.toInteger()
-        versionName = flutter.versionName
+        versionCode = calculatedBuildVersion
+        versionName = flutterVersionName
         multiDexEnabled = true
     }
     signingConfigs {
