@@ -1,0 +1,1 @@
+C:\Users\Daniel\devs\Flutter\USM_Flutter\app\build\app\intermediates\cxx\RelWithDebInfo\6u1i4t63\obj\armeabi-v7a
