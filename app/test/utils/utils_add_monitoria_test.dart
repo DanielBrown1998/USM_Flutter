@@ -9,7 +9,7 @@ void main() {
 
   test('verificando se uma monitoria pode ser marcada por um usuario comum',
       () {
-    Disciplinas disciplina = Disciplinas(
+    Disciplina disciplina = Disciplina(
       id: "FCEE01-14755",
       nome: "Programacao",
       monitor: "202213313611",

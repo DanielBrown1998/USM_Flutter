@@ -5,13 +5,13 @@ import "package:app/models/disciplinas.dart";
 class DisciplinaService {
   static String collection = "disciplinas";
 
-  static Future<List<Disciplinas>> getDisciplinas(
+  static Future<List<Disciplina>> getDisciplinas(
       {required FirebaseFirestore firestore}) async {
-    List<Disciplinas> disciplinas = [];
+    List<Disciplina> disciplinas = [];
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await firestore.collection(collection).get();
     for (var item in snapshot.docs) {
-      disciplinas.add(Disciplinas.fromMap(item.data()));
+      disciplinas.add(Disciplina.fromMap(item.data()));
     }
     return disciplinas;
   }

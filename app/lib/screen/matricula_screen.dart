@@ -48,7 +48,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                               onTap: () {},
                               title: Text(data.matricula),
                               subtitle: Text(
-                                  "numero de disciplinas: ${data.disciplina.length.toString()}"),
+                                  "numero de disciplinas: ${data.disciplinas.length.toString()}"),
                             ),
                           );
                         },
@@ -74,7 +74,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () async {
           if (context.mounted) {
-            // dynamic value = 
+            // dynamic value =
             await alertDialogAddMatricula(context);
           }
         },

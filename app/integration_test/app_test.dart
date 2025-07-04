@@ -42,7 +42,7 @@ void main() {
             value: MatriculaService.getAllMatriculas(firestore),
             initialData: [],
           ),
-          FutureProvider<List<Disciplinas>>.value(
+          FutureProvider<List<Disciplina>>.value(
             value: DisciplinaService.getDisciplinas(firestore: firestore),
             initialData: [],
           ),

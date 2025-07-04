@@ -124,14 +124,13 @@ Future<dynamic> alertDialogStatusMonitoria(
 }
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
-  
   //substituindo o usuario autenticado por enquanto!
   UserSettings users = Provider.of<UserSettings>(context, listen: false);
   User? user = users.user;
 
   final formkey = GlobalKey<FormState>();
 
-  Disciplinas disciplina = user!.disciplinas[0];
+  Disciplina disciplina = user!.disciplinas[0];
   DateTime date = DateTime.now().add(Duration(days: 1));
 
   AlertDialog alert = AlertDialog(

@@ -3,7 +3,7 @@ import 'package:app/utils/constants/constants.dart';
 
 class Monitoria {
   final String id;
-  final Disciplinas disciplina;
+  final Disciplina disciplina;
   final DateTime date;
   String status;
   final String aluno;
@@ -19,7 +19,7 @@ class Monitoria {
 
   Monitoria.fromMap(Map<String, dynamic> map)
       : id = map["id"],
-        disciplina = Disciplinas.fromMap(map["disciplina"]),
+        disciplina = Disciplina.fromMap(map["disciplina"]),
         date = map["date"].toDate(),
         aluno = map["aluno"],
         userName = map["userName"],

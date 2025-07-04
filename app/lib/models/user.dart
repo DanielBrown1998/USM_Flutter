@@ -11,7 +11,7 @@ class User {
   final bool isSuperUser;
   final DateTime lastLogin;
   final DateTime dateJoined;
-  final List<Disciplinas> disciplinas;
+  final List<Disciplina> disciplinas;
   final String campus;
 
   User(
@@ -28,7 +28,6 @@ class User {
       required this.disciplinas,
       required this.campus});
 
-
   User.fromMap(Map<String, dynamic> map)
       : firstName = map["firstName"],
         lastName = map["lastName"],
@@ -41,7 +40,7 @@ class User {
         lastLogin = map["lastLogin"].toDate(),
         dateJoined = map["dateJoined"].toDate(),
         disciplinas = List.generate(map["disciplinas"].length,
-            (index) => Disciplinas.fromMap(map["disciplinas"][index])),
+            (index) => Disciplina.fromMap(map["disciplinas"][index])),
         campus = map["campus"];
 
   Map<String, dynamic> toMap() {
@@ -57,10 +56,9 @@ class User {
       "lastLogin": lastLogin,
       "dateJoined": dateJoined,
       "disciplinas": disciplinas.map(
-        (Disciplinas value) => value.toMap(),
+        (Disciplina value) => value.toMap(),
       ),
       "campus": campus,
     };
   }
-
 }

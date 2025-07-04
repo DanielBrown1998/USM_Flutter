@@ -1,16 +1,16 @@
-class Disciplinas {
+class Disciplina {
   final String id;
   final String monitor;
   final String nome;
   final String campus;
 
-  Disciplinas(
+  Disciplina(
       {required this.id,
       required this.monitor,
       required this.nome,
       required this.campus});
 
-  Disciplinas.fromMap(Map<String, dynamic> map)
+  Disciplina.fromMap(Map<String, dynamic> map)
       : id = map["id"],
         monitor = map["monitor"],
         nome = map["nome"],

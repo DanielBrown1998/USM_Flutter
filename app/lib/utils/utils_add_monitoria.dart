@@ -5,7 +5,7 @@ import 'package:app/models/user.dart';
 //se user e monitor de uma materia, nao pode pedir monitoria da propria materia que e monitorando
 //superusuario nao pode marcar monitorias
 
-Monitoria formatAddMonitoria(User user, Disciplinas disciplina, DateTime date) {
+Monitoria formatAddMonitoria(User user, Disciplina disciplina, DateTime date) {
   String id = user.userName +
       date.day.toString() +
       date.month.toString() +
@@ -23,13 +23,12 @@ Monitoria formatAddMonitoria(User user, Disciplinas disciplina, DateTime date) {
 
 Map<String, dynamic> isMonitoriaValid(
     {required User user,
-    required Disciplinas disciplina,
+    required Disciplina disciplina,
     required DateTime date}) {
   Map<String, dynamic> result = {
     "value": true,
     "message": "Usuario pode marcar monitoria para essa disciplina e data"
   };
-
 
   // if (user.isSuperUser) {
   //   result["value"] = false;
