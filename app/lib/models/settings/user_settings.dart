@@ -1,10 +1,20 @@
+import 'package:app/models/disciplinas.dart';
+import 'package:app/models/matricula.dart';
 import "package:app/models/user.dart";
 import 'package:flutter/material.dart';
 
 class UserSettings with ChangeNotifier {
   User? user;
+  Matricula? matricula;
 
   UserSettings({this.user});
+
+  bool removeDisciplinaThisUser(Disciplina disciplina) {
+    if (user!.disciplinas.contains(disciplina)) {
+      return user!.disciplinas.remove(disciplina);
+    }
+    return false;
+  }
 
   // User getUserByMatricula(String matricula) {
   //   for (User user in users) {

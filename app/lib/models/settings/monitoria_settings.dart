@@ -7,11 +7,6 @@ import "package:app/utils/constants/constants.dart";
 
 class MonitoriaSettings with ChangeNotifier {
   List<Monitoria> monitoria = [];
-  int limitMonitoriaBYDisciplina = 10;
-  //TODO enviar o limit para a disciplina
-  //TODO realizar a monitoria de acordo com as regras da disciplina escolhida
-  //TODO inserir a disciplina escolhida no addMonitoria
-  //TODO verificar se o aluno esta inscrito nessa disciplina
 
   void initializeMonitorias(List<Monitoria> monitoria) {
     this.monitoria = monitoria;
@@ -24,7 +19,8 @@ class MonitoriaSettings with ChangeNotifier {
   }
 
   Future<List<Monitoria>> getMonitoriasbyDate(
-      {required DateTime date, required int limit}) async {
+      {required DateTime date, required int? limit}) async {
+    
     monitoria = await loadMonitorias();
     notifyListeners();
     List<Monitoria> monitoriasByDate = (monitoria == [])
@@ -42,7 +38,7 @@ class MonitoriaSettings with ChangeNotifier {
     // }
     // print("------------------------------------------------------------");
 
-    if (monitoriasByDate.length >= limit) {
+    if (limit != null && monitoriasByDate.length >= limit) {
       throw MonitoriaExceedException(
           "Limite de monitorias por dia excedido. Limite: $limit");
     }
@@ -70,8 +66,8 @@ class MonitoriaSettings with ChangeNotifier {
 
   Future<bool> addMonitoria({required Monitoria monitoria}) async {
     bool isMonitoriaThisDay = false;
-    List<Monitoria> monitorias =
-        await getMonitoriasbyDate(date: monitoria.date, limit: 10);
+    List<Monitoria> monitorias = await getMonitoriasbyDate(
+        date: monitoria.date, limit: monitoria.disciplina.limitByDay);
     // print(monitorias);
 
     if (monitorias == []) {
@@ -113,8 +109,8 @@ class MonitoriaSettings with ChangeNotifier {
   //TODO refactor from for to contains
   updateStatusMonitoria(
       {required Monitoria monitoria, required String newStatus}) async {
-    List<Monitoria> monitorias =
-        await getMonitoriasbyDate(date: monitoria.date, limit: limitMonitoriaBYDisciplina);
+    List<Monitoria> monitorias = await getMonitoriasbyDate(
+        date: monitoria.date, limit: monitoria.disciplina.limitByDay);
 
     for (Monitoria item in monitorias) {
       if (item.id == monitoria.id) {

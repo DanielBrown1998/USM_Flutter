@@ -1,4 +1,6 @@
 import 'package:app/components/appbar.dart';
+import 'package:app/models/disciplinas.dart';
+import 'package:app/models/settings/disciplinas_settings.dart';
 import 'package:app/models/settings/user_settings.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +11,22 @@ import 'package:app/components/alert_dialog.dart';
 import 'package:app/components/body.dart' as custom_body;
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key, required this.title});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.title});
   final String title;
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    //inicializando as disciplinas
+    List<Disciplina> allDisciplinas = context.watch<List<Disciplina>>();
+    DisciplinasSettings disciplinasProvider =
+        Provider.of<DisciplinasSettings>(context, listen: false);
+    disciplinasProvider.initializeDisciplinas(allDisciplinas);
+    print(disciplinasProvider.disciplinas);
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
       appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),

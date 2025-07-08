@@ -1,27 +1,27 @@
+import 'package:app/components/logo_laptop.dart';
+import 'package:app/models/matricula.dart';
 import 'package:app/models/settings/matricula_settings.dart';
 import 'package:app/models/settings/user_settings.dart';
-import 'package:app/models/user.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   double _op = 0.0;
   double bottomPadding = 48;
   MainAxisAlignment columnMainAxisAlignment = MainAxisAlignment.center;
-  TextEditingController matricula = TextEditingController();
+  TextEditingController matriculaController = TextEditingController();
 
   @override
   void initState() {
@@ -78,9 +78,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              Lottie.asset(
-                "lib/assets/loties/laptop.json",
-              ),
+              LogoLaptop(),
               AnimatedOpacity(
                 duration: Duration(milliseconds: 2000),
                 opacity: _op,
@@ -98,7 +96,7 @@ class _LoginState extends State<Login> {
                               fontSize: 16,
                               fontFamily: "Ubuntu",
                               fontStyle: FontStyle.italic),
-                          controller: matricula,
+                          controller: matriculaController,
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
@@ -123,42 +121,48 @@ class _LoginState extends State<Login> {
                         children: [
                           TextButton(
                               onPressed: () async {
-                                if (list.matriculas.any((value) =>
-                                    matricula.text == value.matricula)) {
+                                Matricula? matricula =
+                                    list.getMatricula(matriculaController.text);
+                                if (matricula != null) {
                                   //substituir pela Authenticacao
-                                  FirebaseFirestore firestore =
-                                      await FirebaseService
-                                          .initializeFirebase();
                                   if (!context.mounted) return;
-                                  Provider.of<UserSettings>(context,
-                                              listen: false)
-                                          .user =
-                                      await UserService.getUserByMatricula(
-                                          firestore: firestore,
-                                          matricula: matricula.text);
-                                  if (!context.mounted) return;
-                                  User? user = Provider.of<UserSettings>(
-                                          context,
-                                          listen: false)
-                                      .user;
-                                  if (user == null) {
-                                    if (!context.mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Usuario nao encontrado!",
-                                          style: TextStyle(
-                                              color: ThemeUSM.textColor,
-                                              fontSize: 16),
+                                  var users = Provider.of<UserSettings>(context,
+                                      listen: false);
+                                  try {
+                                    FirebaseFirestore firestore =
+                                        await FirebaseService
+                                            .initializeFirebase();
+                                    users.user =
+                                        await UserService.getUserByMatricula(
+                                            firestore: firestore,
+                                            matricula: matricula.matricula);
+                                  } on UserNotFoundException catch (_) {
+                                    users.user = null;
+                                    if (users.user == null) {
+                                      users.matricula = matricula;
+                                      if (!context.mounted) return;
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "Usuario nao encontrado!",
+                                            style: TextStyle(
+                                                color: ThemeUSM.textColor,
+                                                fontSize: 16),
+                                          ),
+                                          backgroundColor:
+                                              ThemeUSM.backgroundColor,
                                         ),
-                                        backgroundColor:
-                                            ThemeUSM.backgroundColor,
-                                      ),
-                                    );
-                                    //TODO redirect to sign-in screen
-                                  } else {
-                                    Navigator.of(context)
-                                        .popAndPushNamed(Routes.home);
+                                      );
+                                      //redirect to signin screen
+                                      Navigator.of(context)
+                                          .pushNamed(Routes.cadastro);
+                                    } else {
+                                      //redirect to login screen
+                                      if (!context.mounted) return;
+                                      Navigator.of(context)
+                                          .popAndPushNamed(Routes.home);
+                                    }
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

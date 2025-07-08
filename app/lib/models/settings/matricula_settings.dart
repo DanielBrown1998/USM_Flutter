@@ -12,6 +12,15 @@ class MatriculaSettings with ChangeNotifier {
     notifyListeners();
   }
 
+  Matricula? getMatricula(String matricula) {
+    for (Matricula item in matriculas) {
+      if (item.matricula == matricula) {
+        return item;
+      }
+    }
+    return null;
+  }
+
   Future<List<Matricula>> getAllMatriculas() async {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     return await MatriculaService.getAllMatriculas(firestore);

@@ -1,5 +1,6 @@
 import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
+import 'package:app/models/settings/disciplinas_settings.dart';
 import 'package:app/models/user.dart';
 
 import 'package:app/models/settings/monitoria_settings.dart';
@@ -130,7 +131,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
 
   final formkey = GlobalKey<FormState>();
 
-  Disciplina disciplina = user!.disciplinas[0];
+  Disciplina? disciplinaByUser;
+  DisciplinasSettings allDisciplinas =
+      Provider.of<DisciplinasSettings>(context, listen: false);
   DateTime date = DateTime.now().add(Duration(days: 1));
 
   AlertDialog alert = AlertDialog(
@@ -159,7 +162,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                   ),
                   TextFormField(
                     enabled: false,
-                    initialValue: user.userName,
+                    initialValue: user!.userName,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Matricula",
@@ -182,7 +185,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                         labelStyle: Theme.of(context).textTheme.displayMedium,
                       ),
                       onChanged: (value) {
-                        if (value != null) disciplina = value;
+                        if (value != null) disciplinaByUser = value;
                       }),
                   DateTimeFormField(
                     onChanged: (newValue) {
@@ -212,19 +215,31 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
           onPressed: () async {
             try {
               //TODO refatorar o codigo e por a excessao no modulo
+
               Map<String, dynamic> isUserValid = isMonitoriaValid(
-                  user: user, disciplina: disciplina, date: date);
+                  user: user, disciplina: disciplinaByUser, date: date);
               if (!isUserValid["value"]) {
                 throw UserisNotAvailableToMonitoriaException(
                     isUserValid['message'].toString());
               }
 
+              Disciplina? disciplinaUpdated = updateDisciplinaData(
+                  disciplinaByUser!, allDisciplinas.disciplinas);
+
+              if (disciplinaUpdated == null) {
+                //implement removeDisciplinaThisUser
+                users.removeDisciplinaThisUser(disciplinaByUser!);
+                throw DisciplinaNotFound(message: "disciplina nao encontrada!");
+              }
+              Monitoria formatedDataToMonitoria =
+                  formatAddMonitoria(user, disciplinaByUser!, date);
+
               MonitoriaSettings monitorias =
                   Provider.of<MonitoriaSettings>(context, listen: false);
-              Monitoria formatedDataToMonitoria =
-                  formatAddMonitoria(user, disciplina, date);
+
               bool isUserAdded = await monitorias.addMonitoria(
                   monitoria: formatedDataToMonitoria);
+
               List<dynamic> resultAddDataMonitoria = [isUserAdded, user, date];
 
               if (!context.mounted) return;
@@ -237,10 +252,10 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               Navigator.pop(context, e.message);
             } on UserisNotAvailableToMonitoriaException catch (e) {
               Navigator.pop(context, e.message);
-            } on Exception catch (e) {
-              // implemente um log de erro!
-              Navigator.pop(
-                  context, "Erro desconhecido, tente novamente mais tarde");
+            } on DisciplinaNotFound catch (e) {
+              Navigator.pop(context, e.message);
+            } on Exception catch (_) {
+              Navigator.pop(context, "Erro desconhecido");
             }
           },
           icon: Icon(Icons.add_task)),

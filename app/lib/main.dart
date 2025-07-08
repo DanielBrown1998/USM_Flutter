@@ -12,6 +12,7 @@ import 'package:app/screen/monitorias_screen.dart';
 
 import 'package:app/screen/login_screen.dart';
 import 'package:app/screen/home_screen.dart';
+import 'package:app/screen/register_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
 
 import "package:app/services/firebase_service.dart" as firebase;
@@ -39,14 +40,32 @@ void main() async {
       FutureProvider<List<Matricula>>.value(
         value: MatriculaService.getAllMatriculas(firestore),
         initialData: [],
+        catchError: (context, error) {
+          // Loga o erro para fins de depuração.
+          print("Erro ao buscar matrículas: $error");
+          // Retorna uma lista vazia como fallback.
+          return <Matricula>[];
+        },
       ),
       FutureProvider<List<Disciplina>>.value(
         value: DisciplinaService.getDisciplinas(firestore: firestore),
         initialData: [],
+        catchError: (context, error) {
+          // Loga o erro para fins de depuração.
+          print("Erro ao buscar Disciplinas: $error");
+          // Retorna uma lista vazia como fallback.
+          return <Disciplina>[];
+        },
       ),
       FutureProvider<List<Monitoria>>.value(
         value: MonitoriasService.getAllMonitorias(firestore),
         initialData: [],
+        catchError: (context, error) {
+          // Loga o erro para fins de depuração.
+          print("Erro ao buscar monitorias: $error");
+          // Retorna uma lista vazia como fallback.
+          return <Monitoria>[];
+        },
       ),
 
       //substituindo o ChangeNotifierProvider deixando o listen = false
@@ -80,8 +99,9 @@ class USMApp extends StatelessWidget {
       theme: USMThemeData.themeData,
       initialRoute: Routes.login,
       routes: {
-        Routes.login: (context) => Login(),
-        Routes.home: (context) => Home(
+        Routes.login: (context) => LoginScreen(),
+        Routes.cadastro: (context) => RegisterScreen(),
+        Routes.home: (context) => HomeScreen(
               key: Key('home_screen'),
               title: title,
             ),

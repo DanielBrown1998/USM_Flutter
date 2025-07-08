@@ -29,3 +29,13 @@ class DisciplinasSettings with ChangeNotifier {
     return days[disciplina.id];
   }
 }
+
+class DisciplinaNotFound {
+  final String message;
+  DisciplinaNotFound({required this.message});
+
+  @override
+  String toString() {
+    return message;
+  }
+}
