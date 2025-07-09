@@ -17,7 +17,7 @@ class Matricula {
   Map<String, dynamic> toMap() {
     return {
       "matricula": matricula,
-      "disciplinas": disciplinas.map((Disciplina value) => value.toMap()),
+      "disciplinas": disciplinas.map((Disciplina value) => value.toMap()).toList(),
       "campus": campus
     };
   }

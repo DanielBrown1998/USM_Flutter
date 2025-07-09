@@ -11,6 +11,7 @@ void main() {
       () {
     Disciplina disciplina = Disciplina(
       id: "FCEE01-14755",
+      limitByDay: null,
       nome: "Programacao",
       monitor: "202213313611",
       campus: "Zona Oeste",

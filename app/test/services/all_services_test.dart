@@ -52,11 +52,13 @@ void main() {
       expectedDisciplina = [
         Disciplina(
             id: '202213313611',
+            limitByDay: null,
             nome: 'Mathematics',
             monitor: 'John Doe',
             campus: 'Main Campus'),
         Disciplina(
             id: '202213313612',
+            limitByDay: null,
             nome: 'Physics',
             monitor: 'Jane Smith',
             campus: 'Main Campus'),
@@ -147,18 +149,24 @@ void main() {
   });
 
   group("MatriculaService", () {
+    late String collectionMatricula;
+    late String matriculaMonitor;
+    late String matriculaAluno01;
+    late String matriculaAluno02;
     setUp(() {
       collectionReference = MockCollectionReference();
       queryDocumentSnapshot001 = MockQueryDocumentSnapshot();
       documentReference = MockDocumentReference();
       querySnapshot = MockQuerySnapshot();
+      collectionMatricula = "matriculas";
+      matriculaMonitor = "202213313611";
+      matriculaAluno01 = "202213313609";
+      matriculaAluno02 = "202213313610";
     });
     test("getDatamatriculaByNumberMatricula", () {
-      String matricula = "202213313611";
-      String collectionMatricula = "matriculas";
-
       Disciplina disciplina = Disciplina(
-          id: '202213313611',
+          id: matriculaMonitor,
+          limitByDay: null,
           nome: 'Arquitetura de Computadores',
           monitor: 'Daniel Passos',
           campus: 'Zona Oeste');
@@ -166,21 +174,22 @@ void main() {
       Matricula matriculaData = Matricula(
           campus: "Zona Oeste",
           disciplinas: [disciplina],
-          matricula: matricula);
+          matricula: matriculaMonitor);
 
       when(queryDocumentSnapshot001.data()).thenReturn({
-        "matricula": matricula.toString(),
+        "matricula": matriculaMonitor.toString(),
         "disciplinas": [disciplina.toMap()],
         "campus": "Zona Oeste"
       });
       when(documentReference.get()).thenAnswer((_) async {
         return Future.value(queryDocumentSnapshot001);
       });
-      when(collectionReference.doc(matricula)).thenReturn(documentReference);
+      when(collectionReference.doc(matriculaMonitor))
+          .thenReturn(documentReference);
       when(firestore.collection(collectionMatricula))
           .thenReturn(collectionReference);
       MatriculaService.getDataMatriculaByNumberMatricula(
-              firestore: firestore, matricula: matricula)
+              firestore: firestore, matricula: matriculaMonitor)
           .then((value) {
         expect(value.matricula, matriculaData.matricula);
         expect(value.campus, matriculaData.campus);
@@ -189,6 +198,61 @@ void main() {
               value.disciplinas[index].id, matriculaData.disciplinas[index].id);
         }
       });
+    });
+
+    test("getAllMatriculas", () {
+      queryDocumentSnapshot002 = MockQueryDocumentSnapshot();
+
+      List<Matricula> matriculasExpected = [
+        Matricula(
+            campus: "Zona Oeste",
+            disciplinas: [
+              Disciplina(
+                  id: 'FCEE01-14755',
+                  monitor: matriculaMonitor,
+                  nome: "Arquitetura de Computadores",
+                  campus: "Zona Oeste",
+                  limitByDay: null),
+            ],
+            matricula: matriculaAluno02),
+        Matricula(
+            campus: "Zona Oeste",
+            disciplinas: [
+              Disciplina(
+                  id: 'FCEE01-14755',
+                  monitor: matriculaMonitor,
+                  nome: "Arquitetura de Computadores",
+                  campus: "Zona Oeste",
+                  limitByDay: null),
+            ],
+            matricula: matriculaAluno01)
+      ];
+      when(queryDocumentSnapshot002.data())
+          .thenReturn(matriculasExpected[1].toMap());
+
+      when(queryDocumentSnapshot001.data())
+          .thenReturn(matriculasExpected[0].toMap());
+      when(querySnapshot.docs)
+          .thenReturn([queryDocumentSnapshot001, queryDocumentSnapshot002]);
+      when(collectionReference.get())
+          .thenAnswer((_) async => Future.value(querySnapshot));
+      when(firestore.collection(collectionMatricula))
+          .thenReturn(collectionReference);
+
+      MatriculaService.getAllMatriculas(firestore).then(
+        (List<Matricula> matriculas) {
+          expect(matriculas, isA<List<Matricula>>());
+          expect(matriculas.length, matriculasExpected.length);
+          int i = 0;
+          for (Matricula item in matriculas) {
+            expect(item.campus, matriculasExpected[i].campus);
+            expect(item.matricula, matriculasExpected[i].matricula);
+            expect(item.disciplinas.length,
+                matriculasExpected[i].disciplinas.length);
+            i++;
+          }
+        },
+      );
     });
   });
 }
