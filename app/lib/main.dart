@@ -42,7 +42,7 @@ void main() async {
         initialData: [],
         catchError: (context, error) {
           // Loga o erro para fins de depuração.
-          print("Erro ao buscar matrículas: $error");
+          // print("Erro ao buscar matrículas: $error");
           // Retorna uma lista vazia como fallback.
           return <Matricula>[];
         },
@@ -52,7 +52,7 @@ void main() async {
         initialData: [],
         catchError: (context, error) {
           // Loga o erro para fins de depuração.
-          print("Erro ao buscar Disciplinas: $error");
+          // print("Erro ao buscar Disciplinas: $error");
           // Retorna uma lista vazia como fallback.
           return <Disciplina>[];
         },
@@ -62,7 +62,6 @@ void main() async {
         initialData: [],
         catchError: (context, error) {
           // Loga o erro para fins de depuração.
-          print("Erro ao buscar monitorias: $error");
           // Retorna uma lista vazia como fallback.
           return <Monitoria>[];
         },

@@ -126,8 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (matricula != null) {
                                   //substituir pela Authenticacao
                                   if (!context.mounted) return;
-                                  var users = Provider.of<UserSettings>(context,
-                                      listen: false);
+                                  UserSettings users =
+                                      Provider.of<UserSettings>(context,
+                                          listen: false);
                                   try {
                                     FirebaseFirestore firestore =
                                         await FirebaseService
@@ -136,33 +137,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                         await UserService.getUserByMatricula(
                                             firestore: firestore,
                                             matricula: matricula.matricula);
+                                    //redirect to login screen
+                                    if (!context.mounted) return;
+                                    Navigator.of(context)
+                                        .popAndPushNamed(Routes.home);
                                   } on UserNotFoundException catch (_) {
-                                    users.user = null;
-                                    if (users.user == null) {
-                                      users.matricula = matricula;
-                                      if (!context.mounted) return;
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            "Usuario nao encontrado!",
-                                            style: TextStyle(
-                                                color: ThemeUSM.textColor,
-                                                fontSize: 16),
-                                          ),
-                                          backgroundColor:
-                                              ThemeUSM.backgroundColor,
+                                    users.matricula = matricula;
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Matricula encontrada, Usuario nao, cadastre-se!",
+                                          style: TextStyle(
+                                              color: ThemeUSM.textColor,
+                                              fontSize: 16),
                                         ),
-                                      );
-                                      //redirect to signin screen
-                                      Navigator.of(context)
-                                          .pushNamed(Routes.cadastro);
-                                    } else {
-                                      //redirect to login screen
-                                      if (!context.mounted) return;
-                                      Navigator.of(context)
-                                          .popAndPushNamed(Routes.home);
-                                    }
+                                        backgroundColor:
+                                            ThemeUSM.backgroundColor,
+                                      ),
+                                    );
+                                    //redirect to signin screen
+                                    Navigator.of(context)
+                                        .popAndPushNamed(Routes.cadastro);
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
