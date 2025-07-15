@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
     DisciplinasSettings disciplinasProvider =
         Provider.of<DisciplinasSettings>(context, listen: false);
     disciplinasProvider.initializeDisciplinas(allDisciplinas);
-    print(disciplinasProvider.disciplinas);
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
       appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),
