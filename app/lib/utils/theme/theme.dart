@@ -28,9 +28,9 @@ class USMThemeData {
 
 class USMDrawerTheme {
   static DrawerThemeData drawerTheme = DrawerThemeData(
-      backgroundColor: ThemeUSM.backgroundColor,
-      elevation: 10,
-    );
+    backgroundColor: ThemeUSM.backgroundColor,
+    elevation: 10,
+  );
 }
 
 class USMAppBarTheme {
@@ -58,10 +58,10 @@ class USMButtonThemeData {
 class USMThemeText {
   static TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
-      fontFamily: "Ubuntu",
-      fontSize: 22,
-    ),
-    displayMedium: TextStyle(fontFamily: "Ubuntu", fontSize: 18),
-    displaySmall: TextStyle(fontFamily: "Ubuntu", fontSize: 14),
+        fontFamily: "Ubuntu", fontSize: 22, color: ThemeUSM.textColor),
+    displayMedium: TextStyle(
+        fontFamily: "Ubuntu", fontSize: 18, color: ThemeUSM.textColor),
+    displaySmall: TextStyle(
+        fontFamily: "Ubuntu", fontSize: 14, color: ThemeUSM.textColor),
   );
 }

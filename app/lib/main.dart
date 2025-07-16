@@ -5,12 +5,13 @@ import 'package:app/models/settings/disciplinas_settings.dart';
 import 'package:app/models/settings/monitoria_settings.dart';
 import 'package:app/models/settings/user_settings.dart';
 import 'package:app/models/settings/matricula_settings.dart';
+import 'package:app/screen/authenticate_screen.dart';
 
 import 'package:app/screen/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias_screen.dart';
 
-import 'package:app/screen/login_screen.dart';
+import 'package:app/screen/initial_screen.dart';
 import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/register_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
@@ -98,7 +99,8 @@ class USMApp extends StatelessWidget {
       theme: USMThemeData.themeData,
       initialRoute: Routes.login,
       routes: {
-        Routes.login: (context) => LoginScreen(),
+        Routes.login: (context) => InitialScreen(),
+        Routes.authenticate: (context) => AuthenticateScreen(),
         Routes.cadastro: (context) => RegisterScreen(),
         Routes.home: (context) => HomeScreen(
               key: Key('home_screen'),

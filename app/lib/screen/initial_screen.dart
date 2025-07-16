@@ -10,14 +10,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class InitialScreen extends StatefulWidget {
+  const InitialScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<InitialScreen> createState() => _InitialScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _InitialScreenState extends State<InitialScreen> {
   double _op = 0.0;
   double bottomPadding = 48;
   MainAxisAlignment columnMainAxisAlignment = MainAxisAlignment.center;
@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
       body: Consumer<MatriculaSettings>(
@@ -88,30 +89,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     spacing: 40,
                     children: [
-                      Material(
-                        color: ThemeUSM.backgroundColor,
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: ThemeUSM.textColor,
-                              fontSize: 16,
-                              fontFamily: "Ubuntu",
-                              fontStyle: FontStyle.italic),
-                          controller: matriculaController,
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: "Matricula",
-                            icon: Icon(Icons.login),
-                            iconColor: ThemeUSM.textColor,
-                            helperText: "Insira sua matricula",
-                            helperStyle: TextStyle(
-                                color: ThemeUSM.textColor,
-                                fontSize: 12,
-                                fontFamily: "Ubuntu"),
-                            constraints: BoxConstraints(
-                                minHeight: 60,
-                                maxHeight: 120,
-                                minWidth: double.maxFinite),
+                      Hero(
+                        tag: "matricula",
+                        child: Material(
+                          color: ThemeUSM.backgroundColor,
+                          child: TextFormField(
+                            style: theme.textTheme.displayMedium,
+                            controller: matriculaController,
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              labelText: "Matricula",
+                              icon: Icon(Icons.login),
+                              iconColor: ThemeUSM.textColor,
+                              helperText: "Insira sua matricula",
+                              helperStyle: theme.textTheme.displaySmall,
+                              constraints: BoxConstraints(
+                                  minHeight: 60,
+                                  maxHeight: 120,
+                                  minWidth: double.maxFinite),
+                            ),
                           ),
                         ),
                       ),
@@ -124,25 +121,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Matricula? matricula =
                                     list.getMatricula(matriculaController.text);
                                 if (matricula != null) {
-                                  //substituir pela Authenticacao
                                   if (!context.mounted) return;
                                   UserSettings users =
                                       Provider.of<UserSettings>(context,
                                           listen: false);
                                   try {
+                                    //substituir pela Authenticacao
                                     FirebaseFirestore firestore =
                                         await FirebaseService
                                             .initializeFirebase();
+
+                                    users.matricula = matricula;
                                     users.user =
                                         await UserService.getUserByMatricula(
                                             firestore: firestore,
                                             matricula: matricula.matricula);
+
                                     //redirect to login screen
                                     if (!context.mounted) return;
                                     Navigator.of(context)
-                                        .popAndPushNamed(Routes.home);
+                                        .pushNamed(Routes.authenticate);
                                   } on UserNotFoundException catch (_) {
-                                    users.matricula = matricula;
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -176,10 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 "entrar",
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    color: ThemeUSM.textColor,
-                                    fontSize: 20),
+                                style: theme.textTheme.displayLarge,
                               )),
                         ],
                       ),
