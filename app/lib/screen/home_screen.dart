@@ -1,14 +1,14 @@
-import 'package:app/components/appbar.dart';
+import 'package:app/widgets/appbar.dart';
 import 'package:app/models/disciplinas.dart';
-import 'package:app/models/settings/disciplinas_settings.dart';
-import 'package:app/models/settings/user_settings.dart';
+import 'package:app/controllers/disciplinas_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:app/components/header.dart';
-import 'package:app/components/drawer.dart';
+import 'package:app/widgets/header.dart';
+import 'package:app/widgets/drawer.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:app/components/alert_dialog.dart';
-import 'package:app/components/body.dart' as custom_body;
+import 'package:app/widgets/alert_dialog.dart';
+import 'package:app/widgets/body.dart' as custom_body;
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     //inicializando as disciplinas
     List<Disciplina> allDisciplinas = context.watch<List<Disciplina>>();
-    DisciplinasSettings disciplinasProvider =
-        Provider.of<DisciplinasSettings>(context, listen: false);
+    DisciplinasController disciplinasProvider =
+        Provider.of<DisciplinasController>(context, listen: false);
     disciplinasProvider.initializeDisciplinas(allDisciplinas);
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Consumer<UserSettings>(
+      drawer: Consumer<UserController>(
           builder: (BuildContext context, value, Widget? child) {
         if (value.user == null) {
           return Center(

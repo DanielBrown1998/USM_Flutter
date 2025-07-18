@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/models/disciplinas.dart';
 
-class DisciplinasSettings with ChangeNotifier {
+class DisciplinasController with ChangeNotifier {
   List<Disciplina> disciplinas = [];
   Map<String, List<Days>> days = {};
 
@@ -30,9 +30,9 @@ class DisciplinasSettings with ChangeNotifier {
   }
 }
 
-class DisciplinaNotFound {
+class DisciplinaNotFoundException implements Exception {
   final String message;
-  DisciplinaNotFound({required this.message});
+  DisciplinaNotFoundException({required this.message});
 
   @override
   String toString() {

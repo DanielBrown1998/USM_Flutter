@@ -1,7 +1,7 @@
-import 'package:app/components/logo_laptop.dart';
+import 'package:app/widgets/logo_laptop.dart';
 import 'package:app/models/matricula.dart';
-import 'package:app/models/settings/matricula_settings.dart';
-import 'package:app/models/settings/user_settings.dart';
+import 'package:app/controllers/matricula_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/user_service.dart';
 import 'package:app/utils/routes/routes.dart';
@@ -47,8 +47,8 @@ class _InitialScreenState extends State<InitialScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
-      body: Consumer<MatriculaSettings>(
-          builder: (context, MatriculaSettings list, child) {
+      body: Consumer<MatriculaController>(
+          builder: (context, MatriculaController list, child) {
         return Container(
           decoration: BoxDecoration(
             border: Border.all(
@@ -122,8 +122,8 @@ class _InitialScreenState extends State<InitialScreen> {
                                     list.getMatricula(matriculaController.text);
                                 if (matricula != null) {
                                   if (!context.mounted) return;
-                                  UserSettings users =
-                                      Provider.of<UserSettings>(context,
+                                  UserController users =
+                                      Provider.of<UserController>(context,
                                           listen: false);
                                   try {
                                     //substituir pela Authenticacao

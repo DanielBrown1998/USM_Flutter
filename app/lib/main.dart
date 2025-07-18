@@ -1,19 +1,19 @@
 import 'package:app/models/disciplinas.dart';
 import 'package:app/models/matricula.dart';
 import 'package:app/models/monitoria.dart';
-import 'package:app/models/settings/disciplinas_settings.dart';
-import 'package:app/models/settings/monitoria_settings.dart';
-import 'package:app/models/settings/user_settings.dart';
-import 'package:app/models/settings/matricula_settings.dart';
-import 'package:app/screen/authenticate_screen.dart';
+import 'package:app/controllers/disciplinas_controllers.dart';
+import 'package:app/controllers/monitoria_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
+import 'package:app/controllers/matricula_controllers.dart';
+import 'package:app/screen/authentication/authenticate_screen.dart';
 
-import 'package:app/screen/config_screen.dart';
+import 'package:app/screen/config/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
 import 'package:app/screen/monitorias_screen.dart';
 
 import 'package:app/screen/initial_screen.dart';
 import 'package:app/screen/home_screen.dart';
-import 'package:app/screen/register_screen.dart';
+import 'package:app/screen/authentication/register_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
 
 import "package:app/services/firebase_service.dart" as firebase;
@@ -69,17 +69,17 @@ void main() async {
       ),
 
       //substituindo o ChangeNotifierProvider deixando o listen = false
-      ProxyProvider<List<Matricula>, MatriculaSettings>(
+      ProxyProvider<List<Matricula>, MatriculaController>(
         update: (context, matriculas, previous) {
-          previous ??= MatriculaSettings();
+          previous ??= MatriculaController();
           previous.initializeMatriculas(matriculas);
           return previous;
         },
       ),
-      ChangeNotifierProvider<UserSettings>(create: (_) => UserSettings()),
-      ChangeNotifierProvider<MonitoriaSettings>(
-          create: (_) => MonitoriaSettings()),
-      ChangeNotifierProvider(create: (_) => DisciplinasSettings()),
+      ChangeNotifierProvider<UserController>(create: (_) => UserController()),
+      ChangeNotifierProvider<MonitoriaController>(
+          create: (_) => MonitoriaController()),
+      ChangeNotifierProvider(create: (_) => DisciplinasController()),
     ],
     child: const USMApp(
       title: "MON. UERJ-ZO",

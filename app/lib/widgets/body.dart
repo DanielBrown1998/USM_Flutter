@@ -1,10 +1,10 @@
-import 'package:app/components/monitoria_card.dart';
+import 'package:app/widgets/monitoria_card.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 
 import 'package:provider/provider.dart';
 import "package:flutter/material.dart";
-import 'package:app/models/settings/monitoria_settings.dart';
+import 'package:app/controllers/monitoria_controllers.dart';
 
 class ListBody extends StatefulWidget {
   const ListBody({super.key});
@@ -86,9 +86,9 @@ class _MonitoriaViewState extends State<MonitoriaView> {
             width: 3,
           ),
         ),
-        child: Consumer<MonitoriaSettings>(
+        child: Consumer<MonitoriaController>(
           builder:
-              (BuildContext context, MonitoriaSettings list, Widget? widget) {
+              (BuildContext context, MonitoriaController list, Widget? widget) {
             return FutureBuilder(
               future: list.getStatusMarcada(),
               builder: (context, snapshot) {

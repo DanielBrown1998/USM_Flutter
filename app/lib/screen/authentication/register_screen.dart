@@ -1,6 +1,6 @@
-import 'package:app/components/logo_laptop.dart';
+import 'package:app/widgets/logo_laptop.dart';
 import 'package:app/models/matricula.dart';
-import 'package:app/models/settings/user_settings.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     Matricula matriculaData =
-        Provider.of<UserSettings>(context, listen: false).matricula!;
+        Provider.of<UserController>(context, listen: false).matricula!;
     return Scaffold(
         backgroundColor: ThemeUSM.backgroundColor,
         body: Padding(
@@ -162,7 +162,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: ThemeUSM.dividerDrawerColor, foregroundColor: ThemeUSM.textColor),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: ThemeUSM.dividerDrawerColor,
+                          foregroundColor: ThemeUSM.textColor),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(

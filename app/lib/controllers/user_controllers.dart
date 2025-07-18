@@ -3,11 +3,11 @@ import 'package:app/models/matricula.dart';
 import "package:app/models/user.dart";
 import 'package:flutter/material.dart';
 
-class UserSettings with ChangeNotifier {
+class UserController with ChangeNotifier {
   User? user;
   Matricula? matricula;
 
-  UserSettings({this.user});
+  UserController({this.user});
 
   bool removeDisciplinaThisUser(Disciplina disciplina) {
     if (user!.disciplinas.contains(disciplina)) {

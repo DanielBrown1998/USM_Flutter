@@ -1,4 +1,4 @@
-import 'package:app/components/alert_dialog.dart';
+import 'package:app/widgets/alert_dialog.dart';
 import 'package:app/models/monitoria.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:flutter/material.dart';

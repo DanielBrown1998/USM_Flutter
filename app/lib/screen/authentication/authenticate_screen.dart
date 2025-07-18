@@ -1,7 +1,7 @@
-import 'package:app/components/appbar.dart';
-import 'package:app/components/logo_laptop.dart';
+import 'package:app/widgets/appbar.dart';
+import 'package:app/widgets/logo_laptop.dart';
 // import 'package:app/models/matricula.dart';
-import 'package:app/models/settings/user_settings.dart';
+import 'package:app/controllers/user_controllers.dart';
 // import 'package:app/services/firebase_service.dart';
 // import 'package:app/services/user_service.dart';
 // import 'package:app/utils/routes/routes.dart';
@@ -19,7 +19,7 @@ class AuthenticateScreen extends StatefulWidget {
 
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
   double _op = 0.0;
-  bool visiblePassword = false;
+  bool visiblePassword = true;
   double bottomPadding = 48;
   MainAxisAlignment columnMainAxisAlignment = MainAxisAlignment.center;
   TextEditingController passwordController = TextEditingController();
@@ -49,8 +49,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
       appBar: USMAppBar.appBar(context, "Login"),
-      body:
-          Consumer<UserSettings>(builder: (context, UserSettings user, child) {
+      body: Consumer<UserController>(
+          builder: (context, UserController user, child) {
         return Padding(
           padding: const EdgeInsets.only(top: 24.0),
           child: SingleChildScrollView(
@@ -134,6 +134,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 textAlign: TextAlign.center,
                                 maxLength: 20,
                                 maxLines: 1,
+                                obscureText: visiblePassword,
                                 decoration: InputDecoration(
                                   labelText: "Password",
                                   floatingLabelStyle:
@@ -157,7 +158,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                   });
                                 },
                                 icon: Icon(
-                                  (!visiblePassword)
+                                  (visiblePassword)
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   color: theme.colorScheme.onPrimaryContainer,

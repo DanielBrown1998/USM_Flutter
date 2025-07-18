@@ -1,5 +1,5 @@
-import 'package:app/components/appbar.dart';
-import 'package:app/components/monitoria_details.dart';
+import 'package:app/widgets/appbar.dart';
+import 'package:app/widgets/monitoria_details.dart';
 import 'package:app/services/firebase_service.dart';
 import 'package:app/services/monitorias_service.dart';
 import 'package:app/utils/theme/theme.dart';
