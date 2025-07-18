@@ -1,10 +1,10 @@
 import 'package:app/models/disciplinas.dart';
 import 'package:app/models/monitoria.dart';
-import 'package:app/models/settings/disciplinas_settings.dart';
+import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/models/user.dart';
 
-import 'package:app/models/settings/monitoria_settings.dart';
-import 'package:app/models/settings/user_settings.dart';
+import 'package:app/controllers/monitoria_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/utils/utils_add_monitoria.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:app/utils/constants/constants.dart';
@@ -70,8 +70,8 @@ Future<dynamic> alertDialogStatusMonitoria(
 }) {
   // DataUserObjects dataUser =
   // Provider.of<DataUserObjects>(context, listen: false);
-  MonitoriaSettings monitoria =
-      Provider.of<MonitoriaSettings>(context, listen: false);
+  MonitoriaController monitoria =
+      Provider.of<MonitoriaController>(context, listen: false);
 
   AlertDialog alert = AlertDialog(
     icon: Icon(icon),
@@ -126,14 +126,14 @@ Future<dynamic> alertDialogStatusMonitoria(
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   //substituindo o usuario autenticado por enquanto!
-  UserSettings users = Provider.of<UserSettings>(context, listen: false);
+  UserController users = Provider.of<UserController>(context, listen: false);
   User? user = users.user;
 
   final formkey = GlobalKey<FormState>();
 
   Disciplina? disciplinaByUser;
-  DisciplinasSettings allDisciplinas =
-      Provider.of<DisciplinasSettings>(context, listen: false);
+  DisciplinasController allDisciplinas =
+      Provider.of<DisciplinasController>(context, listen: false);
   DateTime date = DateTime.now().add(Duration(days: 1));
 
   AlertDialog alert = AlertDialog(
@@ -229,13 +229,14 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               if (disciplinaUpdated == null) {
                 //implement removeDisciplinaThisUser
                 users.removeDisciplinaThisUser(disciplinaByUser!);
-                throw DisciplinaNotFound(message: "disciplina nao encontrada!");
+                throw DisciplinaNotFoundException(
+                    message: "disciplina nao encontrada!");
               }
               Monitoria formatedDataToMonitoria =
                   formatAddMonitoria(user, disciplinaByUser!, date);
 
-              MonitoriaSettings monitorias =
-                  Provider.of<MonitoriaSettings>(context, listen: false);
+              MonitoriaController monitorias =
+                  Provider.of<MonitoriaController>(context, listen: false);
 
               bool isUserAdded = await monitorias.addMonitoria(
                   monitoria: formatedDataToMonitoria);
@@ -252,7 +253,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               Navigator.pop(context, e.message);
             } on UserisNotAvailableToMonitoriaException catch (e) {
               Navigator.pop(context, e.message);
-            } on DisciplinaNotFound catch (e) {
+            } on DisciplinaNotFoundException catch (e) {
               Navigator.pop(context, e.message);
             } on Exception catch (_) {
               Navigator.pop(context, "Erro desconhecido");

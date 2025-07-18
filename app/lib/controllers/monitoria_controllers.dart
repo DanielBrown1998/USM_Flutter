@@ -5,7 +5,7 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:app/utils/constants/constants.dart";
 
-class MonitoriaSettings with ChangeNotifier {
+class MonitoriaController with ChangeNotifier {
   List<Monitoria> monitoria = [];
 
   void initializeMonitorias(List<Monitoria> monitoria) {

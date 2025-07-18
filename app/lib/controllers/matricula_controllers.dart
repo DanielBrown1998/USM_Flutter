@@ -4,7 +4,7 @@ import "package:app/services/matricula_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
-class MatriculaSettings with ChangeNotifier {
+class MatriculaController with ChangeNotifier {
   List<Matricula> matriculas = [];
 
   void initializeMatriculas(List<Matricula> matriculas) {

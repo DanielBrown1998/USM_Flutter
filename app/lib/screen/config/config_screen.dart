@@ -1,6 +1,6 @@
-import 'package:app/components/appbar.dart';
-import 'package:app/components/config_card.dart';
-import 'package:app/components/header.dart';
+import 'package:app/widgets/appbar.dart';
+import 'package:app/widgets/config_card.dart';
+import 'package:app/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/routes/routes.dart';
 
