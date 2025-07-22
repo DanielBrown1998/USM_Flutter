@@ -1,12 +1,10 @@
+import 'package:app/services/firebase_service.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:app/widgets/appbar.dart';
 import 'package:app/widgets/logo_laptop.dart';
-// import 'package:app/models/matricula.dart';
 import 'package:app/controllers/user_controllers.dart';
-// import 'package:app/services/firebase_service.dart';
-// import 'package:app/services/user_service.dart';
-// import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,11 +21,11 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   double bottomPadding = 48;
   MainAxisAlignment columnMainAxisAlignment = MainAxisAlignment.center;
   TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
     awaitAndSet();
   }
 
@@ -43,9 +41,16 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     });
   }
 
+  Future<bool> _authenticate(UserController controller,
+      {required String email, required String password}) async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    return await controller.login(firestore, email: email, password: password);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: ThemeUSM.backgroundColor,
       appBar: USMAppBar.appBar(context, "Login"),
@@ -65,9 +70,19 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   duration: Duration(milliseconds: 2000),
                   opacity: _op,
                   curve: Curves.easeInCubic,
-                  child: Text(
-                    "Bem vindo(a), ${user.user!.firstName} ${user.user!.lastName}",
-                    style: theme.textTheme.displayLarge,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Bem vindo(a), ${user.user!.firstName} ${user.user!.lastName}",
+                        style: theme.textTheme.displayLarge,
+                      ),
+                      Text(
+                        user.user!.userName,
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ],
                   ),
                 ),
                 LogoLaptop(),
@@ -86,31 +101,39 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           horizontal: 4.0, vertical: 2.0),
                       child: Text(
                         "Realize seu Login",
-                        style: theme.textTheme.displaySmall,
+                        style: theme.textTheme.displayMedium,
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    spacing: 40,
-                    children: [
-                      Hero(
-                        tag: "matricula",
-                        child: Material(
+                Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      spacing: 40,
+                      children: [
+                        Material(
                           color: ThemeUSM.backgroundColor,
                           child: TextFormField(
                             style: theme.textTheme.displayMedium,
-                            enabled: false,
-                            initialValue: user.matricula!.matricula,
-                            keyboardType: TextInputType.number,
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
                             textAlign: TextAlign.center,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira seu email.';
+                              }
+                              if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                                return 'Por favor, insira um email válido.';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
-                              labelText: "Matricula",
+                              labelText: "E-mail",
                               icon: Icon(Icons.login),
                               iconColor: ThemeUSM.textColor,
-                              helperText: "Matricula encontrada!",
+                              helperText: "Digite seu e-mail",
                               helperStyle: theme.textTheme.displaySmall,
                               constraints: BoxConstraints(
                                   minHeight: 60,
@@ -119,83 +142,107 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 300,
-                            child: Material(
-                              color: ThemeUSM.backgroundColor,
-                              child: TextFormField(
-                                style: theme.textTheme.displayMedium,
-                                controller: passwordController,
-                                keyboardType: TextInputType.visiblePassword,
-                                textAlign: TextAlign.center,
-                                maxLength: 20,
-                                maxLines: 1,
-                                obscureText: visiblePassword,
-                                decoration: InputDecoration(
-                                  labelText: "Password",
-                                  floatingLabelStyle:
-                                      theme.textTheme.displaySmall,
-                                  icon: Icon(Icons.password),
-                                  iconColor:
-                                      theme.colorScheme.onPrimaryContainer,
-                                  helperText: "Digite sua senha!",
-                                  helperStyle: theme.textTheme.displaySmall,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    visiblePassword = !visiblePassword;
-                                  });
-                                },
-                                icon: Icon(
-                                  (visiblePassword)
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: theme.colorScheme.onPrimaryContainer,
-                                )),
-                          )
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () async {
-                              //firebase authenticate!
-                            },
-                            child: Card(
-                              elevation: 10,
-                              shape: StadiumBorder(),
-                              margin: EdgeInsets.all(2),
-                              shadowColor: theme.colorScheme.onPrimaryContainer,
-                              color: theme.colorScheme.onPrimaryContainer,
-                              child: InkWell(
-                                splashColor: theme.colorScheme.onPrimaryFixed,
-                                child: Ink(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Text(
-                                    "Entrar",
-                                    style: theme.textTheme.displayLarge,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 300,
+                              child: Material(
+                                color: ThemeUSM.backgroundColor,
+                                child: TextFormField(
+                                  style: theme.textTheme.displayMedium,
+                                  controller: passwordController,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  textAlign: TextAlign.center,
+                                  maxLength: 20,
+                                  maxLines: 1,
+                                  obscureText: visiblePassword,
+                                  decoration: InputDecoration(
+                                    labelText: "Password",
+                                    floatingLabelStyle:
+                                        theme.textTheme.displaySmall,
+                                    icon: Icon(Icons.password),
+                                    iconColor:
+                                        theme.colorScheme.onPrimaryContainer,
+                                    helperText: "Digite sua senha!",
+                                    helperStyle: theme.textTheme.displaySmall,
                                   ),
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    ],
+                            SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      visiblePassword = !visiblePassword;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    (visiblePassword)
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: theme.colorScheme.onPrimaryContainer,
+                                  )),
+                            )
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                try {
+                                  bool isAuthenticated = await _authenticate(
+                                      user,
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                                  if (isAuthenticated) {
+                                    if (!context.mounted) return;
+                                    Navigator.popAndPushNamed(
+                                        context, Routes.home);
+                                  } else {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Credenciais invalidas!"),
+                                      ),
+                                    );
+                                  }
+                                } on UserNotFoundException catch (_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Usuario nao encontrado!"),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Card(
+                                elevation: 10,
+                                shape: StadiumBorder(),
+                                margin: EdgeInsets.all(2),
+                                shadowColor:
+                                    theme.colorScheme.onPrimaryContainer,
+                                color: theme.colorScheme.onPrimaryContainer,
+                                child: InkWell(
+                                  splashColor: theme.colorScheme.onPrimaryFixed,
+                                  child: Ink(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    child: Text(
+                                      "Entrar",
+                                      style: theme.textTheme.displayLarge,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

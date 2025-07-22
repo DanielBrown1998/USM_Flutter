@@ -3,7 +3,6 @@ import 'package:app/models/matricula.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/services/firebase_service.dart';
-import 'package:app/services/user_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +25,6 @@ class _InitialScreenState extends State<InitialScreen> {
   @override
   void initState() {
     super.initState();
-
     awaitAndSet();
   }
 
@@ -40,6 +38,68 @@ class _InitialScreenState extends State<InitialScreen> {
     setState(() {
       _op = 1;
     });
+  }
+
+  Future<void> _searchData(
+      BuildContext context, MatriculaController controller) async {
+    Matricula? matricula = controller.getMatricula(matriculaController.text);
+    if (matricula != null) {
+      print(matricula.matricula);
+      if (!context.mounted) return;
+      //load usercontroller
+      UserController users =
+          Provider.of<UserController>(context, listen: false);
+      try {
+        FirebaseFirestore firestore =
+            await FirebaseService.initializeFirebase();
+
+        //set matricula and user
+        users.matricula = matricula;
+        await users.getUserByMatriculaForLogin(
+            firestore: firestore, matricula: matricula.matricula);
+
+        //udpate disciplinas in user
+        users.checkDisciplinasThisUserInMatricula(firestore);
+
+        //redirect to login screen
+        if (!context.mounted) return;
+        Navigator.of(context).pushNamed(Routes.authenticate);
+      } on UserNotFoundException catch (_) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Matricula encontrada, Usuario nao, cadastre-se!",
+              style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+            ),
+            backgroundColor: ThemeUSM.backgroundColor,
+          ),
+        );
+        //redirect to signin screen
+        Navigator.of(context).popAndPushNamed(Routes.cadastro);
+      } on UserControllerException catch (_) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "houve um erro, tente novamente mais tarde!",
+              style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+            ),
+            backgroundColor: ThemeUSM.backgroundColor,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Matricula não encontrada",
+            style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+          ),
+          backgroundColor: ThemeUSM.backgroundColor,
+        ),
+      );
+    }
   }
 
   @override
@@ -89,26 +149,23 @@ class _InitialScreenState extends State<InitialScreen> {
                   child: Column(
                     spacing: 40,
                     children: [
-                      Hero(
-                        tag: "matricula",
-                        child: Material(
-                          color: ThemeUSM.backgroundColor,
-                          child: TextFormField(
-                            style: theme.textTheme.displayMedium,
-                            controller: matriculaController,
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              labelText: "Matricula",
-                              icon: Icon(Icons.login),
-                              iconColor: ThemeUSM.textColor,
-                              helperText: "Insira sua matricula",
-                              helperStyle: theme.textTheme.displaySmall,
-                              constraints: BoxConstraints(
-                                  minHeight: 60,
-                                  maxHeight: 120,
-                                  minWidth: double.maxFinite),
-                            ),
+                      Material(
+                        color: ThemeUSM.backgroundColor,
+                        child: TextFormField(
+                          style: theme.textTheme.displayMedium,
+                          controller: matriculaController,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            labelText: "Matricula",
+                            icon: Icon(Icons.login),
+                            iconColor: ThemeUSM.textColor,
+                            helperText: "Insira sua matricula",
+                            helperStyle: theme.textTheme.displaySmall,
+                            constraints: BoxConstraints(
+                                minHeight: 60,
+                                maxHeight: 120,
+                                minWidth: double.maxFinite),
                           ),
                         ),
                       ),
@@ -118,60 +175,7 @@ class _InitialScreenState extends State<InitialScreen> {
                         children: [
                           TextButton(
                               onPressed: () async {
-                                Matricula? matricula =
-                                    list.getMatricula(matriculaController.text);
-                                if (matricula != null) {
-                                  if (!context.mounted) return;
-                                  UserController users =
-                                      Provider.of<UserController>(context,
-                                          listen: false);
-                                  try {
-                                    //substituir pela Authenticacao
-                                    FirebaseFirestore firestore =
-                                        await FirebaseService
-                                            .initializeFirebase();
-
-                                    users.matricula = matricula;
-                                    users.user =
-                                        await UserService.getUserByMatricula(
-                                            firestore: firestore,
-                                            matricula: matricula.matricula);
-
-                                    //redirect to login screen
-                                    if (!context.mounted) return;
-                                    Navigator.of(context)
-                                        .pushNamed(Routes.authenticate);
-                                  } on UserNotFoundException catch (_) {
-                                    if (!context.mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Matricula encontrada, Usuario nao, cadastre-se!",
-                                          style: TextStyle(
-                                              color: ThemeUSM.textColor,
-                                              fontSize: 16),
-                                        ),
-                                        backgroundColor:
-                                            ThemeUSM.backgroundColor,
-                                      ),
-                                    );
-                                    //redirect to signin screen
-                                    Navigator.of(context)
-                                        .popAndPushNamed(Routes.cadastro);
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Matricula não encontrada",
-                                        style: TextStyle(
-                                            color: ThemeUSM.textColor,
-                                            fontSize: 16),
-                                      ),
-                                      backgroundColor: ThemeUSM.backgroundColor,
-                                    ),
-                                  );
-                                }
+                                await _searchData(context, list);
                               },
                               child: Text(
                                 "entrar",

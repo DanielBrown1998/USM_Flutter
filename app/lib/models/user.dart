@@ -1,25 +1,28 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/models/disciplinas.dart';
 
 class User {
-  final String firstName;
-  final String lastName;
-  final String userName;
-  final String email;
-  final String? password;
-  final bool isStaff;
-  final bool isActive;
-  final bool isSuperUser;
-  final DateTime lastLogin;
-  final DateTime dateJoined;
-  final List<Disciplina> disciplinas;
-  final String campus;
+  String firstName;
+  String lastName;
+  String userName;
+  String email;
+  String uid;
+  String phone;
+  bool isStaff;
+  bool isActive;
+  bool isSuperUser;
+  DateTime? lastLogin;
+  DateTime? dateJoined;
+  List<Disciplina> disciplinas;
+  String campus;
 
   User(
       {required this.firstName,
       required this.lastName,
       required this.userName,
       required this.email,
-      required this.password,
+      required this.phone,
+      required this.uid,
       required this.isStaff,
       required this.isActive,
       required this.isSuperUser,
@@ -33,7 +36,8 @@ class User {
         lastName = map["lastName"],
         userName = map["userName"],
         email = map["email"],
-        password = map["password"],
+        uid = map["uid"],
+        phone = map["phone"],
         isStaff = map["isStaff"],
         isActive = map["isActive"],
         isSuperUser = map["isSuperUser"],
@@ -49,7 +53,8 @@ class User {
       "lastName": lastName,
       "userName": userName,
       "email": email,
-      "password": password,
+      "uid": uid,
+      "phone": phone,
       "isStaff": isStaff,
       "isActive": isActive,
       "isSuperUser": isSuperUser,
@@ -57,8 +62,13 @@ class User {
       "dateJoined": dateJoined,
       "disciplinas": disciplinas.map(
         (Disciplina value) => value.toMap(),
-      ),
+      ).toList(),
       "campus": campus,
     };
+  }
+
+  @override
+  String toString() {
+    return 'User(firstName: $firstName, lastName: $lastName, userName: $userName, email: $email, uid: $uid, phone: $phone, isStaff: $isStaff, isActive: $isActive, isSuperUser: $isSuperUser, lastLogin: $lastLogin, dateJoined: $dateJoined, disciplinas: $disciplinas, campus: $campus)';
   }
 }

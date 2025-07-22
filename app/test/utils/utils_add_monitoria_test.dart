@@ -31,7 +31,7 @@ void main() {
         isStaff: false,
         isActive: true,
         lastLogin: DateTime(2023, 1, 1),
-        password: "");
+        uid: "");
 
     Map<String, dynamic> result =
         isMonitoriaValid(user: user, disciplina: disciplina, date: date);
