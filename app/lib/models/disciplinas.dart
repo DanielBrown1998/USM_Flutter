@@ -12,6 +12,12 @@ class Disciplina {
       required this.campus,
       required this.limitByDay});
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Disciplina && id == other.id;
+  }
+
   Disciplina.fromMap(Map<String, dynamic> map)
       : id = map["id"],
         monitor = map["monitor"],
@@ -33,4 +39,7 @@ class Disciplina {
   String toString() {
     return nome;
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }
