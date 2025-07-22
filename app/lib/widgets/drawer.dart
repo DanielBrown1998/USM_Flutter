@@ -1,3 +1,5 @@
+import 'package:app/controllers/user_controllers.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/theme/theme.dart';
 
@@ -5,31 +7,23 @@ class ListTileWidget extends StatelessWidget {
   final IconData iconName;
   final Color iconColor;
   final String text;
-  final Color colorText;
-  final double fontSizetext;
   final Color splashColor;
-
   const ListTileWidget(
       {super.key,
       required this.iconName,
       required this.iconColor,
       required this.text,
-      required this.colorText,
-      required this.fontSizetext,
       required this.splashColor});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ListTile(
       leading: Icon(iconName, color: iconColor),
       title: Text(
         text,
-        style: TextStyle(
-          color: colorText,
-          fontSize: fontSizetext,
-        ),
+        style: theme.textTheme.displaySmall,
       ),
-      onTap: () {},
       splashColor: splashColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
@@ -39,7 +33,8 @@ class ListTileWidget extends StatelessWidget {
 }
 
 class ListDrawer {
-  static Drawer list(BuildContext context, {required String user}) {
+  static Drawer list(BuildContext context, {required UserController user}) {
+    final theme = Theme.of(context);
     List<Widget> listWidgets = [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -82,10 +77,7 @@ class ListDrawer {
                     padding: const EdgeInsets.all(2.0),
                     child: Text(
                       "MONITORIA",
-                      style: TextStyle(
-                        color: ThemeUSM.textColor,
-                        fontSize: 16,
-                      ),
+                      style: theme.textTheme.displaySmall,
                     ),
                   ),
                 ],
@@ -106,11 +98,8 @@ class ListDrawer {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    user,
-                    style: TextStyle(
-                      color: ThemeUSM.textColor,
-                      fontSize: 15,
-                    ),
+                    "${user.user!.firstName} ${user.user!.lastName}",
+                    style: theme.textTheme.displaySmall,
                   ),
                 ),
               ],
@@ -122,49 +111,46 @@ class ListDrawer {
         iconName: Icons.search,
         iconColor: ThemeUSM.textColor,
         text: "Alunos",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.assignment_ind_outlined,
         iconColor: ThemeUSM.textColor,
         text: "Monitoria",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.receipt_long_sharp,
         iconColor: ThemeUSM.textColor,
         text: "Relatorios",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.settings_applications_outlined,
         iconColor: ThemeUSM.textColor,
         text: "Configuracoes",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.volunteer_activism_outlined,
         iconColor: ThemeUSM.textColor,
         text: "Sobre",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
-      ListTileWidget(
-        iconName: Icons.exit_to_app_outlined,
-        iconColor: ThemeUSM.textColor,
-        text: "Sair",
-        colorText: ThemeUSM.textColor,
-        fontSizetext: 14,
-        splashColor: ThemeUSM.dividerDrawerColor,
+      InkWell(
+        onTap: () async {
+          await user.logout();
+          if (user.user == null) {
+            if (!context.mounted) return;
+            Navigator.popAndPushNamed(context, Routes.login);
+          }
+        },
+        child: ListTileWidget(
+          iconName: Icons.exit_to_app_outlined,
+          iconColor: ThemeUSM.textColor,
+          text: "Sair",
+          splashColor: ThemeUSM.dividerDrawerColor,
+        ),
       ),
     ];
 
@@ -174,7 +160,7 @@ class ListDrawer {
         padding: const EdgeInsets.all(8.0),
         child: ListView.separated(
           separatorBuilder: (BuildContext context, int i) => Divider(
-            color: Theme.of(context).dividerColor,
+            color: theme.dividerColor,
           ),
           itemCount: listWidgets.length,
           itemBuilder: (BuildContext context, int i) {

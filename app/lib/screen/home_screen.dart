@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
         return ListDrawer.list(context,
-            user: "${value.user!.firstName} ${value.user!.lastName}");
+            user: value);
       }),
       floatingActionButton: FloatingActionButton(
         key: Key("add_monitoria"),

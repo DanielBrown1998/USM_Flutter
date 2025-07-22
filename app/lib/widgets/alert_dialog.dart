@@ -216,25 +216,25 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
             try {
               //TODO refatorar o codigo e por a excessao no modulo
 
+              //usuario esta apto a pedir essa monnitoria?
               Map<String, dynamic> isUserValid = isMonitoriaValid(
                   user: user, disciplina: disciplinaByUser, date: date);
               if (!isUserValid["value"]) {
                 throw UserisNotAvailableToMonitoriaException(
                     isUserValid['message'].toString());
               }
-
+              //atualizando a disciplina contida no usuario
               Disciplina? disciplinaUpdated = updateDisciplinaData(
                   disciplinaByUser!, allDisciplinas.disciplinas);
 
-              if (disciplinaUpdated == null) {
-                //implement removeDisciplinaThisUser
-                users.removeDisciplinaThisUser(disciplinaByUser!);
-                throw DisciplinaNotFoundException(
-                    message: "disciplina nao encontrada!");
+              if (disciplinaUpdated != null) {
+                disciplinaByUser = disciplinaUpdated;
               }
+              //formatando a monitoria
               Monitoria formatedDataToMonitoria =
                   formatAddMonitoria(user, disciplinaByUser!, date);
 
+              //carregando as monitorias
               MonitoriaController monitorias =
                   Provider.of<MonitoriaController>(context, listen: false);
 
@@ -242,9 +242,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                   monitoria: formatedDataToMonitoria);
 
               List<dynamic> resultAddDataMonitoria = [isUserAdded, user, date];
-
               if (!context.mounted) return;
               Navigator.pop(context, resultAddDataMonitoria);
+
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);
             } on UserAlreadyMarkDateException catch (e) {
