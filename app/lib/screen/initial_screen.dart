@@ -70,9 +70,9 @@ class _InitialScreenState extends State<InitialScreen> {
           SnackBar(
             content: Text(
               "Matricula encontrada, Usuario nao, cadastre-se!",
-              style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+              style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),
             ),
-            backgroundColor: ThemeUSM.backgroundColor,
+            backgroundColor: ThemeUSM.blackColor,
           ),
         );
         //redirect to signin screen
@@ -83,9 +83,9 @@ class _InitialScreenState extends State<InitialScreen> {
           SnackBar(
             content: Text(
               "houve um erro, tente novamente mais tarde!",
-              style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+              style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),
             ),
-            backgroundColor: ThemeUSM.backgroundColor,
+            backgroundColor: ThemeUSM.blackColor,
           ),
         );
       }
@@ -94,9 +94,9 @@ class _InitialScreenState extends State<InitialScreen> {
         SnackBar(
           content: Text(
             "Matricula não encontrada",
-            style: TextStyle(color: ThemeUSM.textColor, fontSize: 16),
+            style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),
           ),
-          backgroundColor: ThemeUSM.backgroundColor,
+          backgroundColor: ThemeUSM.blackColor,
         ),
       );
     }
@@ -106,7 +106,7 @@ class _InitialScreenState extends State<InitialScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ThemeUSM.backgroundColor,
+      backgroundColor: ThemeUSM.blackColor,
       body: Consumer<MatriculaController>(
           builder: (context, MatriculaController list, child) {
         return Container(
@@ -130,7 +130,7 @@ class _InitialScreenState extends State<InitialScreen> {
                   child: Text(
                     "USM",
                     style: TextStyle(
-                        color: ThemeUSM.textColor,
+                        color: ThemeUSM.whiteColor,
                         decorationStyle: TextDecorationStyle.solid,
                         fontFamily: "Ubuntu",
                         fontSize: 40,
@@ -150,7 +150,7 @@ class _InitialScreenState extends State<InitialScreen> {
                     spacing: 40,
                     children: [
                       Material(
-                        color: ThemeUSM.backgroundColor,
+                        color: ThemeUSM.blackColor,
                         child: TextFormField(
                           style: theme.textTheme.displayMedium,
                           controller: matriculaController,
@@ -159,7 +159,7 @@ class _InitialScreenState extends State<InitialScreen> {
                           decoration: InputDecoration(
                             labelText: "Matricula",
                             icon: Icon(Icons.login),
-                            iconColor: ThemeUSM.textColor,
+                            iconColor: ThemeUSM.whiteColor,
                             helperText: "Insira sua matricula",
                             helperStyle: theme.textTheme.displaySmall,
                             constraints: BoxConstraints(

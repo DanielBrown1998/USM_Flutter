@@ -91,7 +91,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                   width: 100,
                                   height: 50,
                                   child: Material(
-                                    color: ThemeUSM.backgroundColor,
+                                    color: ThemeUSM.blackColor,
                                     animationDuration: Duration(seconds: 1),
                                     textStyle: TextStyle(
                                         color: Theme.of(context)

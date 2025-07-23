@@ -43,7 +43,7 @@ class _ListBodyState extends State<ListBody> {
                 Navigator.pushNamed(context, buttons.values.toList()[i]);
               },
               splashColor: Theme.of(context).primaryColorDark,
-              color: ThemeUSM.backgroundColor,
+              color: ThemeUSM.blackColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4.0),
               ),
@@ -82,7 +82,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(
-            color: ThemeUSM.backgroundColor,
+            color: ThemeUSM.blackColor,
             width: 3,
           ),
         ),

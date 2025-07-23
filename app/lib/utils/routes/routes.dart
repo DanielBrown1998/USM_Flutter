@@ -3,6 +3,7 @@ class Routes {
   static String login = "/login";
   static String authenticate = "/authenticate";
   static String cadastro = "/cadastro";
+  static String userScreen = "/my_account";
   static String searchStudent = "/search_student";
   static String monitorias = "/monitorias";
   static String matriculas = "/matriculas";
