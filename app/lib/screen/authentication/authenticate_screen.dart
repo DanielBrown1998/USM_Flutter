@@ -52,7 +52,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     final theme = Theme.of(context);
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: ThemeUSM.backgroundColor,
+      backgroundColor: ThemeUSM.blackColor,
       appBar: USMAppBar.appBar(context, "Login"),
       body: Consumer<UserController>(
           builder: (context, UserController user, child) {
@@ -114,7 +114,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       spacing: 40,
                       children: [
                         Material(
-                          color: ThemeUSM.backgroundColor,
+                          color: ThemeUSM.blackColor,
                           child: TextFormField(
                             style: theme.textTheme.displayMedium,
                             controller: emailController,
@@ -132,7 +132,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             decoration: InputDecoration(
                               labelText: "E-mail",
                               icon: Icon(Icons.login),
-                              iconColor: ThemeUSM.textColor,
+                              iconColor: ThemeUSM.whiteColor,
                               helperText: "Digite seu e-mail",
                               helperStyle: theme.textTheme.displaySmall,
                               constraints: BoxConstraints(
@@ -148,7 +148,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             SizedBox(
                               width: 300,
                               child: Material(
-                                color: ThemeUSM.backgroundColor,
+                                color: ThemeUSM.blackColor,
                                 child: TextFormField(
                                   style: theme.textTheme.displayMedium,
                                   controller: passwordController,

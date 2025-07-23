@@ -1,3 +1,4 @@
+import 'package:app/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class USMAppBar {
@@ -27,7 +28,9 @@ class USMAppBar {
           child: Padding(
             padding: const EdgeInsets.all(4.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.userScreen);
+              },
               icon: Icon(Icons.account_box_outlined),
             ),
           ),

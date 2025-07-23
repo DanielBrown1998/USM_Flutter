@@ -41,7 +41,7 @@ class ListDrawer {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
-              color: ThemeUSM.textColor,
+              color: ThemeUSM.whiteColor,
               key: Key("back_drawer"),
               onPressed: () {
                 Navigator.pop(context);
@@ -92,7 +92,7 @@ class ListDrawer {
                   child: Icon(
                     Icons.account_circle_outlined,
                     size: 30,
-                    color: ThemeUSM.textColor,
+                    color: ThemeUSM.whiteColor,
                   ),
                 ),
                 Padding(
@@ -109,31 +109,31 @@ class ListDrawer {
       ),
       ListTileWidget(
         iconName: Icons.search,
-        iconColor: ThemeUSM.textColor,
+        iconColor: ThemeUSM.whiteColor,
         text: "Alunos",
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.assignment_ind_outlined,
-        iconColor: ThemeUSM.textColor,
+        iconColor: ThemeUSM.whiteColor,
         text: "Monitoria",
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.receipt_long_sharp,
-        iconColor: ThemeUSM.textColor,
+        iconColor: ThemeUSM.whiteColor,
         text: "Relatorios",
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.settings_applications_outlined,
-        iconColor: ThemeUSM.textColor,
+        iconColor: ThemeUSM.whiteColor,
         text: "Configuracoes",
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
       ListTileWidget(
         iconName: Icons.volunteer_activism_outlined,
-        iconColor: ThemeUSM.textColor,
+        iconColor: ThemeUSM.whiteColor,
         text: "Sobre",
         splashColor: ThemeUSM.backgroundColorWhite,
       ),
@@ -147,7 +147,7 @@ class ListDrawer {
         },
         child: ListTileWidget(
           iconName: Icons.exit_to_app_outlined,
-          iconColor: ThemeUSM.textColor,
+          iconColor: ThemeUSM.whiteColor,
           text: "Sair",
           splashColor: ThemeUSM.dividerDrawerColor,
         ),

@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Matricula matriculaData =
         Provider.of<UserController>(context, listen: false).matricula!;
     return Scaffold(
-        backgroundColor: ThemeUSM.backgroundColor,
+        backgroundColor: ThemeUSM.blackColor,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: Icon(Icons.phone_android),
                         border: OutlineInputBorder(),
                       ),
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, insira seu telefone.';
@@ -218,7 +218,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ThemeUSM.dividerDrawerColor,
-                          foregroundColor: ThemeUSM.textColor),
+                          foregroundColor: ThemeUSM.whiteColor),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           FirebaseFirestore firestore =

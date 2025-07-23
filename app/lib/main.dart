@@ -15,6 +15,7 @@ import 'package:app/screen/initial_screen.dart';
 import 'package:app/screen/home_screen.dart';
 import 'package:app/screen/authentication/register_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
+import 'package:app/screen/user_screen.dart';
 
 import "package:app/services/firebase_service.dart" as firebase;
 import 'package:app/services/matricula_service.dart';
@@ -106,6 +107,7 @@ class USMApp extends StatelessWidget {
               key: Key('home_screen'),
               title: title,
             ),
+        Routes.userScreen: (context) => UserScreen(),
         Routes.searchStudent: (context) => SearchStudentScreen(),
         Routes.monitorias: (context) => MonitoriasSreen(),
         Routes.matriculas: (context) => MatriculaScreen(),

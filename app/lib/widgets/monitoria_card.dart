@@ -32,7 +32,7 @@ class MonitoriaCard extends StatelessWidget {
                     monitoria.userName,
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      color: ThemeUSM.backgroundColor,
+                      color: ThemeUSM.blackColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
@@ -42,7 +42,7 @@ class MonitoriaCard extends StatelessWidget {
                     "${monitoria.date.day}-${monitoria.date.month}-${monitoria.date.year}",
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      color: ThemeUSM.backgroundColor,
+                      color: ThemeUSM.blackColor,
                       fontSize: 12,
                       fontWeight: FontWeight.normal,
                       fontFamily: "Roboto",
@@ -78,9 +78,9 @@ class MonitoriaCard extends StatelessWidget {
                           SnackBar(content: Text("Erro: ${value.toString()}")));
                     }
                   },
-                  icon: Icon(Icons.check, color: ThemeUSM.textColor),
+                  icon: Icon(Icons.check, color: ThemeUSM.whiteColor),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ThemeUSM.backgroundColor,
+                    backgroundColor: ThemeUSM.blackColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
