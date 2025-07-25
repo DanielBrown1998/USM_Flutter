@@ -280,6 +280,7 @@ void main() {
     final timestampNow = Timestamp.fromDate(now);
 
     final testUser = model_user.User(
+
       uid: testUid,
       firstName: 'Test',
       lastName: 'User',
@@ -445,6 +446,7 @@ void main() {
 
         // Assert
         expect(result, isA<model_user.User>());
+
         expect(result!.uid, testUid);
         expect(userController.user, isNotNull);
         expect(userController.user!.uid, testUid);

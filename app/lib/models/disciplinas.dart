@@ -39,8 +39,9 @@ class Disciplina {
   String toString() {
     return nome;
   }
-
+  
   @override
   // ignore: unnecessary_overrides
   int get hashCode => super.hashCode;
+
 }

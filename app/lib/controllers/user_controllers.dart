@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth_firebase;
 
+
 class UserController with ChangeNotifier {
   User? user;
   Matricula? matricula;
