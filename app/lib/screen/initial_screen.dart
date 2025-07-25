@@ -44,7 +44,6 @@ class _InitialScreenState extends State<InitialScreen> {
       BuildContext context, MatriculaController controller) async {
     Matricula? matricula = controller.getMatricula(matriculaController.text);
     if (matricula != null) {
-      print(matricula.matricula);
       if (!context.mounted) return;
       //load usercontroller
       UserController users =

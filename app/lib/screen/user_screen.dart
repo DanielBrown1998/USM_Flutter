@@ -1,5 +1,4 @@
 import 'package:app/controllers/user_controllers.dart';
-import 'package:app/models/disciplinas.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -8,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class UserScreen extends StatefulWidget {
-  UserScreen({super.key});
+  const UserScreen({super.key});
 
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -44,7 +43,6 @@ class _UserScreenState extends State<UserScreen> {
           phone.text = user.user!.phone;
           firstName.text = user.user!.firstName;
           lastName.text = user.user!.lastName;
-          final theme = Theme.of(context);
           return !updateUser
               ? Padding(
                   padding: const EdgeInsets.only(
@@ -230,7 +228,7 @@ class _UserScreenState extends State<UserScreen> {
                                       ),
                                       Icon(
                                         Icons.circle,
-                                        color: currentUser!.emailVerified
+                                        color: currentUser.emailVerified
                                             ? Colors.green
                                             : Colors.red,
                                       ),
