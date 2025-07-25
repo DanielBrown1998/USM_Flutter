@@ -42,9 +42,6 @@ class Disciplina {
   
   @override
   // ignore: unnecessary_overrides
-  int get hashCode {
-    return super.hashCode;
-  }
-  
+  int get hashCode => super.hashCode;
 
 }

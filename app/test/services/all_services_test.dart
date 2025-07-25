@@ -1,5 +1,5 @@
 import "package:app/controllers/user_controllers.dart";
-import 'package:app/models/user.dart' as modeluser;
+import 'package:app/models/user.dart' as model_user;
 import "package:app/models/days.dart";
 import "package:app/models/disciplinas.dart";
 import "package:app/models/matricula.dart";
@@ -279,7 +279,8 @@ void main() {
     final now = DateTime.now();
     final timestampNow = Timestamp.fromDate(now);
 
-    final testUser = modeluser.User(
+    final testUser = model_user.User(
+
       uid: testUid,
       firstName: 'Test',
       lastName: 'User',
@@ -345,7 +346,7 @@ void main() {
 
         // Assert
         expect(result, isTrue);
-        expect(userController.user, isA<modeluser.User>());
+        expect(userController.user, isA<model_user.User>());
         expect(userController.user!.uid, testUid);
         verify(mockAuthService.login(email: testEmail, password: testPassword))
             .called(1);
@@ -444,7 +445,8 @@ void main() {
         );
 
         // Assert
-        expect(result, isA<modeluser.User>());
+        expect(result, isA<model_user.User>());
+
         expect(result!.uid, testUid);
         expect(userController.user, isNotNull);
         expect(userController.user!.uid, testUid);
