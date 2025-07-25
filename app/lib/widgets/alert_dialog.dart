@@ -244,7 +244,6 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               List<dynamic> resultAddDataMonitoria = [isUserAdded, user, date];
               if (!context.mounted) return;
               Navigator.pop(context, resultAddDataMonitoria);
-
             } on MonitoriaExceedException catch (e) {
               Navigator.pop(context, e.message);
             } on UserAlreadyMarkDateException catch (e) {
@@ -316,13 +315,13 @@ Future<dynamic> alertDialogAddMatricula(BuildContext context) {
     backgroundColor: Theme.of(context).primaryColor,
     title: Text("Add Matricula"),
     titleTextStyle: TextStyle(
-      color: ThemeUSM.textColor,
+      color: ThemeUSM.whiteColor,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
     elevation: 10,
     icon: Icon(Icons.add),
-    iconColor: ThemeUSM.textColor,
+    iconColor: ThemeUSM.whiteColor,
   );
 
   return showDialog(

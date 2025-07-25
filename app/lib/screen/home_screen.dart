@@ -59,13 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CircularProgressIndicator(),
           );
         }
-        return ListDrawer.list(context,
-            user: value);
+        return ListDrawer.list(context, user: value);
       }),
       floatingActionButton: FloatingActionButton(
         key: Key("add_monitoria"),
-        backgroundColor: ThemeUSM.backgroundColor,
-        foregroundColor: ThemeUSM.textColor,
+        backgroundColor: ThemeUSM.blackColor,
+        foregroundColor: ThemeUSM.whiteColor,
         onPressed: () async {
           dynamic value = await alertDialogAddMonitoria(context);
           if (value.runtimeType == List) {

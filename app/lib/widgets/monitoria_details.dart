@@ -12,7 +12,7 @@ class MonitoriaDetails extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: ThemeUSM.backgroundColor,
+          color: ThemeUSM.blackColor,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: ListTile(
@@ -20,7 +20,7 @@ class MonitoriaDetails extends StatelessWidget {
             backgroundColor: ThemeUSM.backgroundColorWhite,
             child: Icon(
               Icons.person,
-              color: ThemeUSM.backgroundColor,
+              color: ThemeUSM.blackColor,
             ),
           ),
           title: Text(
