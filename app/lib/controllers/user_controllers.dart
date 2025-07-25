@@ -5,7 +5,7 @@ import 'package:app/services/user_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart' as authFirebase;
+import 'package:firebase_auth/firebase_auth.dart' as auth_firebase;
 
 class UserController with ChangeNotifier {
   User? user;
@@ -16,7 +16,7 @@ class UserController with ChangeNotifier {
 
   Future<bool> login(FirebaseFirestore firestore,
       {required String email, required String password}) async {
-    authFirebase.User? auth =
+    auth_firebase.User? auth =
         await authService.login(email: email, password: password);
     if (auth == null) return false;
     user = await UserService.getUserByUid(firestore: firestore, uid: auth.uid);
@@ -41,7 +41,7 @@ class UserController with ChangeNotifier {
       isStaff = false,
       isSuperUser = false,
       isActive = true}) async {
-    authFirebase.User? auth = await authService.register(
+    auth_firebase.User? auth = await authService.register(
         name: firstName + lastName, email: email, password: password);
 
     if (auth == null) return null;
