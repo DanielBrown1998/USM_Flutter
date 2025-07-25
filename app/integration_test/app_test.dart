@@ -27,111 +27,124 @@ import "package:app/services/firebase_service.dart" as firebase;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
+  group("Fluxo de Autenticação", () {
+    late FirebaseFirestore firestore;
 
-  testWidgets("testando o fluxo de login e logout", (test) async {
-    Provider.debugCheckInvalidValueType = null;
+    // Roda uma vez antes de todos os testes no grupo
+    setUpAll(() async {
+      Provider.debugCheckInvalidValueType = null;
+      firestore = await firebase.FirebaseService.initializeFirebase();
+    });
 
-    // ATENÇÃO: Substitua com uma matrícula, email e senha de um usuário de teste válido
-    const String matricula = "000000000000";
-    const String email = "teste@teste.com";
-    const String password = "password123";
-
-    FirebaseFirestore firestore =
-        await firebase.FirebaseService.initializeFirebase();
-
-    await test.pumpWidget(MultiProvider(
-      providers: [
-        FutureProvider<List<Matricula>>.value(
-          value: MatriculaService.getAllMatriculas(firestore),
-          initialData: const [],
+    // Função auxiliar para inflar o widget do app com os providers
+    Future<void> pumpApp(WidgetTester tester) async {
+      await tester.pumpWidget(MultiProvider(
+        providers: [
+          FutureProvider<List<Matricula>>.value(
+            value: MatriculaService.getAllMatriculas(firestore),
+            initialData: const [],
+          ),
+          FutureProvider<List<Disciplina>>.value(
+            value: DisciplinaService.getDisciplinas(firestore: firestore),
+            initialData: const [],
+          ),
+          FutureProvider<List<Monitoria>>.value(
+            value: MonitoriasService.getAllMonitorias(firestore),
+            initialData: const [],
+          ),
+          ProxyProvider<List<Matricula>, MatriculaController>(
+            update: (context, matriculas, previous) {
+              previous ??= MatriculaController();
+              previous.initializeMatriculas(matriculas);
+              return previous;
+            },
+          ),
+          ChangeNotifierProvider<UserController>(
+              create: (_) => UserController()),
+          ChangeNotifierProvider<MonitoriaController>(
+              create: (_) => MonitoriaController()),
+          ChangeNotifierProvider(create: (_) => DisciplinasController()),
+        ],
+        child: const USMApp(
+          title: "MON. UERJ-ZO Test",
         ),
-        FutureProvider<List<Disciplina>>.value(
-          value: DisciplinaService.getDisciplinas(firestore: firestore),
-          initialData: const [],
-        ),
-        FutureProvider<List<Monitoria>>.value(
-          value: MonitoriasService.getAllMonitorias(firestore),
-          initialData: const [],
-        ),
-        ProxyProvider<List<Matricula>, MatriculaController>(
-          update: (context, matriculas, previous) {
-            previous ??= MatriculaController();
-            previous.initializeMatriculas(matriculas);
-            return previous;
-          },
-        ),
-        ChangeNotifierProvider<UserController>(create: (_) => UserController()),
-        ChangeNotifierProvider<MonitoriaController>(
-            create: (_) => MonitoriaController()),
-        ChangeNotifierProvider(create: (_) => DisciplinasController()),
-      ],
-      child: const USMApp(
-        title: "MON. UERJ-ZO Test",
-      ),
-    ));
-    await test.pumpAndSettle();
+      ));
+      await tester.pumpAndSettle();
+    }
 
-    // 1. Tela Inicial: Inserir matrícula para ir para a tela de login
-    expect(find.text("USM"), findsOneWidget);
-    await test.enterText(find.byType(TextFormField), matricula);
-    await test.tap(find.text("entrar"));
-    await test.pumpAndSettle();
+    testWidgets("testando o fluxo de login e logout", (test) async {
+      const String email = "teste@teste.com";
+      const String password = "password123";
 
-    // 2. Tela de Autenticação: Realizar o login
-    expect(find.text("Login"), findsOneWidget); // Título do AppBar
-    expect(find.text("Realize seu Login"), findsOneWidget);
+      await pumpApp(test);
 
-    final emailField = find.widgetWithText(TextFormField, 'E-mail');
-    final passwordField = find.widgetWithText(TextFormField, 'Password');
-    expect(emailField, findsOneWidget);
-    expect(passwordField, findsOneWidget);
+      // 1. Tela Inicial: Inserir matrícula para ir para a tela de login
+      expect(find.text("USM"), findsOneWidget);
+      await test.enterText(find.byType(TextFormField), "000000000000");
+      await test.tap(find.text("entrar"));
+      await test.pumpAndSettle();
 
-    await test.enterText(emailField, email);
-    await test.enterText(passwordField, password);
-    await test.pumpAndSettle();
+      // 2. Tela de Autenticação: Realizar o login
+      expect(find.text("Login"), findsOneWidget); // Título do AppBar
+      expect(find.text("Realize seu Login"), findsOneWidget);
 
-    await test.tap(find.widgetWithText(TextButton, "Entrar"));
-    await test.pumpAndSettle(const Duration(seconds: 5)); // Espera pelo login
+      final emailField = find.widgetWithText(TextFormField, 'E-mail');
+      final passwordField = find.widgetWithText(TextFormField, 'Password');
+      expect(emailField, findsOneWidget);
+      expect(passwordField, findsOneWidget);
 
-    // 3. Tela Home: Verificar se o login foi bem-sucedido
-    expect(find.byType(Header), findsOneWidget);
-    expect(find.byKey(const Key("home_screen_list")), findsOneWidget);
+      await test.enterText(emailField, email);
+      await test.enterText(passwordField, password);
+      await test.pumpAndSettle();
 
-    // 4. Logout: Abrir o drawer e sair
-    await test.tap(find.byIcon(Icons.menu));
-    await test.pumpAndSettle();
+      await test.tap(find.widgetWithText(TextButton, "Entrar"));
+      await test.pumpAndSettle(const Duration(seconds: 5)); // Espera pelo login
 
-    final logoutTile = find.widgetWithText(ListTileWidget, 'Sair');
-    expect(logoutTile, findsOneWidget);
-    await test.tap(logoutTile);
-    await test.pumpAndSettle(const Duration(seconds: 2));
+      // 3. Tela Home: Verificar se o login foi bem-sucedido
+      expect(find.byType(Header), findsOneWidget);
+      expect(find.byKey(const Key("home_screen_list")), findsOneWidget);
 
-    // 5. Tela Inicial: Verificar se o logout retornou à tela inicial
-    expect(find.text("USM"), findsOneWidget);
-    expect(find.byType(TextFormField), findsOneWidget);
-  });
+      // 4. Logout: Abrir o drawer e sair
+      await test.tap(find.byIcon(Icons.menu));
+      await test.pumpAndSettle();
 
-  testWidgets("testando login com credenciais inválidas", (test) async {
-    // A configuração inicial é a mesma do teste anterior
-    // ... (código de setup do Provider e pumpWidget) ...
-    // Por brevidade, esta parte foi omitida, mas deve ser incluída no seu teste.
+      final logoutTile = find.widgetWithText(ListTileWidget, 'Sair');
+      expect(logoutTile, findsOneWidget);
+      await test.tap(logoutTile);
+      await test.pumpAndSettle(const Duration(seconds: 2));
 
-    // 1. Navega para a tela de login (mesmo fluxo do teste anterior)
-    // ...
+      // 5. Tela Inicial: Verificar se o logout retornou à tela inicial
+      expect(find.text("USM"), findsOneWidget);
+      expect(find.byType(TextFormField), findsOneWidget);
+    });
 
-    // 2. Insere credenciais inválidas
-    // await test.enterText(find.widgetWithText(TextFormField, 'E-mail'), "test@exemplo.com");
-    // await test.enterText(find.widgetWithText(TextFormField, 'Password'), "senhaincorreta");
-    // await test.pumpAndSettle();
+    testWidgets("testando login com credenciais inválidas", (test) async {
+      await pumpApp(test);
 
-    // await test.tap(find.widgetWithText(TextButton, "Entrar"));
-    // await test.pumpAndSettle(const Duration(seconds: 2));
+      // 1. Tela Inicial: Inserir matrícula para ir para a tela de login
+      expect(find.text("USM"), findsOneWidget);
+      await test.enterText(find.byType(TextFormField), "000000000000");
+      await test.tap(find.text("entrar"));
+      await test.pumpAndSettle(const Duration(seconds: 1));
 
-    // 3. Verifica se a mensagem de erro é exibida
-    // expect(find.text("Credenciais invalidas!"), findsOneWidget);
+      expect(find.byKey(const Key("matricula_not_found")), findsNothing);
 
-    // 4. Verifica se permanece na tela de login
-    // expect(find.text("Login"), findsOneWidget);
-    // expect(find.byType(Header), findsNothing);
+      // 2. Insere credenciais inválidas
+      await test.enterText(
+          find.widgetWithText(TextFormField, 'E-mail'), "test@exemplo.com");
+      await test.enterText(
+          find.widgetWithText(TextFormField, 'Password'), "senhaincorreta");
+      await test.pumpAndSettle();
+
+      await test.tap(find.widgetWithText(TextButton, "Entrar"));
+      await test.pumpAndSettle();
+
+      // 3. Verifica se a mensagem de erro é exibida
+      expect(find.byKey(const Key("invalid_credentials")), findsOneWidget);
+
+      // 4. Verifica se permanece na tela de login
+      expect(find.text("Login"), findsOneWidget);
+      expect(find.byType(Header), findsNothing);
+    });
   });
 }

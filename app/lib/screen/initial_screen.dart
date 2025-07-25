@@ -67,6 +67,7 @@ class _InitialScreenState extends State<InitialScreen> {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            key: Key("matricula_found_user_not"),
             content: Text(
               "Matricula encontrada, Usuario nao, cadastre-se!",
               style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),
@@ -91,6 +92,7 @@ class _InitialScreenState extends State<InitialScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          key: const Key("key_matricula_not_found"),
           content: Text(
             "Matricula não encontrada",
             style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),

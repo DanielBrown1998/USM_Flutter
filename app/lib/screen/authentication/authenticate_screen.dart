@@ -207,6 +207,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
+                                        key: Key("invalid_credentials"),
                                         content: Text("Credenciais invalidas!"),
                                       ),
                                     );
