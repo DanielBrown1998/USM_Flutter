@@ -43,9 +43,6 @@ void main() async {
         value: MatriculaService.getAllMatriculas(firestore),
         initialData: [],
         catchError: (context, error) {
-          // Loga o erro para fins de depuração.
-          // print("Erro ao buscar matrículas: $error");
-          // Retorna uma lista vazia como fallback.
           return <Matricula>[];
         },
       ),
@@ -53,9 +50,6 @@ void main() async {
         value: DisciplinaService.getDisciplinas(firestore: firestore),
         initialData: [],
         catchError: (context, error) {
-          // Loga o erro para fins de depuração.
-          // print("Erro ao buscar Disciplinas: $error");
-          // Retorna uma lista vazia como fallback.
           return <Disciplina>[];
         },
       ),
@@ -63,8 +57,6 @@ void main() async {
         value: MonitoriasService.getAllMonitorias(firestore),
         initialData: [],
         catchError: (context, error) {
-          // Loga o erro para fins de depuração.
-          // Retorna uma lista vazia como fallback.
           return <Monitoria>[];
         },
       ),
@@ -91,7 +83,6 @@ void main() async {
 class USMApp extends StatelessWidget {
   const USMApp({super.key, required this.title});
   final String title;
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
