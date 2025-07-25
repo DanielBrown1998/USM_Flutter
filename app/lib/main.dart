@@ -43,7 +43,6 @@ void main() async {
         value: MatriculaService.getAllMatriculas(firestore),
         initialData: [],
         catchError: (context, error) {
-          print("houve um erro $error");
           return <Matricula>[];
         },
       ),
