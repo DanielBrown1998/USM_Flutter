@@ -1,4 +1,4 @@
-import 'package:app/widgets/alert_dialog.dart';
+import 'package:app/utils/routes/routes.dart';
 import 'package:app/widgets/appbar.dart';
 import 'package:app/widgets/header.dart';
 import 'package:app/controllers/matricula_controllers.dart';
@@ -15,6 +15,7 @@ class MatriculaScreen extends StatefulWidget {
 class _MatriculaScreenState extends State<MatriculaScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: USMAppBar.appBar(context, "Matriculas"),
       body: Column(
@@ -41,14 +42,42 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           Matricula data = snapshot.data![index];
-                          return Dismissible(
-                            key: Key(data.matricula),
-                            child: ListTile(
-                              tileColor: Theme.of(context).primaryColor,
-                              onTap: () {},
-                              title: Text(data.matricula),
-                              subtitle: Text(
-                                  "numero de disciplinas: ${data.disciplinas.length.toString()}"),
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Dismissible(
+                              background: Container(
+                                decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary),
+                                child: Center(
+                                    child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    spacing: 5,
+                                    children: [
+                                      Text(
+                                        "atualizar",
+                                        style: theme.textTheme.displaySmall,
+                                      ),
+                                      Icon(
+                                        Icons.update,
+                                        color: theme.primaryColor,
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                              ),
+                              direction: DismissDirection.endToStart,
+                              key: Key(data.matricula),
+                              child: ListTile(
+                                leading: Icon(Icons.arrow_back_sharp),
+                                tileColor: theme.primaryColor,
+                                onTap: () {},
+                                title: Text(data.matricula),
+                                subtitle: Text(
+                                    "numero de disciplinas: ${data.disciplinas.length.toString()}"),
+                              ),
                             ),
                           );
                         },
@@ -71,11 +100,10 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         key: Key("add_matricula"),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: theme.primaryColor,
         onPressed: () async {
           if (context.mounted) {
-            // dynamic value =
-            await alertDialogAddMatricula(context);
+            await Navigator.pushNamed(context, Routes.addMatriculas);
           }
         },
         elevation: 10,

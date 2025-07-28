@@ -6,7 +6,6 @@ import 'package:app/models/user.dart';
 import 'package:app/controllers/monitoria_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/utils/utils_add_monitoria.dart';
-import 'package:app/utils/theme/theme.dart';
 import 'package:app/utils/constants/constants.dart';
 
 import 'package:flutter/material.dart';
@@ -275,59 +274,3 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   );
 }
 
-Future<dynamic> alertDialogAddMatricula(BuildContext context) {
-  TextEditingController matricula = TextEditingController();
-
-  AlertDialog alert = AlertDialog(
-    content: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: matricula,
-              decoration: InputDecoration(
-                labelText: "Matricula",
-                icon: Icon(Icons.person),
-              ),
-            ),
-          ],
-        )),
-    actions: [
-      IconButton(
-        onPressed: () async {
-          if (!context.mounted) return;
-          Navigator.pop(context, true);
-        },
-        icon: Icon(Icons.add_task),
-      ),
-      IconButton(
-        onPressed: () async {
-          if (!context.mounted) return;
-          Navigator.pop(context, false);
-        },
-        icon: Icon(Icons.highlight_remove_sharp),
-      )
-    ],
-    alignment: Alignment.center,
-    backgroundColor: Theme.of(context).primaryColor,
-    title: Text("Add Matricula"),
-    titleTextStyle: TextStyle(
-      color: ThemeUSM.whiteColor,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-    elevation: 10,
-    icon: Icon(Icons.add),
-    iconColor: ThemeUSM.whiteColor,
-  );
-
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
