@@ -215,6 +215,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 } on UserNotFoundException catch (_) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
+                                      key: Key("user_not_found"),
                                       content: Text("Usuario nao encontrado!"),
                                     ),
                                   );

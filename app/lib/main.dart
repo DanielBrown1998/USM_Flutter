@@ -5,6 +5,7 @@ import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/monitoria_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/controllers/matricula_controllers.dart';
+import 'package:app/screen/add_matriculas_screen.dart';
 import 'package:app/screen/authentication/authenticate_screen.dart';
 
 import 'package:app/screen/config/config_screen.dart';
@@ -43,7 +44,6 @@ void main() async {
         value: MatriculaService.getAllMatriculas(firestore),
         initialData: [],
         catchError: (context, error) {
-          print("houve um erro $error");
           return <Matricula>[];
         },
       ),
@@ -103,6 +103,7 @@ class USMApp extends StatelessWidget {
         Routes.searchStudent: (context) => SearchStudentScreen(),
         Routes.monitorias: (context) => MonitoriasSreen(),
         Routes.matriculas: (context) => MatriculaScreen(),
+        Routes.addMatriculas: (context) => AddMatriculasScreen(),
         Routes.config: (context) => ConfigScreen(),
       },
     );
