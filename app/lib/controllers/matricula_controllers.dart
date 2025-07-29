@@ -21,6 +21,11 @@ class MatriculaController with ChangeNotifier {
     return null;
   }
 
+  Future<bool> setMatricula(Matricula matricula) async {
+    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
+    return await MatriculaService.setMatricula(firestore, matricula);
+  }
+
   Future<List<Matricula>> getAllMatriculas() async {
     FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     return await MatriculaService.getAllMatriculas(firestore);

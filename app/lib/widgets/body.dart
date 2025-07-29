@@ -75,11 +75,12 @@ class MonitoriaView extends StatefulWidget {
 class _MonitoriaViewState extends State<MonitoriaView> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: theme.primaryColor,
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(
             color: ThemeUSM.blackColor,

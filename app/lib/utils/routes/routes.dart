@@ -7,6 +7,7 @@ class Routes {
   static String searchStudent = "/search_student";
   static String monitorias = "/monitorias";
   static String matriculas = "/matriculas";
+  static String addMatriculas = "/add_matriculas";
   static String config = "/config";
   static String configDays = "$config/days";
   static String configDisciplina = "$config/disciplinas";
