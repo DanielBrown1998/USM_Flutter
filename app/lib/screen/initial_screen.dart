@@ -2,10 +2,8 @@ import 'package:app/widgets/logo_laptop.dart';
 import 'package:app/models/matricula.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
-import 'package:app/services/firebase_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,16 +47,12 @@ class _InitialScreenState extends State<InitialScreen> {
       UserController users =
           Provider.of<UserController>(context, listen: false);
       try {
-        FirebaseFirestore firestore =
-            await FirebaseService.initializeFirebase();
-
         //set matricula and user
         users.matricula = matricula;
-        await users.getUserByMatriculaForLogin(
-            firestore: firestore, matricula: matricula.matricula);
+        await users.getUserByMatriculaForLogin(matricula: matricula.matricula);
 
         //udpate disciplinas in user
-        users.checkDisciplinasThisUserInMatricula(firestore);
+        users.checkDisciplinasThisUserInMatricula();
 
         //redirect to login screen
         if (!context.mounted) return;

@@ -54,16 +54,17 @@ void main() {
           ),
           ProxyProvider<List<Matricula>, MatriculaController>(
             update: (context, matriculas, previous) {
-              previous ??= MatriculaController();
+              previous ??= MatriculaController(firestore: firestore);
               previous.initializeMatriculas(matriculas);
               return previous;
             },
           ),
           ChangeNotifierProvider<UserController>(
-              create: (_) => UserController()),
+              create: (_) => UserController(firestore: firestore)),
           ChangeNotifierProvider<MonitoriaController>(
-              create: (_) => MonitoriaController()),
-          ChangeNotifierProvider(create: (_) => DisciplinasController()),
+              create: (_) => MonitoriaController(firestore: firestore)),
+          ChangeNotifierProvider(
+              create: (_) => DisciplinasController(firestore: firestore)),
         ],
         child: const USMApp(
           title: "MON. UERJ-ZO Test",
@@ -99,6 +100,7 @@ void main() {
 
       await test.tap(find.widgetWithText(TextButton, "Entrar"));
       await test.pumpAndSettle(const Duration(seconds: 5)); // Espera pelo login
+      await test.pumpAndSettle();
 
       // 3. Tela Home: Verificar se o login foi bem-sucedido
       expect(find.byType(Header), findsOneWidget);

@@ -1,12 +1,14 @@
 import "package:app/models/monitoria.dart";
-import "package:app/services/firebase_service.dart";
 import "package:app/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:app/utils/constants/constants.dart";
 
 class MonitoriaController with ChangeNotifier {
+  final FirebaseFirestore firestore;
   List<Monitoria> monitoria = [];
+
+  MonitoriaController({required this.firestore});
 
   void initializeMonitorias(List<Monitoria> monitoria) {
     this.monitoria = monitoria;
@@ -14,13 +16,11 @@ class MonitoriaController with ChangeNotifier {
   }
 
   Future<List<Monitoria>> loadMonitorias() async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     return await MonitoriasService.getAllMonitorias(firestore);
   }
 
   Future<List<Monitoria>> getMonitoriasbyDate(
       {required DateTime date, required int? limit}) async {
-    
     monitoria = await loadMonitorias();
     notifyListeners();
     List<Monitoria> monitoriasByDate = (monitoria == [])
@@ -77,7 +77,6 @@ class MonitoriaController with ChangeNotifier {
           _getMonitoriasbyUser(monitorias: monitorias, monitoria: monitoria);
     }
     if (isMonitoriaThisDay) {
-      FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
       // print(mon.toMap());
       await MonitoriasService.saveMonitoria(
           firestore: firestore, monitoria: monitoria);
@@ -115,8 +114,6 @@ class MonitoriaController with ChangeNotifier {
     for (Monitoria item in monitorias) {
       if (item.id == monitoria.id) {
         // print("${item.toMap()}");
-        FirebaseFirestore firestore =
-            await FirebaseService.initializeFirebase();
         // print("------------------------------------------------------------");
         // print("antes: ${item.status}");
         // print(item.toMap());
