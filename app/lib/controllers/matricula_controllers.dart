@@ -1,10 +1,13 @@
 import "package:app/models/matricula.dart";
-import "package:app/services/firebase_service.dart";
 import "package:app/services/matricula_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
 class MatriculaController with ChangeNotifier {
+  final FirebaseFirestore firestore;
+
+  MatriculaController({required this.firestore});
+
   List<Matricula> matriculas = [];
 
   void initializeMatriculas(List<Matricula> matriculas) {
@@ -22,12 +25,10 @@ class MatriculaController with ChangeNotifier {
   }
 
   Future<bool> setMatricula(Matricula matricula) async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     return await MatriculaService.setMatricula(firestore, matricula);
   }
 
   Future<List<Matricula>> getAllMatriculas() async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
     return await MatriculaService.getAllMatriculas(firestore);
   }
 }

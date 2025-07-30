@@ -11,11 +11,11 @@ class UserController with ChangeNotifier {
   User? user;
   Matricula? matricula;
   final AuthService authService;
-  UserController({this.user, AuthService? authService})
+  final FirebaseFirestore firestore;
+  UserController({required this.firestore, this.user, AuthService? authService})
       : authService = authService ?? AuthService();
 
-  Future<bool> login(FirebaseFirestore firestore,
-      {required String email, required String password}) async {
+  Future<bool> login({required String email, required String password}) async {
     auth_firebase.User? auth =
         await authService.login(email: email, password: password);
     if (auth == null) return false;
@@ -31,7 +31,7 @@ class UserController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<User?> register(FirebaseFirestore firestore,
+  Future<User?> register(
       {required String email,
       required String firstName,
       required String lastName,
@@ -64,48 +64,43 @@ class UserController with ChangeNotifier {
     return user;
   }
 
-  bool checkDisciplinasThisUserInMatricula(FirebaseFirestore firestore) {
+  bool checkDisciplinasThisUserInMatricula() {
     if (user == null || matricula == null) {
       throw UserControllerException('user or matricula not implemented yet');
     }
     if (user!.disciplinas == matricula!.disciplinas) return true;
     user!.disciplinas = matricula!.disciplinas;
-    updateUser(firestore: firestore, user: user!);
+    updateUser(user: user!);
     return true;
   }
 
   Future<bool> removeDisciplinaThisUser(
-      {required FirebaseFirestore firestore,
-      required Disciplina disciplina}) async {
+      {required Disciplina disciplina}) async {
     if (user!.disciplinas.contains(disciplina)) {
       user!.disciplinas.remove(disciplina);
-      updateUser(firestore: firestore, user: user!);
+      updateUser(user: user!);
     }
     return false;
   }
 
-  Future<User> updateUser(
-      {required FirebaseFirestore firestore, required User user}) async {
+  Future<User> updateUser({required User user}) async {
     user = await UserService.updateUser(firestore: firestore, user: user);
     notifyListeners();
     return user;
   }
 
-  Future<User?> getUserByMatriculaForLogin(
-      {required FirebaseFirestore firestore, required String matricula}) async {
+  Future<User?> getUserByMatriculaForLogin({required String matricula}) async {
     user = await UserService.getUserByMatricula(
         firestore: firestore, matricula: matricula);
     notifyListeners();
     return user;
   }
 
-  Future<User?> getUserByEmailForLogin(
-      {required FirebaseFirestore firestore, required String email}) async {
+  Future<User?> getUserByEmailForLogin({required String email}) async {
     return await UserService.getUserByEmail(firestore: firestore, email: email);
   }
 
-  Future<User?> getUserByMatricula(
-      {required FirebaseFirestore firestore, required String matricula}) async {
+  Future<User?> getUserByMatricula({required String matricula}) async {
     if (!(user!.isStaff || user!.isSuperUser)) return null;
     User newUser = await UserService.getUserByMatricula(
         firestore: firestore, matricula: matricula);

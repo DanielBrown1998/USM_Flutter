@@ -1,11 +1,9 @@
 import 'package:app/models/user.dart';
-import 'package:app/services/firebase_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/widgets/logo_laptop.dart';
 import 'package:app/models/matricula.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +35,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<bool> register(BuildContext context, UserController controller,
-      FirebaseFirestore firestore,
       {required String email,
       required String firstName,
       required String lastName,
@@ -47,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isStaff = false,
       isSuperUser = false,
       isActive = true}) async {
-    User? user = await controller.register(firestore,
+    User? user = await controller.register(
         email: email,
         firstName: firstName,
         lastName: lastName,
@@ -220,13 +217,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             foregroundColor: ThemeUSM.whiteColor),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            FirebaseFirestore firestore =
-                                await FirebaseService.initializeFirebase();
                             bool isRegister = false;
 
                             User? newUser =
-                                await controller.getUserByEmailForLogin(
-                                    firestore: firestore, email: email.text);
+                                await controller.getUserByEmailForLogin(email: email.text);
                             if (newUser != null) {
                               if (!context.mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -236,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             } else {
                               if (!context.mounted) return;
                               isRegister = await register(
-                                  context, controller, firestore,
+                                  context, controller,
                                   email: email.text,
                                   firstName: firstName.text,
                                   lastName: lastName.text,
