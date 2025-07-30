@@ -106,6 +106,10 @@ class UserController with ChangeNotifier {
         firestore: firestore, matricula: matricula);
     return newUser;
   }
+
+  Future<List<User>> getAllUsers() async {
+    return await UserService.getAllUsers(firestore);
+  }
 }
 
 class UserControllerException {
