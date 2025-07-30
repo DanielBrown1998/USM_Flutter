@@ -263,7 +263,6 @@ void main() {
     });
   });
 
-
   group("UserController", () {
     late MockFirebaseFirestore firestore;
     late MockAuthService mockAuthService;
@@ -280,7 +279,6 @@ void main() {
     final timestampNow = Timestamp.fromDate(now);
 
     final testUser = model_user.User(
-
       uid: testUid,
       firstName: 'Test',
       lastName: 'User',
@@ -315,7 +313,8 @@ void main() {
     setUp(() {
       firestore = MockFirebaseFirestore();
       mockAuthService = MockAuthService();
-      userController = UserController(authService: mockAuthService);
+      userController =
+          UserController(firestore: firestore, authService: mockAuthService);
 
       // Firestore mocks for UserService
       usersCollection = MockCollectionReference();
@@ -341,7 +340,7 @@ void main() {
         when(usersCollection.doc(testUid)).thenReturn(userDocumentReference);
 
         // Act
-        final result = await userController.login(firestore,
+        final result = await userController.login(
             email: testEmail, password: testPassword);
 
         // Assert
@@ -360,7 +359,7 @@ void main() {
             .thenAnswer((_) async => null);
 
         // Act
-        final result = await userController.login(firestore,
+        final result = await userController.login(
             email: testEmail, password: testPassword);
 
         // Assert
@@ -382,7 +381,7 @@ void main() {
 
         // Act & Assert
         expect(
-            () async => await userController.login(firestore,
+            () async => await userController.login(
                 email: testEmail, password: testPassword),
             throwsA(isA<UserNotFoundException>()));
         expect(userController.user, isNull);
@@ -435,7 +434,6 @@ void main() {
 
         // Act
         final result = await userController.register(
-          firestore,
           email: testEmail,
           firstName: 'Test',
           lastName: 'User',
@@ -469,7 +467,6 @@ void main() {
 
         // Act
         final result = await userController.register(
-          firestore,
           email: testEmail,
           firstName: 'Test',
           lastName: 'User',

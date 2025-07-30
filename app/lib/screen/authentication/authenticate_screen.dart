@@ -1,10 +1,8 @@
-import 'package:app/services/firebase_service.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/widgets/appbar.dart';
 import 'package:app/widgets/logo_laptop.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,8 +41,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
   Future<bool> _authenticate(UserController controller,
       {required String email, required String password}) async {
-    FirebaseFirestore firestore = await FirebaseService.initializeFirebase();
-    return await controller.login(firestore, email: email, password: password);
+    return await controller.login(email: email, password: password);
   }
 
   @override
