@@ -43,6 +43,10 @@ class UserService {
     return user;
   }
 
+  static Future<List<User>> getAllUsers(FirebaseFirestore firestore) async {
+    return await _loadUsers(firestore);
+  }
+
   static Future<List<User>> _loadUsers(FirebaseFirestore firestore) async {
     List<User> users = [];
     var snapshot = await firestore.collection("user").get();

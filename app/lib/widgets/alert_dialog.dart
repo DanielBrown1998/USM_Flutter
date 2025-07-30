@@ -18,34 +18,34 @@ Future<dynamic> alertDialogStudent(
   required String title,
   required String msg,
   required String confirmation,
-  required String cancel,
 }) {
+  final theme = Theme.of(context);
   AlertDialog alert = AlertDialog(
     icon: Icon(icon),
     elevation: 20,
-    backgroundColor: Theme.of(context).primaryColor,
+    backgroundColor: theme.primaryColor,
     title: Text(
       title,
-      style: TextStyle(color: Theme.of(context).dividerColor, fontSize: 20),
+      style: TextStyle(color: theme.dividerColor, fontSize: 20),
     ),
     content: Text(msg),
     actions: [
       TextButton(
           onPressed: () {
-            Navigator.pop(context, true);
+            Navigator.pop(context, null);
           },
           child: Text(
             confirmation,
-            style: TextStyle(color: Theme.of(context).cardColor, fontSize: 15),
+            style: TextStyle(color: theme.cardColor, fontSize: 15),
           )),
-      TextButton(
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-          child: Text(
-            cancel,
-            style: TextStyle(color: Theme.of(context).cardColor, fontSize: 15),
-          )),
+      // TextButton(
+      //     onPressed: () {
+      //       Navigator.pop(context, false);
+      //     },
+      //     child: Text(
+      //       cancel,
+      //       style: TextStyle(color: theme.cardColor, fontSize: 15),
+      //     )),
     ],
   );
 
