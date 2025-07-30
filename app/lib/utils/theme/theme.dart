@@ -1,10 +1,11 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 class ThemeUSM {
   static Color buttonColor = Color(0xFF2f4073);
   static Color whiteColor = Color.fromARGB(255, 213, 206, 194);
   static Color scaffoldBackgroundColor = Color.fromARGB(255, 228, 228, 228);
-  static Color blackColor = const Color.fromARGB(214, 0, 0, 0);
+  static Color blackColor = const Color.fromARGB(255, 0, 0, 0);
   static Color cardColor = Color.fromARGB(255, 85, 104, 161);
   static Color dividerDrawerColor = Color.fromARGB(255, 130, 7, 230);
   static Color shadowColor = Color.fromARGB(255, 201, 199, 198);
@@ -13,6 +14,16 @@ class ThemeUSM {
 
 class USMThemeData {
   static ThemeData themeData = ThemeData(
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+          transitionType: SharedAxisTransitionType.vertical,
+        ),
+        TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+          transitionType: SharedAxisTransitionType.scaled,
+        ),
+      },
+    ),
     cardColor: ThemeUSM.cardColor,
     dividerColor: ThemeUSM.dividerDrawerColor,
     shadowColor: ThemeUSM.shadowColor,

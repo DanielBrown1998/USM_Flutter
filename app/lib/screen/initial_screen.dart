@@ -104,13 +104,8 @@ class _InitialScreenState extends State<InitialScreen> {
       backgroundColor: ThemeUSM.blackColor,
       body: Consumer<MatriculaController>(
           builder: (context, MatriculaController list, child) {
-        return Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: ThemeUSM.backgroundColorWhite,
-              width: 2,
-            ),
-          ),
+        return Material(
+          color: ThemeUSM.blackColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -144,24 +139,21 @@ class _InitialScreenState extends State<InitialScreen> {
                   child: Column(
                     spacing: 40,
                     children: [
-                      Material(
-                        color: ThemeUSM.blackColor,
-                        child: TextFormField(
-                          style: theme.textTheme.displayMedium,
-                          controller: matriculaController,
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            labelText: "Matricula",
-                            icon: Icon(Icons.login),
-                            iconColor: ThemeUSM.whiteColor,
-                            helperText: "Insira sua matricula",
-                            helperStyle: theme.textTheme.displaySmall,
-                            constraints: BoxConstraints(
-                                minHeight: 60,
-                                maxHeight: 120,
-                                minWidth: double.maxFinite),
-                          ),
+                      TextFormField(
+                        style: theme.textTheme.displayMedium,
+                        controller: matriculaController,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          labelText: "Matricula",
+                          icon: Icon(Icons.login),
+                          iconColor: ThemeUSM.whiteColor,
+                          helperText: "Insira sua matricula",
+                          helperStyle: theme.textTheme.displaySmall,
+                          constraints: BoxConstraints(
+                              minHeight: 60,
+                              maxHeight: 120,
+                              minWidth: double.maxFinite),
                         ),
                       ),
                       Row(
