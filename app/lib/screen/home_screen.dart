@@ -26,36 +26,67 @@ class _HomeScreenState extends State<HomeScreen> {
     DisciplinasController disciplinasProvider =
         Provider.of<DisciplinasController>(context, listen: false);
     disciplinasProvider.initializeDisciplinas(allDisciplinas);
+
+    addMonitoria() async {
+      dynamic value = await alertDialogAddMonitoria(context);
+      if (value.runtimeType == List) {
+        User user = value[1];
+        DateTime date = value[2];
+        if (value[0]) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
+            duration: Duration(seconds: 2),
+          ));
+        } else {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
+            duration: Duration(seconds: 2),
+          ));
+        }
+      }
+    }
+
     return Scaffold(
       backgroundColor: ThemeUSM.scaffoldBackgroundColor,
       appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Header(
-              key: Key("home_screen_header"),
+      body: Consumer<UserController>(
+        builder: (context, value, _) => Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Header(
+                key: Key("home_screen_header"),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 64,
-            child: custom_body.ListBody(
-              key: Key("home_screen_list"),
+            //only members and super user can access this
+            (value.user != null &&
+                    (value.user!.isSuperUser || value.user!.isStaff))
+                ? SizedBox(
+                    height: 64,
+                    child: custom_body.ListBody(
+                      key: Key("home_screen_list"),
+                    ),
+                  )
+                : SizedBox.square(), //TODO refactor this
+            Expanded(
+              child: custom_body.MonitoriaView(
+                key: Key("home_screen_monitoria"),
+              ),
             ),
-          ),
-          Expanded(
-            child: custom_body.MonitoriaView(
-              key: Key("home_screen_monitoria"),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       drawer: Consumer<UserController>(
           builder: (BuildContext context, value, Widget? child) {
         if (value.user == null) {
           return Center(
+            //TODO refactor this
             child: CircularProgressIndicator(),
           );
         }
@@ -66,26 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: ThemeUSM.blackColor,
         foregroundColor: ThemeUSM.whiteColor,
         onPressed: () async {
-          dynamic value = await alertDialogAddMonitoria(context);
-          if (value.runtimeType == List) {
-            User user = value[1];
-            DateTime date = value[2];
-            if (value[0]) {
-              if (!context.mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
-                duration: Duration(seconds: 2),
-              ));
-            } else {
-              if (!context.mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
-                duration: Duration(seconds: 2),
-              ));
-            }
-          }
+          await addMonitoria();
         },
         tooltip: 'Increment',
         elevation: 10,

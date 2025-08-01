@@ -1,4 +1,4 @@
-import 'package:app/widgets/monitoria_card.dart';
+import 'package:app/widgets/cards/monitoria_card.dart';
 import 'package:app/utils/routes/routes.dart';
 import 'package:app/utils/theme/theme.dart';
 
