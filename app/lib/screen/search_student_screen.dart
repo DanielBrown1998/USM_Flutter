@@ -4,6 +4,7 @@ import 'package:app/widgets/appbar.dart';
 import 'package:app/widgets/header.dart';
 import 'package:app/widgets/alert_dialog.dart';
 import 'package:app/utils/theme/theme.dart';
+import 'package:app/widgets/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -86,11 +87,15 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
     return allUsers;
   }
 
+  switchWidget(User user, bool showCardUser) {}
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // final media = MediaQuery.of(context);
+    Color backgroundColor = theme.scaffoldBackgroundColor;
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: backgroundColor,
       appBar: USMAppBar.appBar(context, "Buscar Aluno"),
       body: Consumer<UserController>(
         builder: (context, controller, _) {
@@ -206,87 +211,7 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                 child: ListView.builder(
                                   itemBuilder: (context, index) {
                                     User user = allUsers[index];
-                                    bool showCardUser = false;
-                                    //TODO implementar a alteracao do Card para o UserCard
-                                    return Material(
-                                      child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            showCardUser = !showCardUser;
-                                          });
-                                        },
-                                        child: Card(
-                                          shape: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8)),
-                                            borderSide: BorderSide(
-                                              color: theme
-                                                  .colorScheme.onPrimaryFixed,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          elevation: 10,
-                                          margin: EdgeInsets.all(8),
-                                          shadowColor:
-                                              theme.colorScheme.onPrimaryFixed,
-                                          color: theme.primaryColor,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: SizedBox(
-                                              height: 60,
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      Text(
-                                                        "${user.firstName} ${user.lastName}",
-                                                        style: theme.textTheme
-                                                            .bodyMedium,
-                                                      ),
-                                                      Text(
-                                                        user.userName,
-                                                        style: theme.textTheme
-                                                            .bodyLarge,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      Text(user.phone,
-                                                          style: theme.textTheme
-                                                              .bodyMedium),
-                                                      Text(
-                                                        user.lastLogin
-                                                            .toString()
-                                                            .split(' ')[0],
-                                                        style: theme.textTheme
-                                                            .bodyMedium,
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
+                                    return StudentCard(user: user);
                                   },
                                   itemCount: allUsers.length,
                                 ),
