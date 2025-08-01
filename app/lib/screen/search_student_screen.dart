@@ -4,7 +4,7 @@ import 'package:app/widgets/appbar.dart';
 import 'package:app/widgets/header.dart';
 import 'package:app/widgets/alert_dialog.dart';
 import 'package:app/utils/theme/theme.dart';
-import 'package:app/widgets/student_card.dart';
+import 'package:app/widgets/cards/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

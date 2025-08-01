@@ -1,5 +1,5 @@
 import 'package:app/models/user.dart';
-import 'package:app/widgets/user_card.dart';
+import 'package:app/widgets/cards/user_card.dart';
 import 'package:flutter/material.dart';
 
 class StudentCard extends StatefulWidget {
