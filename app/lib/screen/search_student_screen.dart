@@ -5,10 +5,8 @@ import 'package:app/widgets/header.dart';
 import 'package:app/widgets/alert_dialog.dart';
 import 'package:app/utils/theme/theme.dart';
 import 'package:app/widgets/student_card.dart';
-import 'package:app/widgets/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
 
 class SearchStudentScreen extends StatefulWidget {
   const SearchStudentScreen({super.key});
@@ -24,7 +22,6 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _matricula = TextEditingController();
   List<User> allUsers = [];
-  Widget? _widget;
 
   Future<List<User>?> searchStudent(
       BuildContext context, UserController controller) async {
