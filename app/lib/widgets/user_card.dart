@@ -7,12 +7,14 @@ class UserCard extends StatelessWidget {
   final String? photoURL;
   final User user;
   final auth.User? currentUser;
-  const UserCard({super.key, required this.user, this.currentUser, this.photoURL});
+  const UserCard(
+      {super.key, required this.user, this.currentUser, this.photoURL});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
+      key: Key(user.uid),
       elevation: 20,
       color: ThemeUSM.blackColor,
       shadowColor: theme.colorScheme.onPrimaryContainer,
@@ -40,6 +42,7 @@ class UserCard extends StatelessWidget {
                             )
                           : CircleAvatar(radius: 60, child: Text("no-image")),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         spacing: 5,
                         children: [
@@ -59,11 +62,6 @@ class UserCard extends StatelessWidget {
                             style: theme.textTheme.displaySmall,
                           ),
                           Text(
-                            user.email,
-                            textAlign: TextAlign.right,
-                            style: theme.textTheme.displaySmall,
-                          ),
-                          Text(
                             user.campus,
                             textAlign: TextAlign.right,
                             style: theme.textTheme.displaySmall,
@@ -75,73 +73,107 @@ class UserCard extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Wrap(
-                      direction: Axis.horizontal,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      runAlignment: WrapAlignment.start,
-                      spacing: 5,
-                      children: [
-                        Material(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          shape: Border.all(
-                            width: 1,
-                            style: BorderStyle.solid,
-                            color: theme.primaryColor,
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: InkWell(
-                            splashColor: theme.splashColor,
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                "Alterar imagem perfil",
+                  (currentUser != null && user.uid == currentUser!.uid)
+                      ? Wrap(
+                          direction: Axis.horizontal,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          runAlignment: WrapAlignment.start,
+                          spacing: 5,
+                          children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "E-MAIL",
+                                      style: theme.textTheme.displayMedium,
+                                    ),
+                                    Text(
+                                      user.email,
+                                      textAlign: TextAlign.right,
+                                      softWrap: true,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.displaySmall,
+                                    ),
+                                  ]),
+                              Material(
+                                color: theme.colorScheme.onPrimaryContainer,
+                                shape: Border.all(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: theme.primaryColor,
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  splashColor: theme.splashColor,
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      "Alterar imagem perfil",
+                                      style: theme.textTheme.displaySmall,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Material(
+                                color: theme.colorScheme.onPrimaryContainer,
+                                shape: Border.all(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: theme.primaryColor,
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  splashColor: theme.splashColor,
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      "Alterar senha",
+                                      style: theme.textTheme.displaySmall,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Material(
+                                color: theme.colorScheme.onPrimaryContainer,
+                                shape: Border.all(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: theme.primaryColor,
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  splashColor: theme.splashColor,
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      "Aualizar dados",
+                                      style: theme.textTheme.displaySmall,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ])
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                              Text(
+                                "E-MAIL",
+                                style: theme.textTheme.displayMedium,
+                              ),
+                              Text(
+                                user.email,
+                                textAlign: TextAlign.right,
+                                softWrap: true,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: theme.textTheme.displaySmall,
                               ),
-                            ),
-                          ),
-                        ),
-                        Material(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          shape: Border.all(
-                            width: 1,
-                            style: BorderStyle.solid,
-                            color: theme.primaryColor,
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: InkWell(
-                            splashColor: theme.splashColor,
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                "Alterar senha",
-                                style: theme.textTheme.displaySmall,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Material(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          shape: Border.all(
-                            width: 1,
-                            style: BorderStyle.solid,
-                            color: theme.primaryColor,
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          child: InkWell(
-                            splashColor: theme.splashColor,
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                "Aualizar dados",
-                                style: theme.textTheme.displaySmall,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ])
+                            ]),
                 ],
               ),
             ),
@@ -151,25 +183,28 @@ class UserCard extends StatelessWidget {
             child: Wrap(
               spacing: 5,
               children: [
-                (currentUser != null) ?
+                (currentUser != null)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'E-mail verificado: ',
+                            style: theme.textTheme.displaySmall,
+                          ),
+                          Icon(
+                            Icons.circle,
+                            color: currentUser!.emailVerified
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'E-mail verificado: ',
-                      style: theme.textTheme.displaySmall,
-                    ),
-                    Icon(
-                      Icons.circle,
-                      color:
-                          currentUser!.emailVerified ? Colors.green : Colors.red,
-                    ),
-                  ],
-                ): SizedBox.shrink(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Usuario ativo?", style: theme.textTheme.displaySmall),
+                    Text("Usuario ativo?",
+                        style: theme.textTheme.displaySmall),
                     Icon(
                       Icons.circle,
                       color: (!user.isActive) ? Colors.red : Colors.green,
