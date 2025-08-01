@@ -20,6 +20,12 @@ class UserController with ChangeNotifier {
         await authService.login(email: email, password: password);
     if (auth == null) return false;
     user = await UserService.getUserByUid(firestore: firestore, uid: auth.uid);
+    //check if matricula inserted is equal to matricula of authUser
+    if (user!.userName != matricula!.matricula) {
+      user = null;
+      authService.logout();
+      return false;
+    }
     notifyListeners();
     return true;
   }

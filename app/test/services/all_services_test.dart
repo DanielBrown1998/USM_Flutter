@@ -274,6 +274,7 @@ void main() {
     // Mock data
     const String testEmail = 'test@test.com';
     const String testPassword = 'password';
+    const String matricula = "000000000000";
     const String testUid = 'testUid';
     final now = DateTime.now();
     final timestampNow = Timestamp.fromDate(now);
@@ -283,7 +284,7 @@ void main() {
       firstName: 'Test',
       lastName: 'User',
       email: testEmail,
-      userName: '202312345',
+      userName: matricula,
       campus: 'Test Campus',
       dateJoined: now,
       disciplinas: [],
@@ -331,6 +332,13 @@ void main() {
       test('should return true and set user on successful login', () async {
         // Arrange
         final mockAuthUser = MockUser();
+        final matriculaModel = Matricula(
+          campus: "Zona Oeste",
+          disciplinas: [],
+          matricula: matricula,
+        );
+        userController.matricula = matriculaModel;
+
         when(mockAuthUser.uid).thenReturn(testUid);
         when(mockAuthService.login(email: testEmail, password: testPassword))
             .thenAnswer((_) async => mockAuthUser);
@@ -368,10 +376,49 @@ void main() {
         verifyNever(firestore.collection('user'));
       });
 
+      test(
+          "should return false when user.userName != matricula inserted before ",
+          () async {
+        final mockAuthUser = MockUser();
+        final matriculaModel = Matricula(
+          campus: "Zona Oeste",
+          disciplinas: [],
+          matricula: "000000000001",
+        );
+        userController.matricula = matriculaModel;
+
+        when(mockAuthUser.uid).thenReturn(testUid);
+        when(mockAuthService.login(email: testEmail, password: testPassword))
+            .thenAnswer((_) async => mockAuthUser);
+
+        when(userDocumentSnapshot.exists).thenReturn(true);
+        when(userDocumentSnapshot.data()).thenReturn(testUserMap);
+        when(usersCollection.doc(testUid)).thenReturn(userDocumentReference);
+
+        // Act
+        final result = await userController.login(
+            email: testEmail, password: testPassword);
+
+        // Assert
+        expect(result, isFalse);
+        expect(userController.user, isNull);
+        verify(mockAuthService.login(email: testEmail, password: testPassword))
+            .called(1);
+        verify(firestore.collection('user')).called(1);
+        verify(usersCollection.doc(testUid)).called(1);
+      });
+
       test('should throw UserNotFoundException if user not in firestore',
           () async {
         // Arrange
         final mockAuthUser = MockUser();
+        final matriculaModel = Matricula(
+          campus: "Zona Oeste",
+          disciplinas: [],
+          matricula: matricula,
+        );
+        userController.matricula = matriculaModel;
+
         when(mockAuthUser.uid).thenReturn(testUid);
         when(mockAuthService.login(email: testEmail, password: testPassword))
             .thenAnswer((_) async => mockAuthUser);

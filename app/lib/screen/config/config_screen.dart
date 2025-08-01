@@ -1,5 +1,5 @@
 import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/config_card.dart';
+import 'package:app/widgets/cards/config_card.dart';
 import 'package:app/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/routes/routes.dart';
