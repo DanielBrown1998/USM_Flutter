@@ -82,23 +82,29 @@ flutter test integration_test/app_test.dart
       <br><sub>Tela de Login</sub>
     </td>
     <td align="center">
-      <img src="app/lib/assets/readme_images/home.png" alt="Tela Home" height="300">
+      <img src="app/screenshots/flutter_02.png" alt="Tela Home" height="300">
       <br><sub>Tela Home</sub>
     </td>
     <td align="center">
-      <img src="app/lib/assets/readme_images/add_monitoria.png" alt="Modal Adicionar Monitoria" height="300">
+      <img src="app/screenshots/flutter_03.png" alt="Tela Home" height="300">
       <br><sub>Modal Adicionar Monitoria</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="app/lib/assets/readme_images/search_students.png" alt="Tela de Busca de Alunos" height="300">
+      <img src="app/screenshots/flutter_04.png" alt="Tela Home" height="300">
       <br><sub>Busca de Alunos</sub>
     </td>
     <td align="center">
-      <img src="app/lib/assets/readme_images/list_all_monitorias.png" alt="Tela de Lista de Monitorias" height="300">
+      <img src="app/screenshots/flutter_06.png" alt="Tela Home" height="300">
       <br><sub>Lista de Monitorias</sub>
     </td>
+   
+    <td align="center">
+      <img src="app/screenshots/flutter_07.png" alt="Tela Home" height="300">
+      <br><sub>Lista de Monitorias</sub>
+    </td>
+    
      <!-- Adicione mais <td> aqui se tiver mais imagens para esta linha -->
   </tr>
 </table>
