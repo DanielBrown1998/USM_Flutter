@@ -86,8 +86,8 @@ flutter test integration_test/app_test.dart
       <br><sub>Tela Home</sub>
     </td>
     <td align="center">
-      <img src="app/screenshots/flutter_03.png" alt="Tela Home" height="300">
-      <br><sub>Modal Adicionar Monitoria</sub>
+      <img src="app/screenshots/flutter_07.png" alt="Tela Home" height="300">
+      <br><sub>Lista de Monitorias</sub>
     </td>
   </tr>
   <tr>
@@ -100,10 +100,7 @@ flutter test integration_test/app_test.dart
       <br><sub>Lista de Monitorias</sub>
     </td>
    
-    <td align="center">
-      <img src="app/screenshots/flutter_07.png" alt="Tela Home" height="300">
-      <br><sub>Lista de Monitorias</sub>
-    </td>
+    
     
      <!-- Adicione mais <td> aqui se tiver mais imagens para esta linha -->
   </tr>
