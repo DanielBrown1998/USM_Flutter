@@ -79,29 +79,21 @@ flutter test integration_test/app_test.dart
   <tr>
     <td align="center">
       <img src="app/screenshots/flutter_01.png" alt="Tela de Login" height="300">
-      <br><sub>Tela de Login</sub>
     </td>
     <td align="center">
       <img src="app/screenshots/flutter_02.png" alt="Tela Home" height="300">
-      <br><sub>Tela Home</sub>
     </td>
     <td align="center">
       <img src="app/screenshots/flutter_07.png" alt="Tela Home" height="300">
-      <br><sub>Lista de Monitorias</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
       <img src="app/screenshots/flutter_04.png" alt="Tela Home" height="300">
-      <br><sub>Busca de Alunos</sub>
     </td>
     <td align="center">
       <img src="app/screenshots/flutter_06.png" alt="Tela Home" height="300">
-      <br><sub>Lista de Monitorias</sub>
     </td>
-   
-    
-    
      <!-- Adicione mais <td> aqui se tiver mais imagens para esta linha -->
   </tr>
 </table>
