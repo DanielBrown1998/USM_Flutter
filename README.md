@@ -1,105 +1,84 @@
-# MON. UERJ-ZO
 [![Codemagic build status](https://api.codemagic.io/apps/685edcfa3096b3b0a849063b/685ef8926725832714ff2373/status_badge.svg)](https://codemagic.io/app/685edcfa3096b3b0a849063b/685ef8926725832714ff2373/latest_build)
 
-## Descrição
+# Monitoria UERJ-ZO (USM\_Flutter)
 
-MON. UERJ-ZO é um aplicativo Flutter desenvolvido para gerenciar e agendar monitorias para a UERJ-ZO. Ele permite que alunos e monitores interajam, marquem sessões de monitoria e acompanhem seus agendamentos. O backend é suportado pelo Firebase Firestore.
+## 🎯 Sobre o Projeto
 
-## Funcionalidades
+**MON. UERJ-ZO** é um aplicativo desenvolvido em Flutter para facilitar o gerenciamento e agendamento de monitorias na UERJ-ZO. A plataforma permite que alunos e monitores interajam de forma simples e organizada, centralizando a marcação e o acompanhamento das aulas de reforço. O backend é totalmente suportado pelo Firebase, garantindo agilidade e escalabilidade.
 
-*   Autenticação de usuários (alunos/monitores).
-*   Visualização de monitorias disponíveis.
-*   Agendamento de novas monitorias.
-*   Visualização de monitorias agendadas.
-*   Gerenciamento de status de monitorias (e.g., MARCADA, PRESENTE, AUSENTE).
-*   Busca de alunos.
-*   Interface de configuração (a ser detalhada).
+## ✨ Funcionalidades
 
-## Telas Principais
+  * **Autenticação de Usuários:** Sistema de login seguro para alunos e monitores.
+  * **Visualização de Monitorias:** Lista de monitorias disponíveis com informações detalhadas.
+  * **Agendamento Simplificado:** Marque novas monitorias em poucos passos.
+  * **Gestão de Agendamentos:** Acompanhe o status das suas monitorias (agendada, presente, ausente).
+  * **Busca de Alunos:** Ferramenta para localizar alunos cadastrados no sistema.
+  * **Painel de Configurações:** Interface para ajustes e personalizações.
 
-*   **Login:** Tela inicial para autenticação do usuário.
-*   **Home:** Dashboard principal após o login, exibindo:
-    *   Cabeçalho com informações do usuário.
-    *   Lista de ações rápidas (Buscar Alunos, Matrículas, Monitorias, Config).
-    *   Visualização das próximas monitorias.
-*   **Adicionar Monitoria:** Modal para agendar uma nova monitoria, selecionando aluno e data.
-*   **Lista de Monitorias:** Tela para visualizar todas as monitorias (filtrável por status, data, etc. - a ser detalhado).
-*   **Busca de Alunos:** Tela para pesquisar alunos no sistema.
+## 📱 Telas Principais
 
-## Tecnologias Utilizadas
+  * **Login:** Tela inicial para autenticação de usuários.
+  * **Home:** Painel principal com acesso rápido às principais funcionalidades e visualização das próximas monitorias.
+  * **Adicionar Monitoria:** Modal para agendamento de novas monitorias, com seleção de aluno e data.
+  * **Lista de Monitorias:** Tela para visualizar todos os agendamentos, com filtros por status, data, etc.
+  * **Busca de Alunos:** Ferramenta de pesquisa para encontrar alunos no sistema.
 
-*   **Flutter:** Framework de UI para desenvolvimento de aplicativos móveis multiplataforma.
-*   **Dart:** Linguagem de programação utilizada pelo Flutter.
-*   **Firebase Firestore:** Banco de dados NoSQL em nuvem para armazenamento de dados.
-*   **Provider:** Para gerenciamento de estado.
-*   **Integration Tests:** Para garantir a qualidade e o fluxo correto das telas.
+## 🚀 Tecnologias Utilizadas
 
-## Começando
+  * **Flutter:** Framework para desenvolvimento de interfaces de usuário nativas e multiplataforma.
+  * **Dart:** Linguagem de programação moderna e otimizada para clientes.
+  * **Firebase Firestore:** Banco de dados NoSQL em nuvem para armazenamento e sincronização de dados em tempo real.
+  * **Provider:** Solução para gerenciamento de estado.
+  * **Testes de Integração:** Para garantir a qualidade e o fluxo correto das telas.
 
-Estas instruções permitirão que você obtenha uma cópia do projeto em execução em sua máquina local para fins de desenvolvimento e teste.
+## 🏁 Começando
+
+Siga as instruções abaixo para obter uma cópia do projeto em sua máquina local para desenvolvimento e testes.
 
 ### Pré-requisitos
 
-*   [Flutter SDK](https://flutter.dev/docs/get-started/install)
-*   Um editor de código como [VS Code](https://code.visualstudio.com/) ou [Android Studio](https://developer.android.com/studio).
-*   Conta no [Firebase](https://firebase.google.com/) e um projeto Firebase configurado.
+  * [Flutter SDK](https://flutter.dev/docs/get-started/install)
+  * Um editor de código como [VS Code](https://code.visualstudio.com/) ou [Android Studio](https://developer.android.com/studio).
+  * Uma conta no [Firebase](https://firebase.google.com/) com um projeto configurado.
 
 ### Instalação
 
 1.  Clone o repositório:
-    ```bash
+    ```sh
     git clone https://github.com/DanielBrown1998/USM_Flutter.git
     ```
 2.  Navegue até o diretório do projeto:
-    ```bash
-    cd ./app 
+    ```sh
+    cd ./app
     ```
 3.  Instale as dependências:
-    ```bash
+    ```sh
     flutter pub get
     ```
 4.  Configure o Firebase:
-    *   Siga as instruções do Firebase para adicionar o Flutter ao seu projeto Firebase ([Android](https://firebase.google.com/docs/flutter/setup?platform=android) e [iOS](https://firebase.google.com/docs/flutter/setup?platform=ios)).
-    *   Certifique-se de que o arquivo `google-services.json` (para Android) e `GoogleService-Info.plist` (para iOS) estejam nos locais corretos dentro do seu projeto Flutter.
-    *   Configure as regras de segurança do Firestore conforme necessário para sua aplicação.
+      * Siga as instruções do Firebase para adicionar o Flutter ao seu projeto ([Android](https://firebase.google.com/docs/flutter/setup?platform=android) e [iOS](https://firebase.google.com/docs/flutter/setup?platform=ios)).
+      * Certifique-se de que o arquivo `google-services.json` (para Android) e `GoogleService-Info.plist` (para iOS) estejam nos locais corretos dentro do seu projeto Flutter.
+      * Configure as regras de segurança do Firestore conforme necessário para sua aplicação.
 
-## Estrutura do Projeto
+### Executando a Aplicação
 
-app/
-├── android
-├── ios
-├── lib/
-│   ├── components/  # Widgets reutilizáveis (Header, Drawer, Cards, etc.)
-│   ├── models/      # Modelos de dados e objetos de estado (User, Monitoria, Matricula, etc.)
-│   ├── screen/      # Widgets de tela (Login, Home, SearchStudent, etc.)
-│   ├── services/    # Lógica de negócios e comunicação com backend (FirebaseService, MonitoriasService, etc.)
-│   ├── theme/       # Definições de tema do aplicativo
-│   └── main.dart    # Ponto de entrada principal do aplicativo
-├── test/            # Testes unitários e de widgets
-└── integration_test/ # Testes de integração
-    └── app_test.dart # Teste de fluxo principal do aplicativo
+Para executar a aplicação em um emulador ou dispositivo conectado:
 
-
-
-## Executando o Aplicativo
-
-Para executar o aplicativo em um emulador ou dispositivo conectado:
-
-```
-bash: flutter run
-```
-## realizando o teste de integracao
-
-```
-bash: flutter test integration_test/app_test.dart
+```bash
+flutter run
 ```
 
+### Executando Testes de Integração
+
+```bash
+flutter test integration_test/app_test.dart
+```
 ## Imagens do app
 
 <table>
   <tr>
     <td align="center">
-      <img src="app/lib/assets/readme_images/login.png" alt="Tela de Login" height="300">
+      <img src="app/screenshots/flutter_01.png" alt="Tela de Login" height="300">
       <br><sub>Tela de Login</sub>
     </td>
     <td align="center">
