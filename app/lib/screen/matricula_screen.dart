@@ -1,8 +1,8 @@
-import 'package:app/utils/routes/routes.dart';
-import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/header.dart';
+import 'package:app/core/routes/routes.dart';
+import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/header.dart';
 import 'package:app/controllers/matricula_controllers.dart';
-import 'package:app/models/matricula.dart';
+import 'package:app/domain/models/matricula.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

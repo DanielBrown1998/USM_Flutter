@@ -1,5 +1,5 @@
-import "package:app/models/matricula.dart";
-import "package:app/services/matricula_service.dart";
+import "package:app/domain/models/matricula.dart";
+import "package:app/core/services/matricula_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 

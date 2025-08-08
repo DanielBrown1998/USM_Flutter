@@ -1,9 +1,9 @@
 import 'package:app/controllers/matricula_controllers.dart';
-import 'package:app/models/disciplinas.dart';
-import 'package:app/models/matricula.dart';
-import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/forms/drop_down_button_campus.dart';
-import 'package:app/widgets/forms/show_disciplinas_at_radio_button.dart';
+import 'package:app/domain/models/disciplinas.dart';
+import 'package:app/domain/models/matricula.dart';
+import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/forms/drop_down_button_campus.dart';
+import 'package:app/screen/widgets/forms/show_disciplinas_at_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

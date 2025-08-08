@@ -1,7 +1,7 @@
 import 'package:app/controllers/user_controllers.dart';
-import 'package:app/services/auth_service.dart';
-import 'package:app/utils/theme/theme.dart';
-import 'package:app/widgets/cards/user_card.dart';
+import 'package:app/core/services/auth_service.dart';
+import 'package:app/core/theme/theme.dart';
+import 'package:app/screen/widgets/cards/user_card.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
