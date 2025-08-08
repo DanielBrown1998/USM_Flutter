@@ -1,10 +1,10 @@
 import 'package:app/controllers/user_controllers.dart';
-import 'package:app/models/user.dart';
-import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/header.dart';
-import 'package:app/widgets/alert_dialog.dart';
-import 'package:app/utils/theme/theme.dart';
-import 'package:app/widgets/cards/student_card.dart';
+import 'package:app/domain/models/user.dart';
+import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/header.dart';
+import 'package:app/screen/widgets/alert_dialog.dart';
+import 'package:app/core/theme/theme.dart';
+import 'package:app/screen/widgets/cards/student_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

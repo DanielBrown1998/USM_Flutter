@@ -1,8 +1,8 @@
-import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/monitoria_details.dart';
-import 'package:app/services/firebase_service.dart';
-import 'package:app/services/monitorias_service.dart';
-import 'package:app/utils/theme/theme.dart';
+import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/monitoria_details.dart';
+import 'package:app/core/services/firebase_service.dart';
+import 'package:app/core/services/monitorias_service.dart';
+import 'package:app/core/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

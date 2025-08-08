@@ -6,7 +6,7 @@
 import 'dart:async' as _i5;
 import 'dart:typed_data' as _i8;
 
-import 'package:app/services/auth_service.dart' as _i9;
+import 'package:app/core/services/auth_service.dart' as _i9;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i4;
 import 'package:cloud_firestore_platform_interface/cloud_firestore_platform_interface.dart'
     as _i3;

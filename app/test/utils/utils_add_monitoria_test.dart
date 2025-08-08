@@ -1,7 +1,7 @@
-import 'package:app/models/disciplinas.dart';
-import 'package:app/models/monitoria.dart';
-import 'package:app/models/user.dart';
-import 'package:app/utils/utils_add_monitoria.dart';
+import 'package:app/domain/models/disciplinas.dart';
+import 'package:app/domain/models/monitoria.dart';
+import 'package:app/domain/models/user.dart';
+import 'package:app/core/utils/utils_add_monitoria.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
