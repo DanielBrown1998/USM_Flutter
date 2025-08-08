@@ -1,8 +1,8 @@
-import 'package:app/models/days.dart';
-import 'package:app/services/disciplina_service.dart';
+import 'package:app/domain/models/days.dart';
+import 'package:app/core/services/disciplina_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:app/models/disciplinas.dart';
+import 'package:app/domain/models/disciplinas.dart';
 
 class DisciplinasController with ChangeNotifier {
   List<Disciplina> disciplinas = [];

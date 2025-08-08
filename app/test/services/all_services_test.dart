@@ -1,11 +1,11 @@
 import "package:app/controllers/user_controllers.dart";
-import 'package:app/models/user.dart' as model_user;
-import "package:app/models/days.dart";
-import "package:app/models/disciplinas.dart";
-import "package:app/models/matricula.dart";
-import "package:app/services/auth_service.dart";
-import "package:app/services/disciplina_service.dart";
-import "package:app/services/matricula_service.dart";
+import 'package:app/domain/models/user.dart' as model_user;
+import "package:app/domain/models/days.dart";
+import "package:app/domain/models/disciplinas.dart";
+import "package:app/domain/models/matricula.dart";
+import "package:app/core/services/auth_service.dart";
+import "package:app/core/services/disciplina_service.dart";
+import "package:app/core/services/matricula_service.dart";
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter_test/flutter_test.dart";

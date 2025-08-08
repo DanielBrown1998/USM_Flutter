@@ -1,8 +1,8 @@
-import 'package:app/widgets/appbar.dart';
-import 'package:app/widgets/cards/config_card.dart';
-import 'package:app/widgets/header.dart';
+import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/cards/config_card.dart';
+import 'package:app/screen/widgets/header.dart';
 import 'package:flutter/material.dart';
-import 'package:app/utils/routes/routes.dart';
+import 'package:app/core/routes/routes.dart';
 
 class ConfigScreen extends StatelessWidget {
   const ConfigScreen({super.key});

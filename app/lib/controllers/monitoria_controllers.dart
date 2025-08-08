@@ -1,8 +1,8 @@
-import "package:app/models/monitoria.dart";
-import "package:app/services/monitorias_service.dart";
+import "package:app/domain/models/monitoria.dart";
+import "package:app/core/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
-import "package:app/utils/constants/constants.dart";
+import "package:app/core/constants/constants.dart";
 
 class MonitoriaController with ChangeNotifier {
   final FirebaseFirestore firestore;
