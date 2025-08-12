@@ -1,3 +1,6 @@
+import "package:app/controllers/disciplinas_controllers.dart";
+import "package:app/controllers/user_controllers.dart";
+import "package:app/domain/models/disciplinas.dart";
 import "package:app/domain/models/monitoria.dart";
 import "package:app/core/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -32,12 +35,6 @@ class MonitoriaController with ChangeNotifier {
             .toList()
         : [];
 
-    // print("------------------------------------------------------------");
-    // for (var element in monitoriasByDate) {
-    //   print(element.aluno);
-    // }
-    // print("------------------------------------------------------------");
-
     if (limit != null && monitoriasByDate.length >= limit) {
       throw MonitoriaExceedException(
           "Limite de monitorias por dia excedido. Limite: $limit");
@@ -54,9 +51,6 @@ class MonitoriaController with ChangeNotifier {
             element.date.month == monitoria.date.month &&
             element.date.year == monitoria.date.year)
         .isEmpty;
-    // print("------------------------------------------------------------");
-    // print(monitoriasByDate);
-    // print("------------------------------------------------------------");
     if (monitoriasByDate == false) {
       throw UserAlreadyMarkDateException(
           "${monitoria.aluno} ja marcou monitoria para esse dia ${monitoria.date.day}/${monitoria.date.month}/${monitoria.date.year}");
@@ -77,31 +71,48 @@ class MonitoriaController with ChangeNotifier {
           _getMonitoriasbyUser(monitorias: monitorias, monitoria: monitoria);
     }
     if (isMonitoriaThisDay) {
-      // print(mon.toMap());
       await MonitoriasService.saveMonitoria(
           firestore: firestore, monitoria: monitoria);
-
-      // print("------------------------------------------------------------");
-      // print(mon.date);
-      // print(mon.aluno);
-      // print(mon.status);
-      // print("------------------------------------------------------------");
-      // monitoria.add(mon);
-      // print("------------------------------------------------------------");
-      // monitoria.forEach((element) => print(element.date));
       notifyListeners();
       return true;
     }
     return false;
   }
 
-  Future<List<Monitoria>> getStatusMarcada() async {
+  Future<List<Monitoria>> getStatusMarcadaForStudent(
+      UserController userController) async {
     List<Monitoria> monitoria = await loadMonitorias();
-    List<Monitoria> statusMarcada = monitoria
+    List<Monitoria> statusMarcada = [];
+    statusMarcada = monitoria
         .where((element) =>
-            element.status.toString().toUpperCase() == Status.marcada)
+            element.status.toString().toUpperCase() == Status.marcada &&
+            element.userName == userController.matricula!.matricula)
         .toList();
+    return statusMarcada;
+  }
 
+  Future<List<Monitoria>> getStatusMarcadaForStaff(
+      UserController userController,
+      DisciplinasController disciplinasController) async {
+    List<Monitoria> monitoria = await loadMonitorias();
+    List<Monitoria> statusMarcada = [];
+    if (!userController.user!.isStaff) {
+      return [];
+    }
+    Disciplina? disciplinaForThisMember;
+    //encontrando a disciplina do membro
+    for (Disciplina disciplina in disciplinasController.disciplinas) {
+      if (disciplina.monitor == userController.user!.userName) {
+        disciplinaForThisMember = disciplina;
+      }
+    }
+    if (disciplinaForThisMember != null) {
+      statusMarcada = monitoria
+          .where((element) =>
+              element.status.toString().toUpperCase() == Status.marcada &&
+              element.disciplina == disciplinaForThisMember)
+          .toList();
+    }
     return statusMarcada;
   }
 
@@ -113,16 +124,9 @@ class MonitoriaController with ChangeNotifier {
 
     for (Monitoria item in monitorias) {
       if (item.id == monitoria.id) {
-        // print("${item.toMap()}");
-        // print("------------------------------------------------------------");
-        // print("antes: ${item.status}");
-        // print(item.toMap());
         item.status = newStatus;
         await MonitoriasService.saveMonitoria(
             firestore: firestore, monitoria: item);
-        // print("depois: ${item.status}");
-        // print(item.toMap());
-        // print("------------------------------------------------------------");
         notifyListeners();
         return item;
       }

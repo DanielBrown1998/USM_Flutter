@@ -32,10 +32,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding
       .ensureInitialized(); // -> porque a main agora e assincrona
   Provider.debugCheckInvalidValueType = null;
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   FirebaseFirestore firestore =
       await firebase.FirebaseService.initializeFirebase();
