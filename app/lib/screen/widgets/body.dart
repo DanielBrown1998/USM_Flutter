@@ -1,3 +1,5 @@
+import 'package:app/controllers/disciplinas_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/screen/widgets/cards/monitoria_card.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:app/core/theme/theme.dart';
@@ -7,7 +9,8 @@ import "package:flutter/material.dart";
 import 'package:app/controllers/monitoria_controllers.dart';
 
 class ListBody extends StatefulWidget {
-  const ListBody({super.key});
+  final UserController userController;
+  const ListBody({super.key, required this.userController});
 
   @override
   State<ListBody> createState() => _ListBodyState();
@@ -22,101 +25,256 @@ class _ListBodyState extends State<ListBody> {
       "monitorias": Routes.monitorias,
       "config": Routes.config,
     };
-    return ListView.builder(
-      padding: const EdgeInsets.all(8.0),
-      itemCount: buttons.length,
-      scrollDirection: Axis.horizontal,
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, int i) {
-        return Card(
-          borderOnForeground: true,
-          elevation: 10,
-          child: Container(
-            width: 150,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorDark,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: MaterialButton(
-              onPressed: () {
-                Navigator.pushNamed(context, buttons.values.toList()[i]);
-              },
-              splashColor: Theme.of(context).primaryColorDark,
-              color: ThemeUSM.blackColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Text(
-                buttons.keys.toList()[i],
-                style: TextStyle(
-                  decoration: TextDecoration.none,
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "Roboto",
-                ),
-              ),
-            ),
-          ),
-        );
+    List<Map<String, List<dynamic>>> buttonsForStudent = [
+      {
+        "monitorias": [Routes.monitorias, Icons.add_to_queue_outlined],
       },
-    );
+      {
+        "config": [Routes.config, Icons.settings],
+      }
+    ];
+    final theme = Theme.of(context);
+    return (widget.userController.user != null &&
+            (widget.userController.user!.isSuperUser ||
+                widget.userController.user!.isStaff))
+        ? Container(
+            color: ThemeUSM.shadowColor,
+            height: 64,
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              itemCount: buttons.length,
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, int i) {
+                return Card(
+                  borderOnForeground: true,
+                  child: Container(
+                    width: 150,
+                    decoration: BoxDecoration(
+                      color: theme.primaryColorDark,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, buttons.values.toList()[i]);
+                      },
+                      splashColor: theme.primaryColorDark,
+                      color: ThemeUSM.blackColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: Text(
+                        buttons.keys.toList()[i],
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          )
+        : SizedBox(
+            height: 200,
+            width: double.maxFinite,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                padding: EdgeInsets.all(8),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 1.15),
+                itemCount: buttonsForStudent.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  Map<String, List<dynamic>> map = buttonsForStudent[index];
+
+                  return Material(
+                    color: theme.primaryColor,
+                    child: Card(
+                      elevation: 8,
+                      shadowColor: theme.colorScheme.onPrimaryFixed,
+                      shape: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            width: 4,
+                          )),
+                      child: InkWell(
+                        customBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderSide: BorderSide(
+                              color: theme.colorScheme.onPrimaryContainer,
+                              width: 4,
+                            )),
+                        splashColor: theme.colorScheme.onPrimaryContainer,
+                        onTap: () {
+                          Navigator.pushNamed(context, map.values.first[0]);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              map.values.first[1],
+                              size: 36,
+                              color: theme.colorScheme.onPrimaryFixed,
+                            ),
+                            Text(
+                              map.keys.first,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
   }
 }
 
 class MonitoriaView extends StatefulWidget {
-  const MonitoriaView({super.key});
+  final UserController userController;
+  final DisciplinasController disciplinasController;
+  const MonitoriaView(
+      {super.key,
+      required this.userController,
+      required this.disciplinasController});
 
   @override
   State<MonitoriaView> createState() => _MonitoriaViewState();
 }
 
 class _MonitoriaViewState extends State<MonitoriaView> {
+  late bool staffFlag;
+
+  @override
+  void initState() {
+    super.initState();
+    staffFlag = widget.userController.user!.isStaff;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: theme.primaryColor,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: ThemeUSM.blackColor,
-            width: 3,
+    return Material(
+      color: ThemeUSM.shadowColor,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  "Ver como;",
+                  style: theme.textTheme.bodyMedium,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 10,
+                  children: [
+                    (widget.userController.user!.isStaff)
+                        ? ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateColor.resolveWith(
+                                (states) => (staffFlag)
+                                    ? ThemeUSM.dividerDrawerColor
+                                    : ThemeUSM.blackColor,
+                              ),
+                            ),
+                            onPressed: () => setState(() {
+                              staffFlag = true;
+                            }),
+                            child: Text(
+                              "monitor",
+                              style: theme.textTheme.displaySmall,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateColor.resolveWith(
+                        (states) => (!staffFlag)
+                            ? ThemeUSM.dividerDrawerColor
+                            : ThemeUSM.blackColor,
+                      )),
+                      onPressed: () => setState(() {
+                        staffFlag = false;
+                      }),
+                      child: Text(
+                        "aluno",
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        child: Consumer<MonitoriaController>(
-          builder:
-              (BuildContext context, MonitoriaController list, Widget? widget) {
-            return FutureBuilder(
-              future: list.getStatusMarcada(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(child: CircularProgressIndicator());
-                  case ConnectionState.done:
-                    if (!snapshot.hasData) {
-                      return Center(child: Text("Nenhuma monitoria marcada"));
-                    }
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return MonitoriaCard(
-                          monitoria: snapshot.data![index],
-                        );
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.primaryColor,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(
+                    color: ThemeUSM.blackColor,
+                    width: 3,
+                  ),
+                ),
+                child: Consumer<MonitoriaController>(
+                  builder: (BuildContext context, MonitoriaController list,
+                      Widget? child) {
+                    return FutureBuilder(
+                      future: (widget.userController.user!.isStaff && staffFlag)
+                          ? list.getStatusMarcadaForStaff(widget.userController,
+                              widget.disciplinasController)
+                          : list.getStatusMarcadaForStudent(
+                              widget.userController),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return Center(child: CircularProgressIndicator());
+                          case ConnectionState.done:
+                            if (snapshot.data == null ||
+                                snapshot.data!.isEmpty) {
+                              return Center(
+                                  child: Text("Nenhuma monitoria marcada"));
+                            }
+                            return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 16),
+                                  child: MonitoriaCard(
+                                    monitoria: snapshot.data![index],
+                                  ),
+                                );
+                              },
+                            );
+                          case ConnectionState.none:
+                            return Center(
+                                child: Text("Erro ao carregar dados"));
+                          default:
+                            return Center(child: Text("Erro desconhecido!"));
+                        }
                       },
                     );
-                  case ConnectionState.none:
-                    return Center(child: Text("Erro ao carregar dados"));
-                  default:
-                    return Center(child: Text("Erro desconhecido!"));
-                }
-              },
-            );
-          },
-        ),
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

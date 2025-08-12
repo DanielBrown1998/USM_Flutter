@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ThemeUSM.scaffoldBackgroundColor,
+      backgroundColor: ThemeUSM.shadowColor,
       appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),
       body: Consumer<UserController>(
         builder: (context, value, _) => Column(
@@ -65,19 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             //only members and super user can access this
-            (value.user != null &&
-                    (value.user!.isSuperUser || value.user!.isStaff))
-                ? SizedBox(
-                    height: 64,
-                    child: custom_body.ListBody(
-                      key: Key("home_screen_list"),
-                    ),
-                  )
-                : SizedBox.square(), //TODO refactor this
+            custom_body.ListBody(
+              key: Key("home_screen_list"),
+              userController: value,
+            ),
+            //TODO refactor this
             Expanded(
               child: custom_body.MonitoriaView(
-                key: Key("home_screen_monitoria"),
-              ),
+                  key: Key("home_screen_monitoria"),
+                  userController: value,
+                  disciplinasController: disciplinasProvider),
             ),
           ],
         ),

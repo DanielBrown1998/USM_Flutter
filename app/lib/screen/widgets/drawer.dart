@@ -69,7 +69,7 @@ class ListDrawer {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "lib/assets/images/logomarca-uerj.png",
+                    "assets/images/logomarca-uerj.png",
                     height: 50,
                     width: 50,
                   ),
