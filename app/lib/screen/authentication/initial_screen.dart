@@ -1,3 +1,4 @@
+import 'package:app/screen/widgets/load_snackbar.dart';
 import 'package:app/screen/widgets/logo_laptop.dart';
 import 'package:app/domain/models/matricula.dart';
 import 'package:app/controllers/matricula_controllers.dart';
@@ -41,9 +42,13 @@ class _InitialScreenState extends State<InitialScreen> {
   Future<void> _searchData(
       BuildContext context, MatriculaController controller) async {
     Matricula? matricula = controller.getMatricula(matriculaController.text);
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
     if (matricula != null) {
-      if (!context.mounted) return;
       //load usercontroller
+      messenger.showSnackBar(SnackBar(
+          backgroundColor: ThemeUSM.blackColor,
+          content: Center(child: LoadSnackbar())));
       UserController users =
           Provider.of<UserController>(context, listen: false);
       try {
@@ -55,11 +60,10 @@ class _InitialScreenState extends State<InitialScreen> {
         users.checkDisciplinasThisUserInMatricula();
 
         //redirect to login screen
-        if (!context.mounted) return;
-        Navigator.of(context).pushNamed(Routes.authenticate);
+
+        navigator.pushNamed(Routes.authenticate);
       } on UserNotFoundException catch (_) {
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
+        messenger.showSnackBar(
           SnackBar(
             key: Key("matricula_found_user_not"),
             content: Text(
@@ -70,10 +74,10 @@ class _InitialScreenState extends State<InitialScreen> {
           ),
         );
         //redirect to signin screen
-        Navigator.of(context).popAndPushNamed(Routes.cadastro);
+
+        navigator.popAndPushNamed(Routes.cadastro);
       } on UserControllerException catch (_) {
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
+        messenger.showSnackBar(
           SnackBar(
             content: Text(
               "houve um erro, tente novamente mais tarde!",
