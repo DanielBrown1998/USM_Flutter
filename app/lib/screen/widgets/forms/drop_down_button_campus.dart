@@ -39,7 +39,7 @@ class _DropDownButtonCampusState extends State<DropDownButtonCampus> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButtonFormField<String>(
-          value: _selectedCampus,
+          initialValue: _selectedCampus,
           isExpanded: true,
           // Define uma altura máxima para o menu dropdown
           menuMaxHeight: 300.0,
