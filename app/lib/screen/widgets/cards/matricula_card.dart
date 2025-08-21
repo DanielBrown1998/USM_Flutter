@@ -19,7 +19,7 @@ class _MatriculaCardState extends State<MatriculaCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.sizeOf(context);
+    // final size = MediaQuery.sizeOf(context);
     return Dismissible(
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
-import 'package:app/core/routes/routes.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/domain/models/matricula.dart';
 import 'package:app/screen/matricula_screen.dart';
