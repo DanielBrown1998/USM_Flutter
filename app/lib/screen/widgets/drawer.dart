@@ -149,7 +149,7 @@ class ListDrawer {
           iconName: Icons.exit_to_app_outlined,
           iconColor: ThemeUSM.whiteColor,
           text: "Sair",
-          splashColor: ThemeUSM.dividerDrawerColor,
+          splashColor: ThemeUSM.purpleUSMColor,
         ),
       ),
     ];

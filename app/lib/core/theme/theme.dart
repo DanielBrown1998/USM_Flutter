@@ -7,7 +7,7 @@ class ThemeUSM {
   static Color scaffoldBackgroundColor = Color.fromARGB(255, 228, 228, 228);
   static Color blackColor = const Color.fromARGB(255, 0, 0, 0);
   static Color cardColor = Color.fromARGB(255, 85, 104, 161);
-  static Color dividerDrawerColor = Color.fromARGB(255, 130, 7, 230);
+  static Color purpleUSMColor = Color.fromARGB(255, 130, 7, 230);
   static Color shadowColor = Color.fromARGB(255, 201, 199, 198);
   static Color backgroundColorWhite = Colors.white12;
 }
@@ -25,7 +25,7 @@ class USMThemeData {
       },
     ),
     cardColor: ThemeUSM.cardColor,
-    dividerColor: ThemeUSM.dividerDrawerColor,
+    dividerColor: ThemeUSM.purpleUSMColor,
     shadowColor: ThemeUSM.shadowColor,
     primaryColor: ThemeUSM.whiteColor,
     scaffoldBackgroundColor: ThemeUSM.scaffoldBackgroundColor,
