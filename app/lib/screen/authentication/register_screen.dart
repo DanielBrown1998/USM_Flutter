@@ -80,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         initialValue: matriculaData.matricula,
                         readOnly: true,
                         decoration: const InputDecoration(
@@ -90,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: firstName,
                         decoration: const InputDecoration(
                           labelText: 'Nome',
@@ -105,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: lastName,
                         decoration: const InputDecoration(
                           labelText: 'Sobrenome',
@@ -121,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: email,
                         decoration: const InputDecoration(
                           labelText: 'Email',
@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: phone,
                         decoration: const InputDecoration(
                           labelText: 'telefone',
@@ -164,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: password,
                         obscureText: true,
                         decoration: const InputDecoration(
@@ -183,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         controller: password2,
                         obscureText: true,
                         decoration: const InputDecoration(
@@ -202,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
-                        style: TextStyle(color: ThemeUSM.dividerDrawerColor),
+                        style: TextStyle(color: ThemeUSM.purpleUSMColor),
                         initialValue: matriculaData.campus,
                         readOnly: true,
                         decoration: const InputDecoration(
@@ -213,24 +213,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeUSM.dividerDrawerColor,
+                            backgroundColor: ThemeUSM.purpleUSMColor,
                             foregroundColor: ThemeUSM.whiteColor),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             bool isRegister = false;
 
-                            User? newUser =
-                                await controller.getUserByEmailForLogin(email: email.text);
+                            User? newUser = await controller
+                                .getUserByEmailForLogin(email: email.text);
                             if (newUser != null) {
                               if (!context.mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Usuario com email JA Registrado')),
+                                    content: Text(
+                                        'Usuario com email JA Registrado')),
                               );
                             } else {
                               if (!context.mounted) return;
-                              isRegister = await register(
-                                  context, controller,
+                              isRegister = await register(context, controller,
                                   email: email.text,
                                   firstName: firstName.text,
                                   lastName: lastName.text,
@@ -243,7 +243,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Navigator.popAndPushNamed(context, Routes.home);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Usuario Registrado com sucesso!')),
+                                    content: Text(
+                                        'Usuario Registrado com sucesso!')),
                               );
                             } else {
                               if (!context.mounted) return;
