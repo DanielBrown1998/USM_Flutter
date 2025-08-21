@@ -63,7 +63,7 @@ class _UserScreenState extends State<UserScreen> {
                         currentUser: currentUser!,
                         photoURL: currentUser.photoURL,
                       ),
-                      Lottie.asset("lib/assets/loties/laptop.json"),
+                      Lottie.asset("assets/loties/laptop.json"),
                       Text(
                         "Acoes a realizar:",
                         textAlign: TextAlign.start,

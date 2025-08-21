@@ -185,7 +185,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                             style: ButtonStyle(
                               backgroundColor: WidgetStateColor.resolveWith(
                                 (states) => (staffFlag)
-                                    ? ThemeUSM.dividerDrawerColor
+                                    ? ThemeUSM.purpleUSMColor
                                     : ThemeUSM.blackColor,
                               ),
                             ),
@@ -202,7 +202,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                       style: ButtonStyle(
                           backgroundColor: WidgetStateColor.resolveWith(
                         (states) => (!staffFlag)
-                            ? ThemeUSM.dividerDrawerColor
+                            ? ThemeUSM.purpleUSMColor
                             : ThemeUSM.blackColor,
                       )),
                       onPressed: () => setState(() {

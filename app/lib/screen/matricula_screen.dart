@@ -1,5 +1,10 @@
+import 'package:app/controllers/disciplinas_controllers.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/routes/routes.dart';
+import 'package:app/core/theme/theme.dart';
+import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/cards/matricula_card.dart';
 import 'package:app/screen/widgets/header.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/domain/models/matricula.dart';
@@ -13,9 +18,43 @@ class MatriculaScreen extends StatefulWidget {
 }
 
 class _MatriculaScreenState extends State<MatriculaScreen> {
+  bool monitorHasDisciplina = true;
+
+  Future<List<Matricula>> getMatriculasRegisterdInDisciplineOfMonitor(
+      Matricula matriculaOdMonitor,
+      MatriculaController controller,
+      DisciplinasController controllerDisciplina) async {
+    Disciplina? disciplinaOFMonitor;
+
+    for (Disciplina disciplina in controllerDisciplina.disciplinas) {
+      if (disciplina.monitor == matriculaOdMonitor.matricula) {
+        disciplinaOFMonitor = disciplina;
+      }
+    }
+    if (disciplinaOFMonitor == null) {
+      setState(() {
+        monitorHasDisciplina = false;
+      });
+      return [];
+    }
+
+    List<Matricula> allMatriculas = await controller.getAllMatriculas();
+    List<Matricula> matriculaRegisteredInDisciplineOfMonitor = [];
+    for (Matricula matricula in allMatriculas) {
+      if (matricula.disciplinas.contains(disciplinaOFMonitor)) {
+        matriculaRegisteredInDisciplineOfMonitor.add(matricula);
+      }
+    }
+    return matriculaRegisteredInDisciplineOfMonitor;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    MatriculaController matriculaController =
+        Provider.of<MatriculaController>(context, listen: false);
+    DisciplinasController disciplinasController =
+        Provider.of<DisciplinasController>(context, listen: false);
     return Scaffold(
       appBar: USMAppBar.appBar(context, "Matriculas"),
       body: Column(
@@ -29,57 +68,58 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
             ),
           ),
           Expanded(
-            child: Consumer<MatriculaController>(
+            child: Consumer<UserController>(
               builder: (context, value, child) {
                 return FutureBuilder(
-                  future: value.getAllMatriculas(),
+                  future: getMatriculasRegisterdInDisciplineOfMonitor(
+                      value.matricula!,
+                      matriculaController,
+                      disciplinasController),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
+                      if (snapshot.data!.isEmpty) {
+                        return Center(
+                          child: Column(
+                            spacing: 10,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.no_accounts),
+                              Text(
+                                "Sem matriculas na sua disciplina",
+                                style: theme.textTheme.bodyMedium,
+                              )
+                            ],
+                          ),
+                        );
+                      } else if (!monitorHasDisciplina) {
+                        return Center(
+                          child: Column(
+                            spacing: 10,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.no_accounts),
+                              Text(
+                                "Voce esta como membro da equipe, mas nao esta inscrito como monitor!",
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                       return ListView.builder(
+                        key: Key("list_matriculas"),
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           Matricula data = snapshot.data![index];
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Dismissible(
-                              background: Container(
-                                decoration: BoxDecoration(
-                                    color: theme.colorScheme.primary),
-                                child: Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    spacing: 5,
-                                    children: [
-                                      Text(
-                                        "atualizar",
-                                        style: theme.textTheme.displaySmall,
-                                      ),
-                                      Icon(
-                                        Icons.update,
-                                        color: theme.primaryColor,
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                              ),
-                              direction: DismissDirection.endToStart,
-                              key: Key(data.matricula),
-                              child: ListTile(
-                                leading: Icon(Icons.arrow_back_sharp),
-                                tileColor: theme.primaryColor,
-                                onTap: () {},
-                                title: Text(data.matricula),
-                                subtitle: Text(
-                                    "numero de disciplinas: ${data.disciplinas.length.toString()}"),
-                              ),
-                            ),
-                          );
+                              padding: const EdgeInsets.all(8.0),
+                              child: MatriculaCard(
+                                matricula: data,
+                                matriculaController: matriculaController,
+                              ));
                         },
                       );
                     } else if (snapshot.connectionState ==
@@ -100,14 +140,22 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         key: Key("add_matricula"),
-        backgroundColor: theme.primaryColor,
+        backgroundColor: ThemeUSM.purpleUSMColor,
+        splashColor: ThemeUSM.cardColor,
+        isExtended: true,
+        shape: BeveledRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(8),
+            side: BorderSide(color: ThemeUSM.blackColor, width: 2)),
         onPressed: () async {
           if (context.mounted) {
             await Navigator.pushNamed(context, Routes.addMatriculas);
           }
         },
         elevation: 10,
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: ThemeUSM.whiteColor,
+        ),
       ),
     );
   }
