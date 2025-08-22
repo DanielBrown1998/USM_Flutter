@@ -1,8 +1,10 @@
 import 'package:app/core/routes/routes.dart';
 import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/load_snackbar.dart';
 import 'package:app/screen/widgets/logo_laptop.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/theme/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -191,18 +193,23 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           children: [
                             TextButton(
                               onPressed: () async {
+                                final messenger = ScaffoldMessenger.of(context);
                                 try {
                                   bool isAuthenticated = await _authenticate(
                                       user,
                                       email: emailController.text,
                                       password: passwordController.text);
                                   if (isAuthenticated) {
+                                    messenger.showSnackBar(SnackBar(
+                                        backgroundColor: Colors.transparent,
+                                        content: Center(
+                                          child: LoadSnackbar(),
+                                        )));
                                     if (!context.mounted) return;
                                     Navigator.popAndPushNamed(
                                         context, Routes.home);
                                   } else {
-                                    if (!context.mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    messenger.showSnackBar(
                                       SnackBar(
                                         key: Key("invalid_credentials"),
                                         content: Text("Credenciais invalidas!"),
@@ -210,10 +217,24 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     );
                                   }
                                 } on UserNotFoundException catch (_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
+                                  messenger.showSnackBar(
                                     SnackBar(
                                       key: Key("user_not_found"),
                                       content: Text("Usuario nao encontrado!"),
+                                    ),
+                                  );
+                                } on FirebaseAuthException catch (_) {
+                                  messenger.showSnackBar(
+                                    SnackBar(
+                                      key: Key("firebase_auth_error"),
+                                      content: Text("Houve um erro!"),
+                                    ),
+                                  );
+                                } on Exception {
+                                  messenger.showSnackBar(
+                                    SnackBar(
+                                      key: Key("unknow_error"),
+                                      content: Text("Erro desconhecido"),
                                     ),
                                   );
                                 }

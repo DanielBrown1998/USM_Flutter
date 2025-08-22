@@ -26,15 +26,14 @@ class MonitoriaController with ChangeNotifier {
       {required DateTime date, required int? limit}) async {
     monitoria = await loadMonitorias();
     notifyListeners();
-    List<Monitoria> monitoriasByDate = (monitoria == [])
-        ? monitoria
-            .where((element) =>
-                element.date.day == date.day &&
-                element.date.month == date.month &&
-                element.date.year == date.year)
-            .toList()
-        : [];
-
+    List<Monitoria> monitoriasByDate = [];
+    if (monitoria != []) {
+      monitoriasByDate = monitoria.where((element) {
+        return element.date.day == date.day &&
+            element.date.month == date.month &&
+            element.date.year == date.year;
+      }).toList();
+    }
     if (limit != null && monitoriasByDate.length >= limit) {
       throw MonitoriaExceedException(
           "Limite de monitorias por dia excedido. Limite: $limit");
@@ -116,8 +115,7 @@ class MonitoriaController with ChangeNotifier {
     return statusMarcada;
   }
 
-  //TODO refactor from for to contains
-  updateStatusMonitoria(
+  Future<Monitoria?> updateStatusMonitoria(
       {required Monitoria monitoria, required String newStatus}) async {
     List<Monitoria> monitorias = await getMonitoriasbyDate(
         date: monitoria.date, limit: monitoria.disciplina.limitByDay);
@@ -131,6 +129,7 @@ class MonitoriaController with ChangeNotifier {
         return item;
       }
     }
+    return null;
   }
 }
 

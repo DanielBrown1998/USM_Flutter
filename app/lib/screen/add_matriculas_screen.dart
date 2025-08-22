@@ -1,14 +1,18 @@
 import 'package:app/controllers/matricula_controllers.dart';
+import 'package:app/core/routes/routes.dart';
+import 'package:app/core/theme/theme.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/domain/models/matricula.dart';
 import 'package:app/screen/widgets/appbar.dart';
 import 'package:app/screen/widgets/forms/drop_down_button_campus.dart';
 import 'package:app/screen/widgets/forms/show_disciplinas_at_radio_button.dart';
+import 'package:app/screen/widgets/load_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddMatriculasScreen extends StatefulWidget {
-  const AddMatriculasScreen({super.key});
+  final Matricula? matricula;
+  const AddMatriculasScreen({super.key, this.matricula});
 
   @override
   State<AddMatriculasScreen> createState() => _AddMatriculasScreenState();
@@ -20,6 +24,16 @@ class _AddMatriculasScreenState extends State<AddMatriculasScreen> {
   final _matriculaController = TextEditingController();
   String? _selectedCampus;
   List<Disciplina> _selectedDisciplinas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.matricula != null) {
+      _matriculaController.text = widget.matricula!.matricula;
+      _selectedDisciplinas = widget.matricula!.disciplinas;
+      _selectedCampus = widget.matricula!.campus;
+    }
+  }
 
   @override
   void dispose() {
@@ -34,7 +48,8 @@ class _AddMatriculasScreenState extends State<AddMatriculasScreen> {
     // final media = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: USMAppBar.appBar(context, "Add Matricula"),
+      appBar: USMAppBar.appBar(context,
+          (widget.matricula == null) ? "Add Matricula" : "Atualizar Matricula"),
       body: SingleChildScrollView(
         child: Consumer<MatriculaController>(
           builder: (context, value, _) {
@@ -95,12 +110,14 @@ class _AddMatriculasScreenState extends State<AddMatriculasScreen> {
                       ),
                     ),
                     ShowDisciplinasAtRadioButton(
+                      disciplinas: _selectedDisciplinas,
                       // Atribui a lista de disciplinas selecionadas à variável de estado.
                       onDisciplinasChanged: (List<Disciplina> disciplinas) {
                         _selectedDisciplinas = disciplinas;
                       },
                     ),
                     DropDownButtonCampus(
+                      campus: _selectedCampus,
                       // Atribui o campus selecionado à variável de estado.
                       onCampusChanged: (String? campus) {
                         _selectedCampus = campus;
@@ -111,18 +128,35 @@ class _AddMatriculasScreenState extends State<AddMatriculasScreen> {
                           ButtonStyle(visualDensity: VisualDensity.comfortable),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          final messenger = ScaffoldMessenger.of(context);
+                          messenger.showSnackBar(SnackBar(
+                              backgroundColor: ThemeUSM.blackColor,
+                              content: Center(child: LoadSnackbar())));
                           if (value.getMatricula(_matriculaController.text) !=
                               null) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("matricula JA cadastrada!!!")));
+                            if (widget.matricula == null) {
+                              messenger.showSnackBar(SnackBar(
+                                  content: Text("matricula JA cadastrada!!!")));
+                            } else {
+                              bool updated = await value
+                                  .updateMatricula(widget.matricula!);
+                              if (updated) {
+                                messenger.showSnackBar(SnackBar(
+                                    content: Text(
+                                        "matricula Atualizada com sucesso!!!")));
+                                if (context.mounted) {
+                                  Navigator.popAndPushNamed(
+                                      context, Routes.home);
+                                }
+                              }
+                            }
                           } else {
                             Matricula matricula = Matricula(
                                 disciplinas: _selectedDisciplinas,
                                 matricula: _matriculaController.text,
                                 campus: _selectedCampus!);
                             bool isAdd = await value.setMatricula(matricula);
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            messenger.showSnackBar(SnackBar(
                                 content: Text((isAdd)
                                     ? "matricula ${matricula.matricula} cadastrada com sucesso!"
                                     : "Houve um erro, tente novamente mais tarde!")));
@@ -130,7 +164,7 @@ class _AddMatriculasScreenState extends State<AddMatriculasScreen> {
                         }
                       },
                       child: Text(
-                        "adicionar",
+                        (widget.matricula == null) ? "adicionar" : "atualizar",
                         style: theme.textTheme.displayMedium,
                       ),
                     ),
