@@ -2,6 +2,7 @@ import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:app/core/theme/theme.dart';
+import 'package:app/core/utils/utils_user_has_disciplina.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/screen/widgets/appbar.dart';
 import 'package:app/screen/widgets/cards/matricula_card.dart';
@@ -18,39 +19,40 @@ class MatriculaScreen extends StatefulWidget {
 }
 
 class _MatriculaScreenState extends State<MatriculaScreen> {
-  bool monitorHasDisciplina = true;
+  bool staffIsMonitor = true;
   List<Matricula> allMatriculas = [];
+  List<Matricula> matriculaRegisteredInDisciplineOfMonitor = [];
   bool searched = false;
   final searchMatriculaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  Disciplina? disciplinaOfMonitor;
 
-  Future<List<Matricula>> getMatriculasRegisterdInDisciplineOfMonitor(
-      Matricula matriculaOdMonitor,
+  Future<List<Matricula>> getMatriculasRegisterdInAnyDiscipline(
+      Matricula matriculaOfMonitor,
       MatriculaController matriculaController,
       DisciplinasController controllerDisciplina) async {
-    Disciplina? disciplinaOFMonitor;
-
-    for (Disciplina disciplina in controllerDisciplina.disciplinas) {
-      if (disciplina.monitor == matriculaOdMonitor.matricula) {
-        disciplinaOFMonitor = disciplina;
-      }
-    }
-    if (disciplinaOFMonitor == null) {
-      setState(() {
-        monitorHasDisciplina = false;
-      });
-      return [];
-    }
 
     List<Matricula> allMatriculas =
         await matriculaController.getAllMatriculas();
-    List<Matricula> matriculaRegisteredInDisciplineOfMonitor = [];
-    for (Matricula matricula in allMatriculas) {
-      if (matricula.disciplinas.contains(disciplinaOFMonitor)) {
-        matriculaRegisteredInDisciplineOfMonitor.add(matricula);
+
+    disciplinaOfMonitor = getDisciplinaOfThisMonitor(
+        disciplinaController: controllerDisciplina,
+        matriculaOfMonitor: matriculaOfMonitor);
+
+    if (disciplinaOfMonitor == null) {
+      setState(() {
+        staffIsMonitor = false;
+      });
+      return [];
+    } else {
+      for (Matricula matricula in allMatriculas) {
+        if (matricula.disciplinas.contains(disciplinaOfMonitor)) {
+          matriculaRegisteredInDisciplineOfMonitor.add(matricula);
+        }
       }
     }
-    return matriculaRegisteredInDisciplineOfMonitor;
+
+    return allMatriculas;
   }
 
   Future<List<Matricula>> searchMatricula(String matricula) async {
@@ -146,7 +148,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                 return FutureBuilder(
                   future: (searched)
                       ? searchMatricula(searchMatriculaController.text)
-                      : getMatriculasRegisterdInDisciplineOfMonitor(
+                      : getMatriculasRegisterdInAnyDiscipline(
                           userController.matricula!,
                           matriculaController,
                           disciplinasController),
@@ -169,7 +171,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                             ],
                           ),
                         );
-                      } else if (!monitorHasDisciplina) {
+                      } else if (!staffIsMonitor) {
                         return Center(
                           child: Column(
                             spacing: 10,
@@ -186,6 +188,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                       }
                       //clean residualMatricula
                       allMatriculas.clear();
+                      matriculaRegisteredInDisciplineOfMonitor.clear();
                       return ListView.builder(
                         key: Key("list_matriculas"),
                         itemCount: snapshot.data!.length,
