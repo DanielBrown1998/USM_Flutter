@@ -28,6 +28,10 @@ class MatriculaController with ChangeNotifier {
     return await MatriculaService.setMatricula(firestore, matricula);
   }
 
+  Future<bool> updateMatricula(Matricula matricula) async {
+    return await MatriculaService.updateMatricula(firestore, matricula);
+  }
+
   Future<List<Matricula>> getAllMatriculas() async {
     return await MatriculaService.getAllMatriculas(firestore);
   }

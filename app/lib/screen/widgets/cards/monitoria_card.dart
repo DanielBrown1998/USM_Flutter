@@ -10,6 +10,8 @@ class MonitoriaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final messenger = ScaffoldMessenger.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
@@ -54,27 +56,24 @@ class MonitoriaCard extends StatelessWidget {
                 //confirmation button
                 IconButton(
                   onPressed: () async {
-                    bool value = await alertDialogStatusMonitoria(context,
+                    dynamic value = await alertDialogStatusMonitoria(context,
                         icon: Icons.dangerous_outlined,
                         title: "Alterar Status Monitoria",
                         confirmation: "sim",
                         cancel: "nao",
                         description:
-                            "deseja alterar o status da msg para concluido",
+                            "deseja alterar o status da msg para realizado",
                         monitoriaMarcada: monitoria);
-                    if (value == true) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    if (value is Monitoria) {
+                      messenger.showSnackBar(SnackBar(
                           content: Text(
                               "${monitoria.userName} realizou a monitoria!")));
-                    } else if (value == false) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    } else if (value == null) {
+                      messenger.showSnackBar(SnackBar(
                           content: Text(
                               " status nao alterado para ${monitoria.userName}")));
                     } else {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));
                     }
                   },
@@ -97,28 +96,25 @@ class MonitoriaCard extends StatelessWidget {
                   icon:
                       Icon(Icons.delete, color: Theme.of(context).primaryColor),
                   onPressed: () async {
-                    bool value = await alertDialogStatusMonitoria(context,
+                    dynamic value = await alertDialogStatusMonitoria(context,
                         icon: Icons.dangerous_outlined,
                         title: "Alterar Status Monitoria",
                         confirmation: "sim",
                         cancel: "nao",
                         description:
-                            "deseja alterar o status da msg para nao concluido",
+                            "deseja alterar o status da msg para nao realizado",
                         monitoriaMarcada: monitoria,
                         monitoriaOk: false);
-                    if (value == true) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    if (value is Monitoria) {
+                      messenger.showSnackBar(SnackBar(
                           content: Text(
                               " ${monitoria.userName} nao realizou a monitoria")));
-                    } else if (value == false) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    } else if (value == null) {
+                      messenger.showSnackBar(SnackBar(
                           content: Text(
                               " status nao alterado para ${monitoria.userName}")));
                     } else {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      messenger.showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));
                     }
                   },
