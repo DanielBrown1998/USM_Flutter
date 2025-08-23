@@ -36,4 +36,17 @@ class MatriculaService {
       return false;
     }
   }
+
+  static Future<bool> updateMatricula(
+      FirebaseFirestore firestore, Matricula matricula) async {
+    try {
+      await firestore
+          .collection("matriculas")
+          .doc(matricula.matricula)
+          .update(matricula.toMap());
+      return true;
+    } on FirebaseException catch (_) {
+      return false;
+    }
+  }
 }

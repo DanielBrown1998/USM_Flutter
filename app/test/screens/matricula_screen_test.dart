@@ -138,5 +138,46 @@ void main() {
       expect(find.text("Sem matriculas na sua disciplina"), findsOneWidget);
       expect(find.byIcon(Icons.no_accounts), findsOneWidget);
     });
+
+    testWidgets("Should show matricula data", (tester) async {
+      // Arrange
+      when(mockUserController.matricula).thenReturn(monitorMatricula);
+      when(mockDisciplinasController.disciplinas)
+          .thenReturn([monitorDisciplina]);
+      when(mockMatriculaController.getAllMatriculas())
+          .thenAnswer((_) async => [studentMatricula2]);
+
+      // Act
+      await pumpMainWidget(tester);
+      await tester.pumpAndSettle();
+
+      Finder card = find.byType(MatriculaCard);
+      Finder matricula = find.text(studentMatricula2.matricula);
+      Finder numberDisciplines = find.text(
+          "numero de disciplinas: ${studentMatricula2.disciplinas.length.toString()}");
+
+      expect(card, findsOneWidget);
+      expect(matricula, findsOneWidget);
+      expect(numberDisciplines, findsOneWidget);
+
+      await tester.tap(card);
+      await tester.pumpAndSettle();
+
+      Finder disciplina = find.text("Disciplinas");
+
+      expect(disciplina, findsOneWidget);
+      expect(numberDisciplines, findsNothing);
+
+      for (Disciplina disciplinaStudent in studentMatricula2.disciplinas) {
+        expect(find.text(disciplinaStudent.nome), findsOneWidget);
+      }
+
+      Finder campus = find.text("Campus");
+      expect(campus, findsOneWidget);
+
+      Finder campusStudent = find.text(studentMatricula2.campus);
+      expect(campusStudent, findsOneWidget);
+    });
+  
   });
 }

@@ -3,25 +3,28 @@ import 'package:flutter/material.dart';
 
 class USMAppBar {
   static AppBar appBar(BuildContext context, String title,
-      {bool hasDrawer = false}) {
+      {bool hasDrawer = false, bool leading = false}) {
     return AppBar(
-      leading: Builder(builder: (context) {
-        return hasDrawer
-            ? IconButton(
-                icon: const Icon(Icons.menu),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              )
-            : IconButton(
-                key: Key("back_button_appbar"),
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              );
-      }),
+      leading: (leading || hasDrawer)
+          ? Builder(builder: (context) {
+              return hasDrawer
+                  ? IconButton(
+                      icon: const Icon(Icons.menu),
+                      tooltip: MaterialLocalizations.of(context)
+                          .openAppDrawerTooltip,
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    )
+                  : IconButton(
+                      key: Key("back_button_appbar"),
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+            })
+          : null,
       actions: [
         Hero(
           tag: "account",

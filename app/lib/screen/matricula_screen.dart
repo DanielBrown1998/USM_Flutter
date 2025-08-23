@@ -19,10 +19,14 @@ class MatriculaScreen extends StatefulWidget {
 
 class _MatriculaScreenState extends State<MatriculaScreen> {
   bool monitorHasDisciplina = true;
+  List<Matricula> allMatriculas = [];
+  bool searched = false;
+  final searchMatriculaController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<List<Matricula>> getMatriculasRegisterdInDisciplineOfMonitor(
       Matricula matriculaOdMonitor,
-      MatriculaController controller,
+      MatriculaController matriculaController,
       DisciplinasController controllerDisciplina) async {
     Disciplina? disciplinaOFMonitor;
 
@@ -38,7 +42,8 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
       return [];
     }
 
-    List<Matricula> allMatriculas = await controller.getAllMatriculas();
+    List<Matricula> allMatriculas =
+        await matriculaController.getAllMatriculas();
     List<Matricula> matriculaRegisteredInDisciplineOfMonitor = [];
     for (Matricula matricula in allMatriculas) {
       if (matricula.disciplinas.contains(disciplinaOFMonitor)) {
@@ -48,6 +53,22 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
     return matriculaRegisteredInDisciplineOfMonitor;
   }
 
+  Future<List<Matricula>> searchMatricula(String matricula) async {
+    List<Matricula> searchedMatriculas = [];
+    for (Matricula matriculaModel in allMatriculas) {
+      if (matriculaModel.matricula.contains(matricula)) {
+        searchedMatriculas.add(matriculaModel);
+      }
+    }
+    return searchedMatriculas;
+  }
+
+  @override
+  void dispose() {
+    searchMatriculaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -55,6 +76,7 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
         Provider.of<MatriculaController>(context, listen: false);
     DisciplinasController disciplinasController =
         Provider.of<DisciplinasController>(context, listen: false);
+
     return Scaffold(
       appBar: USMAppBar.appBar(context, "Matriculas"),
       body: Column(
@@ -67,14 +89,67 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
               key: Key("matricula_screen_header"),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+                key: _formKey,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                        child: TextFormField(
+                      controller: searchMatriculaController,
+                      keyboardType: TextInputType.number,
+                      enabled: !searched,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "digite algo para pesquisar";
+                        } else if (value.length > 12) {
+                          return "a matricula deve conter 12 caracteres";
+                        }
+                        return null;
+                      },
+                    )),
+                    (searched)
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                searched = false;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.clear,
+                              color: theme.dividerColor,
+                            ))
+                        : IconButton(
+                            onPressed: () {
+                              if (_formKey.currentState != null &&
+                                  _formKey.currentState!.validate()) {
+                                //for update screen and insert new list
+                                setState(() {
+                                  searched = true;
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              Icons.search,
+                              color: theme.primaryColorDark,
+                            )),
+                  ],
+                )),
+          ),
           Expanded(
             child: Consumer<UserController>(
-              builder: (context, value, child) {
+              builder: (context, userController, child) {
                 return FutureBuilder(
-                  future: getMatriculasRegisterdInDisciplineOfMonitor(
-                      value.matricula!,
-                      matriculaController,
-                      disciplinasController),
+                  future: (searched)
+                      ? searchMatricula(searchMatriculaController.text)
+                      : getMatriculasRegisterdInDisciplineOfMonitor(
+                          userController.matricula!,
+                          matriculaController,
+                          disciplinasController),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -109,16 +184,21 @@ class _MatriculaScreenState extends State<MatriculaScreen> {
                           ),
                         );
                       }
+                      //clean residualMatricula
+                      allMatriculas.clear();
                       return ListView.builder(
                         key: Key("list_matriculas"),
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           Matricula data = snapshot.data![index];
+                          //insert matricula in local data for search
+                          allMatriculas.add(data);
                           return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: MatriculaCard(
                                 matricula: data,
                                 matriculaController: matriculaController,
+                                userController: userController,
                               ));
                         },
                       );
