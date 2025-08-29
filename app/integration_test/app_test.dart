@@ -18,6 +18,7 @@ import "package:app/core/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 // import "package:date_field/date_field.dart";
 import "package:flutter/material.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:integration_test/integration_test.dart";
 // import "package:lottie/lottie.dart";
@@ -34,6 +35,10 @@ void main() {
     setUpAll(() async {
       Provider.debugCheckInvalidValueType = null;
       firestore = await firebase.FirebaseService.initializeFirebase();
+    });
+
+    tearDownAll(() {
+      debugDefaultTargetPlatformOverride = null;
     });
 
     // Função auxiliar para inflar o widget do app com os providers

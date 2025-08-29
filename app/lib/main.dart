@@ -7,6 +7,8 @@ import 'package:app/controllers/user_controllers.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/screen/add_matriculas_screen.dart';
 import 'package:app/screen/authentication/authenticate_screen.dart';
+import 'package:app/screen/authentication/logout_screen.dart';
+import 'package:app/screen/authentication/recover_password_screen.dart';
 
 import 'package:app/screen/config/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
@@ -63,7 +65,6 @@ void main() async {
           return <Monitoria>[];
         },
       ),
-
       //substituindo o ChangeNotifierProvider deixando o listen = false
       ProxyProvider<List<Matricula>, MatriculaController>(
         update: (context, matriculas, previous) {
@@ -97,7 +98,9 @@ class USMApp extends StatelessWidget {
       initialRoute: Routes.login,
       routes: {
         Routes.login: (context) => InitialScreen(),
+        Routes.logout: (context) => LogoutScreen(),
         Routes.authenticate: (context) => AuthenticateScreen(),
+        Routes.recoverPassword: (context) => RecoverPasswordScreen(),
         Routes.cadastro: (context) => RegisterScreen(),
         Routes.home: (context) => HomeScreen(
               key: Key('home_screen'),

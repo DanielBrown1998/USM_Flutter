@@ -1,5 +1,5 @@
 import "disciplinas.dart";
-import 'package:app/core/constants/constants.dart';
+import 'package:app/core/helpers/helpers.dart';
 
 class Monitoria {
   final String id;
