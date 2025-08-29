@@ -180,7 +180,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 10,
                   children: [
-                    (widget.userController.user!.isStaff)
+                    (widget.userController.user != null && widget.userController.user!.isStaff)
                         ? ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateColor.resolveWith(

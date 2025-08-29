@@ -139,11 +139,7 @@ class ListDrawer {
       ),
       InkWell(
         onTap: () async {
-          await user.logout();
-          if (user.user == null) {
-            if (!context.mounted) return;
-            Navigator.popAndPushNamed(context, Routes.login);
-          }
+          Navigator.popAndPushNamed(context, Routes.logout);
         },
         child: ListTileWidget(
           iconName: Icons.exit_to_app_outlined,

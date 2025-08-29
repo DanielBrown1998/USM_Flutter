@@ -1,3 +1,4 @@
+import 'package:app/core/errors/user_error.dart';
 import 'package:app/screen/widgets/load_snackbar.dart';
 import 'package:app/screen/widgets/logo_laptop.dart';
 import 'package:app/domain/models/matricula.dart';

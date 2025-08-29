@@ -75,7 +75,9 @@ flutter:
   assets:
       - assets/images/back-720.png
       - assets/images/logomarca-uerj.png
-      - assets/loties/
+      - assets/loties/laptop.json
+      - assets/loties/code_dark.json
+      - assets/loties/email_verification.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -1,4 +1,5 @@
 import 'package:app/core/routes/routes.dart';
+import 'package:app/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class USMAppBar {
@@ -38,13 +39,11 @@ class USMAppBar {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.update),
-          ),
-        ),
+        IconButton(
+            onPressed: () async {
+              Navigator.popAndPushNamed(context, Routes.logout);
+            },
+            icon: Icon(Icons.logout_outlined, color: ThemeUSM.purpleUSMColor)),
       ],
       title: Text(
         title,

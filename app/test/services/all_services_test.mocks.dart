@@ -1794,9 +1794,9 @@ class MockAuthService extends _i1.Mock implements _i9.AuthService {
       ) as _i5.Future<_i6.User?>);
 
   @override
-  _i5.Future<bool> senEmailverification(String? email) => (super.noSuchMethod(
+  _i5.Future<bool> sendEmailVerification(String? email) => (super.noSuchMethod(
         Invocation.method(
-          #senEmailverification,
+          #sendEmailVerification,
           [email],
         ),
         returnValue: _i5.Future<bool>.value(false),
