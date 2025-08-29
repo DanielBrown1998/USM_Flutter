@@ -1,5 +1,5 @@
+import 'package:app/core/errors/user_error.dart';
 import 'package:app/domain/models/matricula.dart';
-import 'package:app/controllers/user_controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MatriculaService {

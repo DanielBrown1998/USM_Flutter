@@ -1,4 +1,5 @@
 import "package:app/controllers/user_controllers.dart";
+import "package:app/core/errors/user_error.dart";
 import 'package:app/domain/models/user.dart' as model_user;
 import "package:app/domain/models/days.dart";
 import "package:app/domain/models/disciplinas.dart";

@@ -1,3 +1,4 @@
+import 'package:app/core/errors/user_error.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/domain/models/matricula.dart';
 import "package:app/domain/models/user.dart";
@@ -31,10 +32,14 @@ class UserController with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await authService.logout();
     user = null;
     matricula = null;
     notifyListeners();
+    await authService.logout();
+  }
+
+  Future<bool> forgetPassword(String email) async {
+    return await authService.forgetPassword(email);
   }
 
   Future<User?> register(
@@ -115,23 +120,5 @@ class UserController with ChangeNotifier {
 
   Future<List<User>> getAllUsers() async {
     return await UserService.getAllUsers(firestore);
-  }
-}
-
-class UserControllerException {
-  final String message;
-  UserControllerException(this.message);
-  @override
-  String toString() {
-    return message;
-  }
-}
-
-class UserNotFoundException implements Exception {
-  final String message;
-  UserNotFoundException(this.message);
-  @override
-  String toString() {
-    return message;
   }
 }
