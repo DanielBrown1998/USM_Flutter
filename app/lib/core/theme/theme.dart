@@ -17,7 +17,7 @@ class USMThemeData {
     pageTransitionsTheme: PageTransitionsTheme(
       builders: {
         TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-          transitionType: SharedAxisTransitionType.vertical,
+          transitionType: SharedAxisTransitionType.horizontal,
         ),
         TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
           transitionType: SharedAxisTransitionType.scaled,
@@ -33,6 +33,7 @@ class USMThemeData {
     appBarTheme: USMAppBarTheme.appBarTheme,
     buttonTheme: USMButtonThemeData.buttonThemeData,
     textTheme: USMThemeText.textTheme,
+    primaryTextTheme: USMThemeText.discursiveTheme,
     useMaterial3: true,
   );
 }
@@ -67,19 +68,42 @@ class USMButtonThemeData {
 }
 
 class USMThemeText {
+  static TextTheme discursiveTheme = TextTheme(
+    displayLarge: discursiveLarge,
+    displayMedium: discursiveMedium,
+    displaySmall: discursiveSmall,
+    bodySmall: discursiveSmallBlack,
+    bodyMedium: discursiveMediumBlack,
+    bodyLarge: discursiveLargeBlack,
+  );
+
+  static TextStyle discursiveLarge = TextStyle(
+      fontFamily: "Libertinus", fontSize: 26, color: ThemeUSM.whiteColor);
+  static TextStyle discursiveMedium = TextStyle(
+      fontFamily: "Libertinus", fontSize: 23, color: ThemeUSM.whiteColor);
+  static TextStyle discursiveSmall = TextStyle(
+      fontFamily: "Libertinus", fontSize: 20, color: ThemeUSM.whiteColor);
+  //text color black
+  static TextStyle discursiveSmallBlack = TextStyle(
+      fontFamily: "Libertinus", fontSize: 20, color: ThemeUSM.blackColor);
+  static TextStyle discursiveMediumBlack = TextStyle(
+      fontFamily: "Libertinus", fontSize: 23, color: ThemeUSM.blackColor);
+  static TextStyle discursiveLargeBlack = TextStyle(
+      fontFamily: "Libertinus", fontSize: 26, color: ThemeUSM.blackColor);
+
   static TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
-        fontFamily: "Ubuntu", fontSize: 22, color: ThemeUSM.whiteColor),
+        fontFamily: "Ubuntu", fontSize: 24, color: ThemeUSM.whiteColor),
     displayMedium: TextStyle(
-        fontFamily: "Ubuntu", fontSize: 18, color: ThemeUSM.whiteColor),
+        fontFamily: "Ubuntu", fontSize: 21, color: ThemeUSM.whiteColor),
     displaySmall: TextStyle(
-        fontFamily: "Ubuntu", fontSize: 14, color: ThemeUSM.whiteColor),
+        fontFamily: "Ubuntu", fontSize: 18, color: ThemeUSM.whiteColor),
     //text color black
     bodySmall: TextStyle(
-        fontFamily: "Ubuntu", fontSize: 14, color: ThemeUSM.blackColor),
-    bodyMedium: TextStyle(
         fontFamily: "Ubuntu", fontSize: 18, color: ThemeUSM.blackColor),
+    bodyMedium: TextStyle(
+        fontFamily: "Ubuntu", fontSize: 21, color: ThemeUSM.blackColor),
     bodyLarge: TextStyle(
-        fontFamily: "Ubuntu", fontSize: 22, color: ThemeUSM.blackColor),
+        fontFamily: "Ubuntu", fontSize: 24, color: ThemeUSM.blackColor),
   );
 }

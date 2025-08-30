@@ -4,7 +4,7 @@ import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/domain/models/matricula.dart';
 import 'package:app/domain/models/user.dart';
 import 'package:app/screen/authentication/initial_screen.dart';
-import 'package:app/screen/widgets/logo_laptop.dart';
+import 'package:app/screen/widgets/gen/logo_laptop.dart';
 import 'package:flutter/material.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:flutter_test/flutter_test.dart';

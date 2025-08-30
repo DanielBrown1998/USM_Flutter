@@ -1,24 +1,21 @@
-import 'package:app/screen/widgets/alert_dialog.dart';
+import 'package:app/screen/widgets/dialogs/all_dialog.dart';
 import 'package:app/domain/models/monitoria.dart';
 import 'package:app/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class MonitoriaCard extends StatelessWidget {
   final Monitoria monitoria;
-
   const MonitoriaCard({super.key, required this.monitoria});
 
   @override
   Widget build(BuildContext context) {
     final messenger = ScaffoldMessenger.of(context);
-
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          // border: Border.all(color: ThemeUSM.backgroundColor),
-          // borderRadius: BorderRadius.all(Radius.elliptical(4, 2)),
+          color: Colors.transparent,
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 2.0, right: 2.0),
@@ -32,23 +29,17 @@ class MonitoriaCard extends StatelessWidget {
                 children: [
                   Text(
                     monitoria.userName,
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      color: ThemeUSM.blackColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Roboto",
-                    ),
+                    style: theme.primaryTextTheme.bodyLarge,
                   ),
-                  Text(
-                    "${monitoria.date.day}-${monitoria.date.month}-${monitoria.date.year}",
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      color: ThemeUSM.blackColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: "Roboto",
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        "${monitoria.date.day}-${monitoria.date.month}-${monitoria.date.year}",
+                        style: theme.primaryTextTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),

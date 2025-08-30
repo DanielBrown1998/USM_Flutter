@@ -1794,6 +1794,16 @@ class MockAuthService extends _i1.Mock implements _i9.AuthService {
       ) as _i5.Future<_i6.User?>);
 
   @override
+  _i5.Future<bool> forgetPassword(String? email) => (super.noSuchMethod(
+        Invocation.method(
+          #forgetPassword,
+          [email],
+        ),
+        returnValue: _i5.Future<bool>.value(false),
+        returnValueForMissingStub: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
+
+  @override
   _i5.Future<bool> sendEmailVerification(String? email) => (super.noSuchMethod(
         Invocation.method(
           #sendEmailVerification,

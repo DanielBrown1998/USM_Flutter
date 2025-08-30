@@ -1,12 +1,13 @@
-import 'package:app/controllers/user_controllers.dart';
-import 'package:app/core/errors/user_error.dart';
-import 'package:app/domain/models/user.dart';
-import 'package:app/screen/widgets/appbar.dart';
-import 'package:app/screen/widgets/header.dart';
-import 'package:app/screen/widgets/alert_dialog.dart';
-import 'package:app/core/theme/theme.dart';
-import 'package:app/screen/widgets/cards/student_card.dart';
+import 'package:app/screen/widgets/stack/stack_usm.dart';
 import 'package:flutter/material.dart';
+import 'package:app/core/errors/user_error.dart';
+import 'package:app/core/theme/theme.dart';
+import 'package:app/domain/models/user.dart';
+import 'package:app/screen/widgets/gen/appbar.dart';
+import 'package:app/screen/widgets/gen/header.dart';
+import 'package:app/screen/widgets/dialogs/all_dialog.dart';
+import 'package:app/screen/widgets/cards/student_card.dart';
+import 'package:app/controllers/user_controllers.dart';
 import 'package:provider/provider.dart';
 
 class SearchStudentScreen extends StatefulWidget {
@@ -94,147 +95,148 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     // final media = MediaQuery.of(context);
-    Color backgroundColor = theme.scaffoldBackgroundColor;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.transparent,
       appBar: USMAppBar.appBar(context, "Buscar Aluno"),
-      body: Consumer<UserController>(
-        builder: (context, controller, _) {
-          return SingleChildScrollView(
-            child: Column(
-              spacing: 5.5,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: (!isSearched)
-                      ? Header(
-                          key: null,
-                        )
-                      : SizedBox.shrink(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black87, width: 4),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: theme.primaryColor,
-                    ),
-                    child: SizedBox(
-                      width: 400,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Insira algum desses Dados",
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                            Form(
-                              key: _formkey,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: _name,
-                                    keyboardType: TextInputType.text,
-                                    decoration:
-                                        InputDecoration(labelText: "Nome"),
-                                    validator: (value) {
-                                      return null;
-                                    },
-                                  ),
-                                  TextFormField(
-                                    controller: _matricula,
-                                    keyboardType: TextInputType.number,
-                                    decoration:
-                                        InputDecoration(labelText: "Matricula"),
-                                    validator: (value) {
-                                      return null;
-                                    },
-                                  ),
-                                  TextFormField(
-                                    controller: _email,
-                                    decoration:
-                                        InputDecoration(labelText: "email"),
-                                    validator: (value) {
-                                      return null;
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 100,
-                                      height: 50,
-                                      child: Material(
-                                        color: ThemeUSM.blackColor,
-                                        textStyle:
-                                            theme.textTheme.displayMedium,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.elliptical(8, 6)),
-                                        elevation: 10,
-                                        child: InkWell(
-                                          onTap: () async {
-                                            await searchStudent(
-                                                context, controller);
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "buscar",
-                                              ),
-                                            ],
+      body: StackUSM(
+        child: Consumer<UserController>(
+          builder: (context, controller, _) {
+            return SingleChildScrollView(
+              child: Column(
+                spacing: 5.5,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: (!isSearched)
+                        ? Header(
+                            key: null,
+                          )
+                        : SizedBox.shrink(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black87, width: 4),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: theme.primaryColor,
+                      ),
+                      child: SizedBox(
+                        width: 400,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Insira algum desses Dados",
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              Form(
+                                key: _formkey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: _name,
+                                      keyboardType: TextInputType.text,
+                                      decoration:
+                                          InputDecoration(labelText: "Nome"),
+                                      validator: (value) {
+                                        return null;
+                                      },
+                                    ),
+                                    TextFormField(
+                                      controller: _matricula,
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                          labelText: "Matricula"),
+                                      validator: (value) {
+                                        return null;
+                                      },
+                                    ),
+                                    TextFormField(
+                                      controller: _email,
+                                      decoration:
+                                          InputDecoration(labelText: "email"),
+                                      validator: (value) {
+                                        return null;
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 100,
+                                        height: 50,
+                                        child: Material(
+                                          color: ThemeUSM.blackColor,
+                                          textStyle:
+                                              theme.textTheme.displayMedium,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.elliptical(8, 6)),
+                                          elevation: 10,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await searchStudent(
+                                                  context, controller);
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "buscar",
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                (isSearched)
-                    ? Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: (allUsers.isNotEmpty)
-                            ? SizedBox(
-                                height: 400,
-                                child: ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    User user = allUsers[index];
-                                    return StudentCard(user: user);
-                                  },
-                                  itemCount: allUsers.length,
-                                ),
-                              )
-                            : Card(
-                                elevation: 10,
-                                color: theme.dividerColor,
-                                shadowColor: theme.colorScheme.onPrimaryFixed,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Nenhum usuario encontrado",
-                                    style: theme.textTheme.displayMedium,
+                  (isSearched)
+                      ? Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: (allUsers.isNotEmpty)
+                              ? SizedBox(
+                                  height: 400,
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      User user = allUsers[index];
+                                      return StudentCard(user: user);
+                                    },
+                                    itemCount: allUsers.length,
+                                  ),
+                                )
+                              : Card(
+                                  elevation: 10,
+                                  color: theme.dividerColor,
+                                  shadowColor: theme.colorScheme.onPrimaryFixed,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Nenhum usuario encontrado",
+                                      style: theme.textTheme.displayMedium,
+                                    ),
                                   ),
                                 ),
-                              ),
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
-          );
-        },
+                        )
+                      : SizedBox.shrink(),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
