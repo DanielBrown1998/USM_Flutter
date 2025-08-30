@@ -9,12 +9,7 @@ class LogoLaptop extends StatelessWidget {
     return Hero(
       transitionOnUserGestures: true,
       tag: "lottie-laptop",
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          child: Lottie.asset("assets/loties/laptop.json"),
-        ),
-      ),
+      child: Lottie.asset("assets/loties/laptop.json"),
     );
   }
 }

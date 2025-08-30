@@ -1,10 +1,9 @@
-import 'package:app/core/errors/user_error.dart';
 import 'package:app/core/routes/routes.dart';
-import 'package:app/screen/widgets/load_snackbar.dart';
-import 'package:app/screen/widgets/logo_laptop.dart';
+import 'package:app/domain/models/user.dart';
+import 'package:app/screen/widgets/gen/logo_laptop.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/theme/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app/screen/widgets/router/router_auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +40,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     });
   }
 
-  Future<bool> _authenticate(UserController controller,
+  Future<User?> _authenticate(UserController controller,
       {required String email, required String password}) async {
     return await controller.login(email: email, password: password);
   }
@@ -50,6 +49,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final formKey = GlobalKey<FormState>();
+
+    
+
     return Scaffold(
       backgroundColor: ThemeUSM.blackColor,
       body: Center(
@@ -182,7 +184,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                       (visiblePassword)
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: theme.colorScheme.onPrimaryContainer,
+                                      color:
+                                          theme.colorScheme.onPrimaryContainer,
                                     )),
                               )
                             ],
@@ -203,52 +206,24 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  final messenger = ScaffoldMessenger.of(context);
-                                  try {
-                                    bool isAuthenticated = await _authenticate(
-                                        user,
-                                        email: emailController.text,
-                                        password: passwordController.text);
-                                    if (isAuthenticated) {
-                                      messenger.showSnackBar(SnackBar(
-                                          backgroundColor: Colors.transparent,
-                                          content: Center(
-                                            child: LoadSnackbar(),
-                                          )));
-                                      if (!context.mounted) return;
-                                      Navigator.popAndPushNamed(
-                                          context, Routes.home);
-                                    } else {
-                                      messenger.showSnackBar(
-                                        SnackBar(
-                                          key: Key("invalid_credentials"),
-                                          content: Text("Credenciais invalidas!"),
-                                        ),
-                                      );
-                                    }
-                                  } on UserNotFoundException catch (_) {
-                                    messenger.showSnackBar(
-                                      SnackBar(
-                                        key: Key("user_not_found"),
-                                        content: Text("Usuario nao encontrado!"),
-                                      ),
+                                  if (!context.mounted) return;
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return RouterAuthPage(
+                                      function: () async => _authenticate(user,
+                                          email: emailController.text,
+                                          password: passwordController.text),
+                                      errorMessage: "Falha ao autenticar!",
+                                      successMessage:
+                                          "autenticação bem-sucedida!",
+                                      routeNameSuccess: Routes.home,
+                                      messageLoad: "Autenticando...",
+                                      successlottie:
+                                          'assets/loties/success.json',
+                                      defaultLottie:
+                                          'assets/loties/code_dark.json',
                                     );
-                                  } on FirebaseAuthException catch (_) {
-                                    messenger.showSnackBar(
-                                      SnackBar(
-                                        key: Key("firebase_auth_error"),
-                                        content: Text(
-                                            "Houve um erro!"),
-                                      ),
-                                    );
-                                  } on Exception {
-                                    messenger.showSnackBar(
-                                      SnackBar(
-                                        key: Key("unknow_error"),
-                                        content: Text("Erro desconhecido"),
-                                      ),
-                                    );
-                                  }
+                                  }));
                                 },
                                 child: Card(
                                   elevation: 10,
@@ -258,7 +233,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                       theme.colorScheme.onPrimaryContainer,
                                   color: theme.colorScheme.onPrimaryContainer,
                                   child: InkWell(
-                                    splashColor: theme.colorScheme.onPrimaryFixed,
+                                    splashColor:
+                                        theme.colorScheme.onPrimaryFixed,
                                     child: Ink(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 8),

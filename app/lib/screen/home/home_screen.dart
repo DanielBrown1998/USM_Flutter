@@ -1,14 +1,15 @@
-import 'package:app/screen/widgets/appbar.dart';
+import 'package:app/screen/widgets/gen/appbar.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/domain/models/user.dart';
+import 'package:app/screen/widgets/stack/stack_usm.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screen/widgets/header.dart';
-import 'package:app/screen/widgets/drawer.dart';
+import 'package:app/screen/widgets/gen/header.dart';
+import 'package:app/screen/home/components/drawer.dart';
 import 'package:app/core/theme/theme.dart';
-import 'package:app/screen/widgets/alert_dialog.dart';
-import 'package:app/screen/widgets/body.dart' as custom_body;
+import 'package:app/screen/widgets/dialogs/all_dialog.dart';
+import 'package:app/screen/home/components/body.dart' as custom_body;
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -51,32 +52,35 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      backgroundColor: ThemeUSM.shadowColor,
+      // backgroundColor: ThemeUSM.shadowColor,
+      backgroundColor: Colors.transparent,
       appBar: USMAppBar.appBar(context, widget.title, hasDrawer: true),
-      body: Consumer<UserController>(
-        builder: (context, value, _) => Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Header(
-                key: Key("home_screen_header"),
+      body: StackUSM(
+        child: Consumer<UserController>(
+          builder: (context, value, _) => Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Header(
+                  key: Key("home_screen_header"),
+                ),
               ),
-            ),
-            //only members and super user can access this
-            custom_body.ListBody(
-              key: Key("home_screen_list"),
-              userController: value,
-            ),
-            //TODO refactor this
-            Expanded(
-              child: custom_body.MonitoriaView(
-                  key: Key("home_screen_monitoria"),
-                  userController: value,
-                  disciplinasController: disciplinasProvider),
-            ),
-          ],
+              //only members and super user can access this
+              custom_body.ListBody(
+                key: Key("home_screen_list"),
+                userController: value,
+              ),
+              //TODO refactor this
+              Expanded(
+                child: custom_body.MonitoriaView(
+                    key: Key("home_screen_monitoria"),
+                    userController: value,
+                    disciplinasController: disciplinasProvider),
+              ),
+            ],
+          ),
         ),
       ),
       drawer: Consumer<UserController>(

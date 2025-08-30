@@ -1,7 +1,7 @@
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:app/core/theme/theme.dart';
-import 'package:app/screen/widgets/logo_laptop.dart';
+import 'package:app/screen/widgets/gen/logo_laptop.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

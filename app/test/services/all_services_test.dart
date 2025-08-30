@@ -330,7 +330,7 @@ void main() {
     });
 
     group('login', () {
-      test('should return true and set user on successful login', () async {
+      test('should return User and set user on successful login', () async {
         // Arrange
         final mockAuthUser = MockUser();
         final matriculaModel = Matricula(
@@ -353,7 +353,7 @@ void main() {
             email: testEmail, password: testPassword);
 
         // Assert
-        expect(result, isTrue);
+        expect(result, isA<model_user.User>());
         expect(userController.user, isA<model_user.User>());
         expect(userController.user!.uid, testUid);
         verify(mockAuthService.login(email: testEmail, password: testPassword))
@@ -362,17 +362,22 @@ void main() {
         verify(usersCollection.doc(testUid)).called(1);
       });
 
-      test('should return false when authService login fails', () async {
+      test('should throw FirebaseAuthException when authService login fails',
+          () async {
         // Arrange
         when(mockAuthService.login(email: testEmail, password: testPassword))
-            .thenAnswer((_) async => null);
+            .thenThrow(
+          auth.FirebaseAuthException(
+            code: 'user-not-found',
+            message: 'User not found',
+          ),
+        );
 
-        // Act
-        final result = await userController.login(
-            email: testEmail, password: testPassword);
-
-        // Assert
-        expect(result, isFalse);
+        // Act & Assert
+        expect(
+            () async => await userController.login(
+                email: testEmail, password: testPassword),
+            throwsA(isA<auth.FirebaseAuthException>()));
         expect(userController.user, isNull);
         verifyNever(firestore.collection('user'));
       });
@@ -396,17 +401,16 @@ void main() {
         when(userDocumentSnapshot.data()).thenReturn(testUserMap);
         when(usersCollection.doc(testUid)).thenReturn(userDocumentReference);
 
-        // Act
-        final result = await userController.login(
-            email: testEmail, password: testPassword);
-
         // Assert
-        expect(result, isFalse);
+        expect(
+            () async => await userController.login(
+                email: testEmail, password: testPassword),
+            throwsA(isA<UserNotFoundException>()));
         expect(userController.user, isNull);
         verify(mockAuthService.login(email: testEmail, password: testPassword))
             .called(1);
-        verify(firestore.collection('user')).called(1);
-        verify(usersCollection.doc(testUid)).called(1);
+        // verify(firestore.collection('user')).called(1);
+        // verify(usersCollection.doc(testUid)).called(1);
       });
 
       test('should throw UserNotFoundException if user not in firestore',

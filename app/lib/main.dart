@@ -12,10 +12,10 @@ import 'package:app/screen/authentication/recover_password_screen.dart';
 
 import 'package:app/screen/config/config_screen.dart';
 import 'package:app/screen/matricula_screen.dart';
-import 'package:app/screen/monitorias_screen.dart';
+import 'package:app/screen/monitoria/monitorias_screen.dart';
 
 import 'package:app/screen/authentication/initial_screen.dart';
-import 'package:app/screen/home_screen.dart';
+import 'package:app/screen/home/home_screen.dart';
 import 'package:app/screen/authentication/register_screen.dart';
 import 'package:app/screen/search_student_screen.dart';
 import 'package:app/screen/user_screen.dart';
@@ -27,11 +27,16 @@ import 'package:app/core/services/monitorias_service.dart';
 
 import 'package:app/core/theme/theme.dart';
 import 'package:app/core/routes/routes.dart';
+import 'package:app/screen/widgets/gen/logo_laptop.dart';
+import 'package:app/screen/widgets/gen/progress_indicator_usm.dart';
+// import 'package:app/screen/widgets/router/router_page.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -67,18 +72,30 @@ void main() async {
       ),
       //substituindo o ChangeNotifierProvider deixando o listen = false
       ProxyProvider<List<Matricula>, MatriculaController>(
-        update: (context, matriculas, previous) {
-          previous ??= MatriculaController(firestore: firestore);
-          previous.initializeMatriculas(matriculas);
-          return previous;
+        update: (_, matriculas, previousController) {
+          final controller =
+              previousController ?? MatriculaController(firestore: firestore);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            controller.initializeMatriculas(matriculas);
+          });
+          return controller;
+        },
+      ),
+      ProxyProvider<List<Disciplina>, DisciplinasController>(
+        update: (_, disciplinas, previousController) {
+          final controller =
+              previousController ?? DisciplinasController(firestore: firestore);
+          // Defer the update to after the build phase to avoid "setState during build" error.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            controller.initializeDisciplinas(disciplinas);
+          });
+          return controller;
         },
       ),
       ChangeNotifierProvider<UserController>(
           create: (_) => UserController(firestore: firestore)),
       ChangeNotifierProvider<MonitoriaController>(
           create: (_) => MonitoriaController(firestore: firestore)),
-      ChangeNotifierProvider(
-          create: (_) => DisciplinasController(firestore: firestore)),
     ],
     child: const USMApp(
       title: "MON. UERJ-ZO",
@@ -91,28 +108,128 @@ class USMApp extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
+    final appRoutes = {
+      Routes.login: (context) => InitialScreen(),
+      Routes.logout: (context) => LogoutScreen(),
+      Routes.authenticate: (context) => AuthenticateScreen(),
+      Routes.recoverPassword: (context) => RecoverPasswordScreen(),
+      Routes.cadastro: (context) => RegisterScreen(),
+      Routes.home: (context) => HomeScreen(
+            key: const Key('home_screen'),
+            title: title,
+          ),
+      Routes.userScreen: (context) => UserScreen(),
+      Routes.searchStudent: (context) => SearchStudentScreen(),
+      Routes.monitorias: (context) => MonitoriasSreen(),
+      Routes.matriculas: (context) => MatriculaScreen(),
+      Routes.addMatriculas: (context) => AddMatriculasScreen(),
+      Routes.config: (context) => ConfigScreen(),
+    };
+
     return MaterialApp(
       title: title,
       debugShowCheckedModeBanner: false,
       theme: USMThemeData.themeData,
+      routes: appRoutes,
       initialRoute: Routes.login,
-      routes: {
-        Routes.login: (context) => InitialScreen(),
-        Routes.logout: (context) => LogoutScreen(),
-        Routes.authenticate: (context) => AuthenticateScreen(),
-        Routes.recoverPassword: (context) => RecoverPasswordScreen(),
-        Routes.cadastro: (context) => RegisterScreen(),
-        Routes.home: (context) => HomeScreen(
-              key: Key('home_screen'),
-              title: title,
-            ),
-        Routes.userScreen: (context) => UserScreen(),
-        Routes.searchStudent: (context) => SearchStudentScreen(),
-        Routes.monitorias: (context) => MonitoriasSreen(),
-        Routes.matriculas: (context) => MatriculaScreen(),
-        Routes.addMatriculas: (context) => AddMatriculasScreen(),
-        Routes.config: (context) => ConfigScreen(),
+      builder: (context, child) {
+        return StreamBuilder<List<ConnectivityResult>>(
+          stream: Connectivity().onConnectivityChanged,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData ||
+                snapshot.connectionState == ConnectionState.waiting) {
+              return const _LoadingScreen();
+            }
+            if (snapshot.hasError) {
+              return const _ErrorScreen();
+            }
+            final hasConnection =
+                !snapshot.data!.contains(ConnectivityResult.none);
+            return Stack(
+              children: [
+                child!,
+                if (!hasConnection) const _NoConnectionScreen(),
+              ],
+            );
+          },
+        );
       },
+    );
+  }
+}
+
+/// Widget para a tela de carregamento inicial.
+class _LoadingScreen extends StatelessWidget {
+  const _LoadingScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: ThemeUSM.blackColor,
+        alignment: Alignment.center,
+        height: double.infinity,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(flex: 3, child: LogoLaptop()),
+            Spacer(flex: 1),
+            Flexible(flex: 2, child: ProgressIndicatorUSM()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Widget para a tela de erro inesperado.
+class _ErrorScreen extends StatelessWidget {
+  const _ErrorScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: ThemeUSM.blackColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset('assets/loties/error.json',
+              height: 250, fit: BoxFit.fill),
+          Text('Ocorreu um erro inesperado.',
+              style: theme.textTheme.displayLarge, textAlign: TextAlign.center),
+          Text('Tente reiniciar o aplicativo.',
+              style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
+        ],
+      ),
+    );
+  }
+}
+
+/// Widget para a tela de "sem conexão com a internet".
+class _NoConnectionScreen extends StatelessWidget {
+  const _NoConnectionScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: Colors.red.shade900,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset('assets/loties/no_internet.json',
+                height: 250, fit: BoxFit.fill),
+            Text('Verifique sua conexão com a internet.',
+                style: theme.textTheme.displayLarge,
+                textAlign: TextAlign.center),
+          ],
+        ),
+      ),
     );
   }
 }

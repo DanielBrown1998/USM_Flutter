@@ -27,7 +27,7 @@ class UserCard extends StatelessWidget {
               color: theme.colorScheme.onPrimaryContainer,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -49,22 +49,25 @@ class UserCard extends StatelessWidget {
                           Text(
                             textAlign: TextAlign.right,
                             "${user.firstName} ${user.lastName}",
-                            style: theme.textTheme.displayLarge,
+                            style:
+                                theme.primaryTextTheme.displayLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             user.userName,
                             textAlign: TextAlign.right,
-                            style: theme.textTheme.displaySmall,
+                            style: theme.primaryTextTheme.displaySmall,
                           ),
                           Text(
                             user.phone,
                             textAlign: TextAlign.right,
-                            style: theme.textTheme.displaySmall,
+                            style: theme.primaryTextTheme.displaySmall,
                           ),
                           Text(
                             user.campus,
                             textAlign: TextAlign.right,
-                            style: theme.textTheme.displaySmall,
+                            style: theme.primaryTextTheme.displaySmall,
                           ),
                         ],
                       )
@@ -80,23 +83,31 @@ class UserCard extends StatelessWidget {
                           runAlignment: WrapAlignment.start,
                           spacing: 5,
                           children: [
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "E-MAIL",
-                                      style: theme.textTheme.displayMedium,
-                                    ),
-                                    Text(
-                                      user.email,
-                                      textAlign: TextAlign.right,
-                                      softWrap: true,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: theme.textTheme.displaySmall,
-                                    ),
-                                  ]),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "E-MAIL",
+                                        style: theme
+                                            .primaryTextTheme.displayMedium!
+                                            .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        user.email,
+                                        textAlign: TextAlign.right,
+                                        softWrap: true,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            theme.primaryTextTheme.displaySmall,
+                                      ),
+                                    ]),
+                              ),
                               Material(
                                 color: theme.colorScheme.onPrimaryContainer,
                                 shape: Border.all(
@@ -112,7 +123,8 @@ class UserCard extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: Text(
                                       "Alterar imagem perfil",
-                                      style: theme.textTheme.displaySmall,
+                                      style:
+                                          theme.primaryTextTheme.displaySmall,
                                     ),
                                   ),
                                 ),
@@ -132,7 +144,8 @@ class UserCard extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: Text(
                                       "Alterar senha",
-                                      style: theme.textTheme.displaySmall,
+                                      style:
+                                          theme.primaryTextTheme.displaySmall,
                                     ),
                                   ),
                                 ),
@@ -152,7 +165,8 @@ class UserCard extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: Text(
                                       "Aualizar dados",
-                                      style: theme.textTheme.displaySmall,
+                                      style:
+                                          theme.primaryTextTheme.displaySmall,
                                     ),
                                   ),
                                 ),
@@ -171,7 +185,7 @@ class UserCard extends StatelessWidget {
                                 softWrap: true,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.displaySmall,
+                                style: theme.primaryTextTheme.displaySmall,
                               ),
                             ]),
                 ],
@@ -189,7 +203,7 @@ class UserCard extends StatelessWidget {
                         children: [
                           Text(
                             'E-mail verificado: ',
-                            style: theme.textTheme.displaySmall,
+                            style: theme.primaryTextTheme.displaySmall,
                           ),
                           Icon(
                             Icons.circle,
@@ -204,7 +218,7 @@ class UserCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Usuario ativo?",
-                        style: theme.textTheme.displaySmall),
+                        style: theme.primaryTextTheme.displaySmall),
                     Icon(
                       Icons.circle,
                       color: (!user.isActive) ? Colors.red : Colors.green,
@@ -218,7 +232,7 @@ class UserCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               "Disciplinas disponiveis;",
-              style: theme.textTheme.displaySmall,
+              style: theme.primaryTextTheme.displaySmall,
               textAlign: TextAlign.start,
             ),
           ),
@@ -244,7 +258,7 @@ class UserCard extends StatelessWidget {
                           horizontal: 4.0, vertical: 2.0),
                       child: Text(
                         user.disciplinas[index].nome,
-                        style: theme.textTheme.displaySmall,
+                        style: theme.primaryTextTheme.displaySmall,
                       ),
                     ),
                   );
