@@ -1,5 +1,5 @@
-import "package:app/screen/widgets/drawer.dart";
-import "package:app/screen/widgets/header.dart";
+import "package:app/screen/home/components/drawer.dart";
+import "package:app/screen/widgets/gen/header.dart";
 // import "package:app/widgets/body.dart" as custom_body;
 // import "package:app/widgets/monitoria_card.dart";
 // import "package:app/widgets/monitoria_details.dart";

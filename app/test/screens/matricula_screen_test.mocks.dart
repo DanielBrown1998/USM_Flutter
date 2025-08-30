@@ -134,6 +134,17 @@ class MockMatriculaController extends _i1.Mock
       ) as _i7.Future<bool>);
 
   @override
+  _i7.Future<bool> updateMatricula(_i6.Matricula? matricula) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateMatricula,
+          [matricula],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
+
+  @override
   _i7.Future<List<_i6.Matricula>> getAllMatriculas() => (super.noSuchMethod(
         Invocation.method(
           #getAllMatriculas,
@@ -237,7 +248,7 @@ class MockUserController extends _i1.Mock implements _i9.UserController {
       ) as bool);
 
   @override
-  _i7.Future<bool> login({
+  _i7.Future<_i4.User?> login({
     required String? email,
     required String? password,
   }) =>
@@ -250,9 +261,9 @@ class MockUserController extends _i1.Mock implements _i9.UserController {
             #password: password,
           },
         ),
-        returnValue: _i7.Future<bool>.value(false),
-        returnValueForMissingStub: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i7.Future<_i4.User?>.value(),
+        returnValueForMissingStub: _i7.Future<_i4.User?>.value(),
+      ) as _i7.Future<_i4.User?>);
 
   @override
   _i7.Future<void> logout() => (super.noSuchMethod(
@@ -263,6 +274,16 @@ class MockUserController extends _i1.Mock implements _i9.UserController {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<bool> forgetPassword(String? email) => (super.noSuchMethod(
+        Invocation.method(
+          #forgetPassword,
+          [email],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
   _i7.Future<_i4.User?> register({

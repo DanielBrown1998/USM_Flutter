@@ -1,6 +1,6 @@
 import 'package:app/core/errors/user_error.dart';
-import 'package:app/screen/widgets/load_snackbar.dart';
-import 'package:app/screen/widgets/logo_laptop.dart';
+import 'package:app/screen/widgets/gen/progress_indicator_usm.dart';
+import 'package:app/screen/widgets/gen/logo_laptop.dart';
 import 'package:app/domain/models/matricula.dart';
 import 'package:app/controllers/matricula_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
@@ -45,11 +45,11 @@ class _InitialScreenState extends State<InitialScreen> {
     Matricula? matricula = controller.getMatricula(matriculaController.text);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
+    final snackLoading = messenger.showSnackBar(SnackBar(
+        backgroundColor: ThemeUSM.blackColor,
+        content: Center(child: ProgressIndicatorUSM())));
     if (matricula != null) {
       //load usercontroller
-      messenger.showSnackBar(SnackBar(
-          backgroundColor: ThemeUSM.blackColor,
-          content: Center(child: LoadSnackbar())));
       UserController users =
           Provider.of<UserController>(context, listen: false);
       try {
@@ -63,7 +63,9 @@ class _InitialScreenState extends State<InitialScreen> {
         //redirect to login screen
 
         navigator.pushNamed(Routes.authenticate);
+        snackLoading.close();
       } on UserNotFoundException catch (_) {
+        snackLoading.close();
         messenger.showSnackBar(
           SnackBar(
             key: Key("matricula_found_user_not"),
@@ -78,6 +80,7 @@ class _InitialScreenState extends State<InitialScreen> {
 
         navigator.popAndPushNamed(Routes.cadastro);
       } on UserControllerException catch (_) {
+        snackLoading.close();
         messenger.showSnackBar(
           SnackBar(
             content: Text(
@@ -89,11 +92,12 @@ class _InitialScreenState extends State<InitialScreen> {
         );
       }
     } else {
+      snackLoading.close();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           key: const Key("key_matricula_not_found"),
           content: Text(
-            "Matricula não encontrada",
+            "Matricula não encontrada, tente novamente.",
             style: TextStyle(color: ThemeUSM.whiteColor, fontSize: 16),
           ),
           backgroundColor: ThemeUSM.blackColor,

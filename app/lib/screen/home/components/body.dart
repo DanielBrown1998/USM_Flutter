@@ -1,5 +1,6 @@
 import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
+import 'package:app/domain/models/monitoria.dart';
 import 'package:app/screen/widgets/cards/monitoria_card.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:app/core/theme/theme.dart';
@@ -38,7 +39,7 @@ class _ListBodyState extends State<ListBody> {
             (widget.userController.user!.isSuperUser ||
                 widget.userController.user!.isStaff))
         ? Container(
-            color: ThemeUSM.shadowColor,
+            color: Colors.transparent,
             height: 64,
             child: ListView.builder(
               padding: const EdgeInsets.all(8.0),
@@ -160,7 +161,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: ThemeUSM.shadowColor,
+      color: Colors.transparent,
       child: Column(
         children: [
           Padding(
@@ -180,7 +181,8 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 10,
                   children: [
-                    (widget.userController.user != null && widget.userController.user!.isStaff)
+                    (widget.userController.user != null &&
+                            widget.userController.user!.isStaff)
                         ? ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateColor.resolveWith(
@@ -223,7 +225,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: theme.primaryColor,
+                  color: theme.primaryColor.withAlpha(170),
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(
                     color: ThemeUSM.blackColor,
@@ -252,11 +254,14 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                             return ListView.builder(
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
+                                final Monitoria monitoria =
+                                    snapshot.data![index];
+
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 16),
                                   child: MonitoriaCard(
-                                    monitoria: snapshot.data![index],
+                                    monitoria: monitoria,
                                   ),
                                 );
                               },

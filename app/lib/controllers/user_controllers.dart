@@ -16,19 +16,24 @@ class UserController with ChangeNotifier {
   UserController({required this.firestore, this.user, AuthService? authService})
       : authService = authService ?? AuthService();
 
-  Future<bool> login({required String email, required String password}) async {
+  Future<User?> login({required String email, required String password}) async {
     auth_firebase.User? auth =
         await authService.login(email: email, password: password);
-    if (auth == null) return false;
+    if (auth == null) {
+      throw auth_firebase.FirebaseAuthException(
+        code: 'user-not-found',
+        message: 'Usuário não encontrado',
+      );
+    }
     user = await UserService.getUserByUid(firestore: firestore, uid: auth.uid);
     //check if matricula inserted is equal to matricula of authUser
     if (user!.userName != matricula!.matricula) {
       user = null;
       authService.logout();
-      return false;
+      throw UserNotFoundException("Matricula nao coincide com o usuario!");
     }
     notifyListeners();
-    return true;
+    return user;
   }
 
   Future<void> logout() async {
