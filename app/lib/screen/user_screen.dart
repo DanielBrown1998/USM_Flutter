@@ -1,5 +1,6 @@
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/core/services/auth_service.dart';
+import 'package:app/core/theme/theme.dart';
 import 'package:app/screen/widgets/cards/user_card.dart';
 import 'package:app/screen/widgets/stack/stack_usm.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -68,10 +69,12 @@ class _UserScreenState extends State<UserScreen> {
                         Text(
                           "Acoes a realizar:",
                           textAlign: TextAlign.start,
-                          style: theme.textTheme.bodyMedium,
+                          style: theme.textTheme.displayLarge!
+                              .copyWith(fontWeight: FontWeight.w700),
                         ),
                         (!currentUser.emailVerified)
                             ? Material(
+                                color: ThemeUSM.purpleUSMColor,
                                 shape: Border.all(
                                   width: 2,
                                   style: BorderStyle.solid,
@@ -84,9 +87,12 @@ class _UserScreenState extends State<UserScreen> {
                                   onTap: () {},
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "verificar email",
-                                      style: theme.textTheme.bodyMedium,
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        "verificar email",
+                                        style: theme.textTheme.displayMedium,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -94,6 +100,7 @@ class _UserScreenState extends State<UserScreen> {
                             : SizedBox.shrink(),
                         (currentUser.phoneNumber == null)
                             ? Material(
+                                color: ThemeUSM.purpleUSMColor,
                                 shape: Border.all(
                                   width: 2,
                                   style: BorderStyle.solid,
@@ -106,9 +113,12 @@ class _UserScreenState extends State<UserScreen> {
                                   onTap: () {},
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "validar celular",
-                                      style: theme.textTheme.bodyMedium,
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        "validar celular",
+                                        style: theme.textTheme.displayMedium,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -8,6 +8,7 @@ class MonitoriaDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -16,24 +17,34 @@ class MonitoriaDetails extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: ThemeUSM.backgroundColorWhite,
-            child: Icon(
-              Icons.person,
-              color: ThemeUSM.blackColor,
+          leading: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: CircleAvatar(
+              backgroundColor: ThemeUSM.backgroundColorWhite,
+              child: Icon(
+                Icons.person,
+                color: ThemeUSM.blackColor,
+              ),
             ),
           ),
-          title: Text(
-            monitoria.aluno,
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              monitoria.aluno,
+              style: theme.primaryTextTheme.displayMedium!
+                  .copyWith(fontWeight: FontWeight.w700),
+            ),
           ),
-          subtitle: Text(
-            "${monitoria.date.day}/${monitoria.date.month}/${monitoria.date.year}",
-            style: TextStyle(color: Colors.white),
+          subtitle: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+                "${monitoria.date.day}/${monitoria.date.month}/${monitoria.date.year}",
+                style: theme.textTheme.displaySmall),
           ),
-          trailing: Text(
-            "status: ${monitoria.status}",
-            style: TextStyle(color: Colors.white),
+          trailing: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text("status: ${monitoria.status}",
+                style: theme.textTheme.displaySmall),
           ),
           onTap: () {}, // TODO create dialog for change status here
         ),

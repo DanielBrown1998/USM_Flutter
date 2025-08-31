@@ -23,12 +23,15 @@ class LogoutScreen extends StatelessWidget {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  "Deseja Realizar Logout?",
-                  style: theme.textTheme.displayLarge,
-                  overflow: TextOverflow.visible,
-                  softWrap: true,
-                  textAlign: TextAlign.center,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    "Deseja Realizar Logout?",
+                    style: theme.textTheme.displayLarge,
+                    overflow: TextOverflow.visible,
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
@@ -47,11 +50,14 @@ class LogoutScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.popAndPushNamed(context, Routes.home);
               },
-              child: Text(
-                "Nao, voltar",
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: ThemeUSM.whiteColor,
-                  fontWeight: FontWeight.bold,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  "Nao, voltar",
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: ThemeUSM.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -66,7 +72,7 @@ class LogoutScreen extends StatelessWidget {
           if (!context.mounted) return;
           Navigator.popAndPushNamed(context, Routes.login);
         },
-        label: Text("Logout"),
+        label: FittedBox(fit: BoxFit.contain, child: Text("Logout")),
         icon: Icon(Icons.logout),
         backgroundColor: Colors.redAccent,
       ),

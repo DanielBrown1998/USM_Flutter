@@ -126,15 +126,18 @@ class _InitialScreenState extends State<InitialScreen> {
                 opacity: _op,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    "USM",
-                    style: TextStyle(
-                        color: ThemeUSM.whiteColor,
-                        decorationStyle: TextDecorationStyle.solid,
-                        fontFamily: "Ubuntu",
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(
+                      "USM",
+                      style: TextStyle(
+                          color: ThemeUSM.whiteColor,
+                          decorationStyle: TextDecorationStyle.solid,
+                          fontFamily: "Libertinus",
+                          fontSize: 50,
+                          fontWeight: FontWeight.w900,
+                          decoration: TextDecoration.none),
+                    ),
                   ),
                 ),
               ),
@@ -173,9 +176,12 @@ class _InitialScreenState extends State<InitialScreen> {
                               onPressed: () async {
                                 await _searchData(context, list);
                               },
-                              child: Text(
-                                "entrar",
-                                style: theme.textTheme.displayLarge,
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  "entrar",
+                                  style: theme.textTheme.displayLarge,
+                                ),
                               )),
                         ],
                       ),
