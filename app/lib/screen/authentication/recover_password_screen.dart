@@ -71,7 +71,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                               children: const [
                                 CircularProgressIndicator(),
                                 SizedBox(width: 16),
-                                Text("Enviando email de recuperação..."),
+                                FittedBox(
+                                    child: Text(
+                                        "Enviando email de recuperação...")),
                               ],
                             )));
                             bool result = await userController
@@ -79,8 +81,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             if (result) {
                               messenge.showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                      "Email de recuperação enviado para ${emailController.text}"),
+                                  content: FittedBox(
+                                      child: Text(
+                                          "Email de recuperação enviado para ${emailController.text}")),
                                 ),
                               );
                               if (!context.mounted) return;
@@ -88,14 +91,15 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             } else {
                               messenge.showSnackBar(
                                 const SnackBar(
-                                  content: Text(
-                                      "Erro ao enviar email de recuperação"),
+                                  content: FittedBox(
+                                      child: Text(
+                                          "Erro ao enviar email de recuperação")),
                                 ),
                               );
                             }
                           }
                         },
-                        child: const Text("Recuperar Senha"),
+                        child: FittedBox(child: const Text("Recuperar Senha")),
                       ),
                     ),
                   ],

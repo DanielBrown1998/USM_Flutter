@@ -131,9 +131,12 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "Insira algum desses Dados",
-                                style: theme.textTheme.bodyMedium,
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  "Insira algum desses Dados",
+                                  style: theme.textTheme.bodyMedium,
+                                ),
                               ),
                               Form(
                                 key: _formkey,
@@ -186,8 +189,11 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Text(
-                                                  "buscar",
+                                                FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Text(
+                                                    "Buscar",
+                                                  ),
                                                 ),
                                               ],
                                             ),

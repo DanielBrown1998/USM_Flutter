@@ -27,16 +27,22 @@ class MonitoriaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    monitoria.userName,
-                    style: theme.primaryTextTheme.bodyLarge,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      monitoria.userName,
+                      style: theme.primaryTextTheme.bodyLarge,
+                    ),
                   ),
                   Row(
                     children: [
-                      Text(
-                        "${monitoria.date.day}-${monitoria.date.month}-${monitoria.date.year}",
-                        style: theme.primaryTextTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "${monitoria.date.day}-${monitoria.date.month}-${monitoria.date.year}",
+                          style: theme.primaryTextTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -57,15 +63,23 @@ class MonitoriaCard extends StatelessWidget {
                         monitoriaMarcada: monitoria);
                     if (value is Monitoria) {
                       messenger.showSnackBar(SnackBar(
-                          content: Text(
-                              "${monitoria.userName} realizou a monitoria!")));
+                          content: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:
+                            Text("${monitoria.userName} realizou a monitoria!"),
+                      )));
                     } else if (value == null) {
                       messenger.showSnackBar(SnackBar(
-                          content: Text(
-                              " status nao alterado para ${monitoria.userName}")));
+                          content: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                            " status nao alterado para ${monitoria.userName}"),
+                      )));
                     } else {
-                      messenger.showSnackBar(
-                          SnackBar(content: Text("Erro: ${value.toString()}")));
+                      messenger.showSnackBar(SnackBar(
+                          content: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text("Erro: ${value.toString()}"))));
                     }
                   },
                   icon: Icon(Icons.check, color: ThemeUSM.whiteColor),
@@ -98,12 +112,18 @@ class MonitoriaCard extends StatelessWidget {
                         monitoriaOk: false);
                     if (value is Monitoria) {
                       messenger.showSnackBar(SnackBar(
-                          content: Text(
-                              " ${monitoria.userName} nao realizou a monitoria")));
+                          content: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                            " ${monitoria.userName} nao realizou a monitoria"),
+                      )));
                     } else if (value == null) {
                       messenger.showSnackBar(SnackBar(
-                          content: Text(
-                              " status nao alterado para ${monitoria.userName}")));
+                          content: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                            " status nao alterado para ${monitoria.userName}"),
+                      )));
                     } else {
                       messenger.showSnackBar(
                           SnackBar(content: Text("Erro: ${value.toString()}")));

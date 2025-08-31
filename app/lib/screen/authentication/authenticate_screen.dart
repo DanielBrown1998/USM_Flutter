@@ -50,8 +50,6 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     final theme = Theme.of(context);
     final formKey = GlobalKey<FormState>();
 
-    
-
     return Scaffold(
       backgroundColor: ThemeUSM.blackColor,
       body: Center(
@@ -75,13 +73,19 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Bem vindo(a), ${user.user!.firstName} ${user.user!.lastName}",
-                          style: theme.textTheme.displayLarge,
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            "Bem vindo(a), ${user.user!.firstName} ${user.user!.lastName}",
+                            style: theme.textTheme.displayLarge,
+                          ),
                         ),
-                        Text(
-                          user.user!.userName,
-                          style: theme.textTheme.displaySmall,
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            user.user!.userName,
+                            style: theme.textTheme.displaySmall,
+                          ),
                         ),
                       ],
                     ),
@@ -199,9 +203,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                   Navigator.pushNamed(
                                       context, Routes.recoverPassword);
                                 },
-                                child: Text(
-                                  "Esqueci minha senha",
-                                  style: theme.textTheme.displaySmall,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    "Esqueci minha senha",
+                                    style: theme.textTheme.displaySmall,
+                                  ),
                                 ),
                               ),
                               TextButton(
@@ -238,9 +245,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     child: Ink(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 8),
-                                      child: Text(
-                                        "Entrar",
-                                        style: theme.textTheme.displayLarge,
+                                      child: FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Text(
+                                          "Entrar",
+                                          style: theme.textTheme.displayLarge,
+                                        ),
                                       ),
                                     ),
                                   ),
