@@ -115,14 +115,18 @@ class _ListBodyState extends State<ListBody> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Icon(
-                              map.values.first[1],
-                              size: 36,
-                              color: theme.colorScheme.onPrimaryFixed,
+                            FittedBox(
+                              child: Icon(
+                                map.values.first[1],
+                                size: 36,
+                                color: theme.colorScheme.onPrimaryFixed,
+                              ),
                             ),
-                            Text(
-                              map.keys.first,
-                              style: theme.textTheme.bodyMedium,
+                            FittedBox(
+                              child: Text(
+                                map.keys.first,
+                                style: theme.textTheme.bodyMedium,
+                              ),
                             ),
                           ],
                         ),
@@ -171,9 +175,12 @@ class _MonitoriaViewState extends State<MonitoriaView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
-                  "Ver como;",
-                  style: theme.textTheme.bodyMedium,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    "Ver como;",
+                    style: theme.textTheme.bodyMedium,
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,9 +201,12 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                             onPressed: () => setState(() {
                               staffFlag = true;
                             }),
-                            child: Text(
-                              "monitor",
-                              style: theme.textTheme.displaySmall,
+                            child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                              child: Text(
+                                "monitor",
+                                style: theme.textTheme.displaySmall,
+                              ),
                             ),
                           )
                         : SizedBox.shrink(),
@@ -210,9 +220,12 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                       onPressed: () => setState(() {
                         staffFlag = false;
                       }),
-                      child: Text(
-                        "aluno",
-                        style: theme.textTheme.displaySmall,
+                      child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                        child: Text(
+                          "aluno",
+                          style: theme.textTheme.displaySmall,
+                        ),
                       ),
                     ),
                   ],
@@ -249,7 +262,10 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                             if (snapshot.data == null ||
                                 snapshot.data!.isEmpty) {
                               return Center(
-                                  child: Text("Nenhuma monitoria marcada"));
+                                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                                      child:
+                                          Text("Nenhuma monitoria marcada")));
                             }
                             return ListView.builder(
                               itemCount: snapshot.data!.length,
@@ -268,9 +284,14 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                             );
                           case ConnectionState.none:
                             return Center(
-                                child: Text("Erro ao carregar dados"));
+                                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                                    child: Text("Erro ao carregar dados")));
                           default:
-                            return Center(child: Text("Erro desconhecido!"));
+                            return Center(
+                                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                                    child: Text("Erro desconhecido!")));
                         }
                       },
                     );

@@ -46,28 +46,40 @@ class UserCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         spacing: 5,
                         children: [
-                          Text(
-                            textAlign: TextAlign.right,
-                            "${user.firstName} ${user.lastName}",
-                            style:
-                                theme.primaryTextTheme.displayLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              textAlign: TextAlign.right,
+                              "${user.firstName} ${user.lastName}",
+                              style:
+                                  theme.primaryTextTheme.displayLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          Text(
-                            user.userName,
-                            textAlign: TextAlign.right,
-                            style: theme.primaryTextTheme.displaySmall,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              user.userName,
+                              textAlign: TextAlign.right,
+                              style: theme.primaryTextTheme.displaySmall,
+                            ),
                           ),
-                          Text(
-                            user.phone,
-                            textAlign: TextAlign.right,
-                            style: theme.primaryTextTheme.displaySmall,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              user.phone,
+                              textAlign: TextAlign.right,
+                              style: theme.primaryTextTheme.displaySmall,
+                            ),
                           ),
-                          Text(
-                            user.campus,
-                            textAlign: TextAlign.right,
-                            style: theme.primaryTextTheme.displaySmall,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              user.campus,
+                              textAlign: TextAlign.right,
+                              style: theme.primaryTextTheme.displaySmall,
+                            ),
                           ),
                         ],
                       )
@@ -82,6 +94,7 @@ class UserCard extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           runAlignment: WrapAlignment.start,
                           spacing: 5,
+                          runSpacing: 5,
                           children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -89,22 +102,28 @@ class UserCard extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "E-MAIL",
-                                        style: theme
-                                            .primaryTextTheme.displayMedium!
-                                            .copyWith(
-                                          fontWeight: FontWeight.bold,
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          "E-MAIL: ",
+                                          style: theme
+                                              .primaryTextTheme.displaySmall!
+                                              .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        user.email,
-                                        textAlign: TextAlign.right,
-                                        softWrap: true,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            theme.primaryTextTheme.displaySmall,
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          user.email,
+                                          textAlign: TextAlign.right,
+                                          softWrap: true,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: theme
+                                              .primaryTextTheme.displaySmall,
+                                        ),
                                       ),
                                     ]),
                               ),
@@ -121,10 +140,13 @@ class UserCard extends StatelessWidget {
                                   onTap: () {},
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      "Alterar imagem perfil",
-                                      style:
-                                          theme.primaryTextTheme.displaySmall,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        "Alterar imagem perfil",
+                                        style:
+                                            theme.primaryTextTheme.displaySmall,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -142,10 +164,13 @@ class UserCard extends StatelessWidget {
                                   onTap: () {},
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      "Alterar senha",
-                                      style:
-                                          theme.primaryTextTheme.displaySmall,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        "Alterar senha",
+                                        style:
+                                            theme.primaryTextTheme.displaySmall,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -163,10 +188,13 @@ class UserCard extends StatelessWidget {
                                   onTap: () {},
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      "Aualizar dados",
-                                      style:
-                                          theme.primaryTextTheme.displaySmall,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        "Aualizar dados",
+                                        style:
+                                            theme.primaryTextTheme.displaySmall,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -175,17 +203,23 @@ class UserCard extends StatelessWidget {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                              Text(
-                                "E-MAIL",
-                                style: theme.textTheme.displayMedium,
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  "E-MAIL: ",
+                                  style: theme.textTheme.displaySmall,
+                                ),
                               ),
-                              Text(
-                                user.email,
-                                textAlign: TextAlign.right,
-                                softWrap: true,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.primaryTextTheme.displaySmall,
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  user.email,
+                                  textAlign: TextAlign.right,
+                                  softWrap: true,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.primaryTextTheme.displaySmall,
+                                ),
                               ),
                             ]),
                 ],
@@ -196,20 +230,29 @@ class UserCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Wrap(
               spacing: 5,
+              runSpacing: 5,
+              alignment: WrapAlignment.spaceEvenly,
+              crossAxisAlignment: WrapCrossAlignment.end,
               children: [
                 (currentUser != null)
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'E-mail verificado: ',
-                            style: theme.primaryTextTheme.displaySmall,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'E-mail verificado: ',
+                              style: theme.primaryTextTheme.displaySmall,
+                            ),
                           ),
-                          Icon(
-                            Icons.circle,
-                            color: currentUser!.emailVerified
-                                ? Colors.green
-                                : Colors.red,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Icon(
+                              Icons.circle,
+                              color: currentUser!.emailVerified
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
                           ),
                         ],
                       )
@@ -217,11 +260,17 @@ class UserCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Usuario ativo?",
-                        style: theme.primaryTextTheme.displaySmall),
-                    Icon(
-                      Icons.circle,
-                      color: (!user.isActive) ? Colors.red : Colors.green,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text("Usuario ativo?",
+                          style: theme.primaryTextTheme.displaySmall),
+                    ),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Icon(
+                        Icons.circle,
+                        color: (!user.isActive) ? Colors.red : Colors.green,
+                      ),
                     ),
                   ],
                 )
@@ -230,10 +279,13 @@ class UserCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Disciplinas disponiveis;",
-              style: theme.primaryTextTheme.displaySmall,
-              textAlign: TextAlign.start,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "Disciplinas disponiveis;",
+                style: theme.primaryTextTheme.displaySmall,
+                textAlign: TextAlign.start,
+              ),
             ),
           ),
           Divider(
@@ -256,9 +308,12 @@ class UserCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 4.0, vertical: 2.0),
-                      child: Text(
-                        user.disciplinas[index].nome,
-                        style: theme.primaryTextTheme.displaySmall,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          user.disciplinas[index].nome,
+                          style: theme.primaryTextTheme.displaySmall,
+                        ),
                       ),
                     ),
                   );

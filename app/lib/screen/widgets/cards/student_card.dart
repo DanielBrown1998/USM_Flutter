@@ -16,6 +16,7 @@ class _StudentCardState extends State<StudentCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.sizeOf(context);
     final Widget studentCard = Card(
       key: Key("student_card"),
       shape: OutlineInputBorder(
@@ -29,8 +30,11 @@ class _StudentCardState extends State<StudentCard> {
       color: theme.primaryColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 60,
+        child: Container(
+          constraints: BoxConstraints(
+              minWidth: 300, maxWidth: 600, minHeight: 80, maxHeight: 120),
+          height: size.height * 0.1,
+          width: size.width * .9,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,13 +43,19 @@ class _StudentCardState extends State<StudentCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    "${widget.user.firstName} ${widget.user.lastName}",
-                    style: theme.textTheme.bodyMedium,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "${widget.user.firstName} ${widget.user.lastName}",
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   ),
-                  Text(
-                    widget.user.userName,
-                    style: theme.textTheme.bodyLarge,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      widget.user.userName,
+                      style: theme.textTheme.bodyLarge,
+                    ),
                   )
                 ],
               ),
@@ -53,10 +63,16 @@ class _StudentCardState extends State<StudentCard> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(widget.user.phone, style: theme.textTheme.bodyMedium),
-                  Text(
-                    widget.user.lastLogin.toString().split(' ')[0],
-                    style: theme.textTheme.bodyMedium,
+                  FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(widget.user.phone,
+                          style: theme.textTheme.bodyMedium)),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      widget.user.lastLogin.toString().split(' ')[0],
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   )
                 ],
               )
@@ -67,8 +83,7 @@ class _StudentCardState extends State<StudentCard> {
     );
 
     return Material(
-        color: theme.scaffoldBackgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: Colors.transparent,
         child: InkWell(
           onTap: () {
             setState(() {

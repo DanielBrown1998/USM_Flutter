@@ -19,10 +19,13 @@ class ListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListTile(
-      leading: Icon(iconName, color: iconColor),
-      title: Text(
-        text,
-        style: theme.textTheme.displaySmall,
+      leading: FittedBox(child: Icon(iconName, color: iconColor)),
+      title: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          text,
+          style: theme.textTheme.displaySmall,
+        ),
       ),
       splashColor: splashColor,
       shape: RoundedRectangleBorder(
@@ -35,6 +38,8 @@ class ListTileWidget extends StatelessWidget {
 class ListDrawer {
   static Drawer list(BuildContext context, {required UserController user}) {
     final theme = Theme.of(context);
+    final size = MediaQuery.sizeOf(context);
+
     List<Widget> listWidgets = [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -55,8 +60,8 @@ class ListDrawer {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 70,
-              width: 250,
+              height: size.height * 0.05,
+              width: size.width * .4,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/back-720.png"),
@@ -68,16 +73,22 @@ class ListDrawer {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "assets/images/logomarca-uerj.png",
-                    height: 50,
-                    width: 50,
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Image.asset(
+                      "assets/images/logomarca-uerj.png",
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      "MONITORIA",
-                      style: theme.textTheme.displaySmall,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        "MONITORIA",
+                        style: theme.textTheme.displaySmall,
+                      ),
                     ),
                   ),
                 ],
@@ -89,17 +100,23 @@ class ListDrawer {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(2.0),
-                  child: Icon(
-                    Icons.account_circle_outlined,
-                    size: 30,
-                    color: ThemeUSM.whiteColor,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Icon(
+                      Icons.account_circle_outlined,
+                      size: 30,
+                      color: ThemeUSM.whiteColor,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    "${user.user!.firstName} ${user.user!.lastName}",
-                    style: theme.textTheme.displaySmall,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "${user.user!.firstName} ${user.user!.lastName}",
+                      style: theme.textTheme.displaySmall,
+                    ),
                   ),
                 ),
               ],
@@ -151,7 +168,7 @@ class ListDrawer {
     ];
 
     return Drawer(
-      width: 200,
+      width: size.width * .5,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.separated(
