@@ -29,7 +29,6 @@ import 'package:app/core/theme/theme.dart';
 import 'package:app/core/routes/routes.dart';
 import 'package:app/screen/widgets/gen/logo_laptop.dart';
 import 'package:app/screen/widgets/gen/progress_indicator_usm.dart';
-// import 'package:app/screen/widgets/router/router_page.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +42,11 @@ void main() async {
       .ensureInitialized(); // -> porque a main agora e assincrona
   Provider.debugCheckInvalidValueType = null;
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  //o segundo run app sobrescrevera este.
+  runApp(MaterialApp(home: const _LoadingScreen()));
+
+  //inicialize os crashlytics e os analytics aqui.
 
   FirebaseFirestore firestore =
       await firebase.FirebaseService.initializeFirebase();
@@ -85,7 +89,6 @@ void main() async {
         update: (_, disciplinas, previousController) {
           final controller =
               previousController ?? DisciplinasController(firestore: firestore);
-          // Defer the update to after the build phase to avoid "setState during build" error.
           WidgetsBinding.instance.addPostFrameCallback((_) {
             controller.initializeDisciplinas(disciplinas);
           });
@@ -175,7 +178,7 @@ class _LoadingScreen extends StatelessWidget {
           children: [
             Flexible(flex: 3, child: LogoLaptop()),
             Spacer(flex: 1),
-            Flexible(flex: 2, child: ProgressIndicatorUSM()),
+            Flexible(flex: 1, child: ProgressIndicatorUSM()),
           ],
         ),
       ),

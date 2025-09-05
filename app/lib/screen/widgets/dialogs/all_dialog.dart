@@ -1,4 +1,4 @@
-import 'package:app/core/errors/user_error.dart';
+import 'package:app/core/errors/monitoria_error.dart';
 import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/domain/models/monitoria.dart';
 import 'package:app/controllers/disciplinas_controllers.dart';
