@@ -85,6 +85,20 @@ class UserCard extends StatelessWidget {
                       )
                     ],
                   ),
+                  //email field
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        user.email,
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        style: theme.primaryTextTheme.displaySmall,
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -96,37 +110,6 @@ class UserCard extends StatelessWidget {
                           spacing: 5,
                           runSpacing: 5,
                           children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          "E-MAIL: ",
-                                          style: theme
-                                              .primaryTextTheme.displaySmall!
-                                              .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          user.email,
-                                          textAlign: TextAlign.right,
-                                          softWrap: true,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: theme
-                                              .primaryTextTheme.displaySmall,
-                                        ),
-                                      ),
-                                    ]),
-                              ),
                               Material(
                                 color: theme.colorScheme.onPrimaryContainer,
                                 shape: Border.all(

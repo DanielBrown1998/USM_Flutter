@@ -6,6 +6,7 @@ import "package:app/core/services/monitorias_service.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:app/core/helpers/helpers.dart";
+import 'package:app/core/errors/monitoria_error.dart';
 
 class MonitoriaController with ChangeNotifier {
   final FirebaseFirestore firestore;
@@ -22,7 +23,7 @@ class MonitoriaController with ChangeNotifier {
     return await MonitoriasService.getAllMonitorias(firestore);
   }
 
-  Future<List<Monitoria>> getMonitoriasbyDate(
+  Future<List<Monitoria>> getMarkedMonitoriasbyDate(
       {required DateTime date, required int? limit}) async {
     monitoria = await loadMonitorias();
     notifyListeners();
@@ -59,7 +60,7 @@ class MonitoriaController with ChangeNotifier {
 
   Future<bool> addMonitoria({required Monitoria monitoria}) async {
     bool isMonitoriaThisDay = false;
-    List<Monitoria> monitorias = await getMonitoriasbyDate(
+    List<Monitoria> monitorias = await getMarkedMonitoriasbyDate(
         date: monitoria.date, limit: monitoria.disciplina.limitByDay);
     // print(monitorias);
 
@@ -117,7 +118,7 @@ class MonitoriaController with ChangeNotifier {
 
   Future<Monitoria?> updateStatusMonitoria(
       {required Monitoria monitoria, required String newStatus}) async {
-    List<Monitoria> monitorias = await getMonitoriasbyDate(
+    List<Monitoria> monitorias = await getMarkedMonitoriasbyDate(
         date: monitoria.date, limit: monitoria.disciplina.limitByDay);
 
     for (Monitoria item in monitorias) {
@@ -130,41 +131,5 @@ class MonitoriaController with ChangeNotifier {
       }
     }
     return null;
-  }
-}
-
-class UserisNotAvailableToMonitoriaException implements Exception {
-  final String message;
-  UserisNotAvailableToMonitoriaException(this.message);
-  @override
-  String toString() {
-    return message;
-  }
-}
-
-class UserAlreadyMarkDateException implements Exception {
-  final String message;
-  UserAlreadyMarkDateException(this.message);
-  @override
-  String toString() {
-    return message;
-  }
-}
-
-class StatusMOnitoriaException implements Exception {
-  final String message;
-  StatusMOnitoriaException(this.message);
-  @override
-  String toString() {
-    return message;
-  }
-}
-
-class MonitoriaExceedException implements Exception {
-  final String message;
-  MonitoriaExceedException(this.message);
-  @override
-  String toString() {
-    return message;
   }
 }

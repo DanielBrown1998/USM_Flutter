@@ -7,7 +7,6 @@ class LogoLaptop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      transitionOnUserGestures: true,
       tag: "lottie-laptop",
       child: Lottie.asset("assets/loties/laptop.json"),
     );

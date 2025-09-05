@@ -3,6 +3,7 @@ import 'package:app/domain/models/disciplinas.dart';
 import 'package:app/controllers/disciplinas_controllers.dart';
 import 'package:app/controllers/user_controllers.dart';
 import 'package:app/domain/models/user.dart';
+import 'package:app/screen/widgets/gen/snackbar_usm.dart';
 import 'package:app/screen/widgets/stack/stack_usm.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screen/widgets/gen/header.dart';
@@ -35,19 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
         DateTime date = value[2];
         if (value[0]) {
           if (!context.mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
-            duration: Duration(seconds: 2),
-          ));
+          String value =
+              "Monitoria marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}";
+          showSnackBarUSM(context, "assets/loties/success.json", value);
         } else {
           if (!context.mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}"),
-            duration: Duration(seconds: 2),
-          ));
+          String value =
+              "Monitoria NAO marcada: ${date.day}-${date.month}-${date.year}, ${user.firstName}";
+          showSnackBarUSM(context, "assets/loties/error.json", value);
         }
+      } else if (value is String) {
+        if (!context.mounted) return;
+        showSnackBarUSM(context, "assets/loties/error.json", value);
+      } else {
+        if (!context.mounted) return;
+        String value = "Monitoria NAO marcada: Erro desconhecido!";
+        showSnackBarUSM(context, "assets/loties/error.json", value);
       }
     }
 

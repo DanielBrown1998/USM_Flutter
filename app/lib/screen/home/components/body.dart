@@ -90,8 +90,9 @@ class _ListBodyState extends State<ListBody> {
                   Map<String, List<dynamic>> map = buttonsForStudent[index];
 
                   return Material(
-                    color: theme.primaryColor,
+                    color: Colors.transparent,
                     child: Card(
+                      color: ThemeUSM.scaffoldBackgroundColor.withAlpha(200),
                       elevation: 8,
                       shadowColor: theme.colorScheme.onPrimaryFixed,
                       shape: OutlineInputBorder(
@@ -202,7 +203,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                               staffFlag = true;
                             }),
                             child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                              fit: BoxFit.scaleDown,
                               child: Text(
                                 "monitor",
                                 style: theme.textTheme.displaySmall,
@@ -221,7 +222,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                         staffFlag = false;
                       }),
                       child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                        fit: BoxFit.scaleDown,
                         child: Text(
                           "aluno",
                           style: theme.textTheme.displaySmall,
@@ -263,7 +264,7 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                                 snapshot.data!.isEmpty) {
                               return Center(
                                   child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                                      fit: BoxFit.scaleDown,
                                       child:
                                           Text("Nenhuma monitoria marcada")));
                             }
@@ -285,12 +286,12 @@ class _MonitoriaViewState extends State<MonitoriaView> {
                           case ConnectionState.none:
                             return Center(
                                 child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                                    fit: BoxFit.scaleDown,
                                     child: Text("Erro ao carregar dados")));
                           default:
                             return Center(
                                 child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                                    fit: BoxFit.scaleDown,
                                     child: Text("Erro desconhecido!")));
                         }
                       },
