@@ -7,22 +7,24 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   //TODO refatorar testes para usar o mockito e testar as excecoes
 
-  test('verificando se uma monitoria pode ser marcada por um usuario comum',
+  test('verificando se uma monitoria pode ser marcada pelo proprio monitor',
       () {
+    String matricula = "201243312611";
+
     Disciplina disciplina = Disciplina(
       id: "FCEE01-14755",
       limitByDay: null,
       nome: "Programacao",
-      monitor: "202213313611",
+      monitor: matricula,
       campus: "Zona Oeste",
     );
 
     DateTime date = DateTime(2026, 10, 1, 10, 0);
 
     User user = User(
-        userName: "202213313611",
+        userName: matricula,
         campus: "Zona Oeste",
-        email: "daniel_mingozzi@hotmail.com",
+        email: "teste_teste@hotmail.com",
         disciplinas: [disciplina],
         firstName: "Daniel",
         lastName: "Mingozzi",
@@ -35,11 +37,11 @@ void main() {
         phone: '21999999999');
 
     Map<String, dynamic> result =
-        isMonitoriaValid(user: user, disciplina: disciplina, date: date);
+        isMonitorThisDisciplina(user: user, disciplina: disciplina, date: date);
 
-    expect(result["value"], true);
+    expect(result["value"], false);
     expect(result["message"],
-        "Usuario pode marcar monitoria para essa disciplina e data");
+        "Usuario e monitor dessa disciplina, nao pode marcar monitoria");
 
     Monitoria monitoria = formatAddMonitoria(user, disciplina, date);
     expect(monitoria, isA<Monitoria>());

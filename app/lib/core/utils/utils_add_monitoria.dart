@@ -31,7 +31,7 @@ Monitoria formatAddMonitoria(User user, Disciplina disciplina, DateTime date) {
   return monitoria;
 }
 
-Map<String, dynamic> isMonitoriaValid(
+Map<String, dynamic> isMonitorThisDisciplina(
     {required User user,
     required Disciplina? disciplina,
     required DateTime date}) {
@@ -45,11 +45,11 @@ Map<String, dynamic> isMonitoriaValid(
     result["message"] = "Selecione uma disciplina!";
   }
 
-  // if (disciplina.monitor == user.userName) {
-  //   result["value"] = false;
-  //   result["message"] =
-  //       "Usuario e monitor dessa disciplina, nao pode marcar monitoria";
-  // }
+  if (disciplina!.monitor == user.userName) {
+    result["value"] = false;
+    result["message"] =
+        "Usuario e monitor dessa disciplina, nao pode marcar monitoria";
+  }
 
   return result;
 }

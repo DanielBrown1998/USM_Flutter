@@ -76,6 +76,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
+                            key: Key("wellcome_text"),
                             "Bem vindo(a), ${user.user!.firstName} ${user.user!.lastName}",
                             style: theme.textTheme.displayLarge,
                           ),

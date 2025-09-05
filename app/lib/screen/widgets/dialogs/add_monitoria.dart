@@ -1,7 +1,6 @@
 part of 'all_dialog.dart';
 
 Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
-  //substituindo o usuario autenticado por enquanto!
   UserController users = Provider.of<UserController>(context, listen: false);
   User? user = users.user;
 
@@ -11,7 +10,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
   DisciplinasController allDisciplinas =
       Provider.of<DisciplinasController>(context, listen: false);
   DateTime date = DateTime.now().add(Duration(days: 1));
-  final media = MediaQuery.of(context);
+  final size = MediaQuery.sizeOf(context);
   final theme = Theme.of(context);
   AlertDialog alert = AlertDialog(
     backgroundColor: theme.primaryColor,
@@ -19,9 +18,9 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
     shadowColor: theme.colorScheme.onPrimaryFixed,
     insetPadding: EdgeInsets.zero,
     title: Text(
-      "Add Monitoria",
+      "Marcar Monitoria",
     ),
-    titleTextStyle: theme.textTheme.bodyLarge,
+    titleTextStyle: theme.primaryTextTheme.bodyLarge,
     shape: OutlineInputBorder(
       borderRadius: BorderRadius.circular(24),
       borderSide: BorderSide(
@@ -45,8 +44,8 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
           spacing: 20,
           children: [
             SizedBox(
-              width: media.size.width * 0.3,
-              height: media.size.width * 0.3,
+              width: size.width * 0.3,
+              height: size.width * 0.3,
               child: Image.asset(
                 key: Key("add_monitoria_image"),
                 "assets/images/logomarca-uerj.png",
@@ -65,7 +64,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           labelText: "Matricula",
-                          labelStyle: theme.textTheme.bodyMedium,
+                          labelStyle: theme.primaryTextTheme.bodyMedium,
                           helperText: "insira a matricula do aluno"),
                       validator: (value) {
                         return null;
@@ -81,7 +80,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                                 )),
                         decoration: InputDecoration(
                           labelText: "Disciplina",
-                          labelStyle: theme.textTheme.bodyMedium,
+                          labelStyle: theme.primaryTextTheme.bodyMedium,
                         ),
                         onChanged: (value) {
                           if (value != null) disciplinaByUser = value;
@@ -96,7 +95,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
                       lastDate: DateTime.now().add(Duration(days: 8)),
                       decoration: InputDecoration(
                           labelText: "Insira o Dia",
-                          labelStyle: theme.textTheme.bodyMedium,
+                          labelStyle: theme.primaryTextTheme.bodyMedium,
                           helperText: "insira um dia da semana disponivel"),
                       validator: (value) {
                         return null;
@@ -114,11 +113,13 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
       IconButton(
           onPressed: () async {
             try {
-              //TODO refatorar o codigo e por a excessao no modulo
               //usuario esta apto a pedir essa monnitoria?
-              Map<String, dynamic> isUserValid = isMonitoriaValid(
+              Map<String, dynamic> isUserValid = isMonitorThisDisciplina(
                   user: user, disciplina: disciplinaByUser, date: date);
               if (!isUserValid["value"]) {
+                if (disciplinaByUser != null) {
+                  users.removeDisciplinaThisUser(disciplina: disciplinaByUser!);
+                }
                 throw UserisNotAvailableToMonitoriaException(
                     isUserValid['message'].toString());
               }
@@ -147,11 +148,7 @@ Future<dynamic> alertDialogAddMonitoria(BuildContext context) {
               Navigator.pop(context, e.message);
             } on UserAlreadyMarkDateException catch (e) {
               Navigator.pop(context, e.message);
-            } on UserNotFoundException catch (e) {
-              Navigator.pop(context, e.message);
             } on UserisNotAvailableToMonitoriaException catch (e) {
-              Navigator.pop(context, e.message);
-            } on DisciplinaNotFoundException catch (e) {
               Navigator.pop(context, e.message);
             } on Exception catch (_) {
               Navigator.pop(context, "Erro desconhecido");

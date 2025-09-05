@@ -72,6 +72,12 @@ class _RouterAuthPageState extends State<RouterAuthPage> {
             String errorMessage = snapshot.hasError
                 ? snapshot.error.toString()
                 : "Houve um erro inesperado!";
+            if (errorMessage.contains("[firebase_auth/invalid-credential]")) {
+              errorMessage = "Login ou senha invalidos";
+            } else {
+              errorMessage = "Erro ao tentar realizar login!";
+            }
+
             return _buildContent(
               lottie: widget.errorlottie,
               message: errorMessage,
@@ -110,6 +116,7 @@ class _RouterAuthPageState extends State<RouterAuthPage> {
             child: (lottie == null)
                 ? const LogoLaptop()
                 : Lottie.asset(
+                    key: Key("custom-lottie-route"),
                     lottie,
                     height: 250,
                     fit: BoxFit.fill,
@@ -129,7 +136,7 @@ class _RouterAuthPageState extends State<RouterAuthPage> {
             child: Visibility(
               visible: showRetryButton,
               child: TextButton(
-                  style: TextButton.styleFrom(
+                  style: TextButton.styleFrom( 
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
                       elevation: 4,
